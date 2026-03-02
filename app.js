@@ -1,41 +1,7 @@
-import { createIcons, icons } from 'https://unpkg.com/lucide@latest/dist/esm/lucide.js';
-
-// ─── LUCIDE ICONS ──────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.lucide) window.lucide.createIcons();
-});
-
-// ─── PAGE TRANSITION ───────────────────────────────────────
-const overlay = document.getElementById('page-overlay');
-
-function fadeOverlayOut() {
-    overlay.style.opacity = '0';
-}
-function fadeOverlayIn(cb) {
-    overlay.style.transition = 'opacity 0.25s ease';
-    overlay.style.opacity = '1';
-    overlay.style.pointerEvents = 'all';
-    setTimeout(() => {
-        cb();
-        setTimeout(() => {
-            overlay.style.opacity = '0';
-            overlay.style.pointerEvents = 'none';
-        }, 60);
-    }, 260);
-}
-
-// On load: fade in from black
+// ─── INIT ──────────────────────────────────────────────────
 window.addEventListener('load', () => {
-    overlay.style.opacity = '1';
-    overlay.style.pointerEvents = 'none';
-    requestAnimationFrame(() => {
-        setTimeout(() => {
-            overlay.style.transition = 'opacity 0.5s ease';
-            overlay.style.opacity = '0';
-        }, 80);
-    });
     if (window.lucide) window.lucide.createIcons();
-    initParticles();
+    initPageReveal();
     initNav();
     initCopyBtn();
     initMobileMenu();
@@ -43,43 +9,102 @@ window.addEventListener('load', () => {
     injectStore();
 });
 
-// ─── NAVIGATION ────────────────────────────────────────────
+// ─── PAGE REVEAL (fade in from black on load/refresh) ───────
+function initPageReveal() {
+    const overlay = document.getElementById('page-overlay');
+    overlay.classList.add('active');
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            overlay.style.transition = 'opacity 0.55s ease';
+            overlay.classList.remove('active');
+        }, 60);
+    });
+}
+
+// ─── PAGE TRANSITION ────────────────────────────────────────
+function transitionTo(cb) {
+    const overlay = document.getElementById('page-overlay');
+    overlay.style.transition = 'opacity 0.25s ease';
+    overlay.classList.add('active');
+    setTimeout(() => {
+        cb();
+        if (window.lucide) window.lucide.createIcons();
+        setTimeout(() => {
+            overlay.style.transition = 'opacity 0.4s ease';
+            overlay.classList.remove('active');
+        }, 60);
+    }, 260);
+}
+
+// ─── NAVIGATION ─────────────────────────────────────────────
+let currentView = 'home';
+
 function initNav() {
-    const allNavBtns = document.querySelectorAll('.nav-btn');
-    const sections = document.querySelectorAll('.view-section');
-    const navUnderlines = document.querySelectorAll('.nav-underline');
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        const target = btn.dataset.target;
+        if (!target) return;
 
-    function showView(target) {
-        fadeOverlayIn(() => {
-            sections.forEach(s => {
-                s.classList.remove('active');
-                s.style.display = 'none';
-            });
-            const el = document.getElementById('view-' + target);
-            if (el) {
-                el.style.display = 'block';
-                requestAnimationFrame(() => el.classList.add('active'));
-            }
-
-            navUnderlines.forEach(b => {
-                b.classList.toggle('active', b.dataset.target === target);
-            });
-        });
-    }
-
-    allNavBtns.forEach(btn => {
-        const t = btn.dataset.target;
-        if (!t) return;
         btn.addEventListener('click', () => {
+            const authType = btn.dataset.auth || null;
+            const scrollTo = btn.dataset.scroll || null;
             closeMobileMenu();
-            showView(t);
+            showView(target, authType, scrollTo);
         });
     });
 
     document.getElementById('nav-logo')?.addEventListener('click', () => showView('home'));
 }
 
-// ─── COPY IP BUTTON ─────────────────────────────────────────
+function showView(target, authType = null, scrollTarget = null) {
+    if (target === currentView && !scrollTarget && !authType) return;
+
+    transitionTo(() => {
+        // Hide all
+        document.querySelectorAll('.view-section').forEach(s => {
+            s.classList.remove('active');
+            s.style.display = 'none';
+        });
+
+        // Show target
+        const el = document.getElementById('view-' + target);
+        if (el) {
+            el.style.display = 'block';
+            requestAnimationFrame(() => el.classList.add('active'));
+        }
+
+        currentView = target;
+        updateNavActive(target, scrollTarget);
+
+        // Auth tab auto-switch
+        if (target === 'auth' && authType) {
+            switchAuthTab(authType);
+        }
+
+        // Scroll to section in info view
+        if (scrollTarget) {
+            setTimeout(() => {
+                const sec = document.getElementById('section-' + scrollTarget);
+                if (sec) {
+                    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    sec.classList.add('highlight');
+                    setTimeout(() => sec.classList.remove('highlight'), 1200);
+                }
+            }, 350);
+        }
+    });
+}
+
+function updateNavActive(target, scrollTarget) {
+    document.querySelectorAll('.nav-underline').forEach(btn => {
+        const sameTarget = btn.dataset.target === target;
+        const sameScroll = scrollTarget ? btn.dataset.scroll === scrollTarget : !btn.dataset.scroll;
+        const isActive = sameTarget && (target !== 'info' || sameScroll);
+        btn.classList.toggle('active', isActive);
+        btn.style.color = isActive ? 'white' : '';
+    });
+}
+
+// ─── COPY IP ─────────────────────────────────────────────────
 function initCopyBtn() {
     const btn = document.getElementById('copy-ip-btn');
     const toast = document.getElementById('copy-toast');
@@ -87,161 +112,149 @@ function initCopyBtn() {
 
     btn?.addEventListener('click', () => {
         navigator.clipboard.writeText('oyna.oldfinecraft.online').then(() => {
+            // Toast
             clearTimeout(toastTimer);
             toast.classList.add('show');
-            toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+            toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+
+            // Particle burst
+            triggerStarBurst();
         });
     });
 }
 
-// ─── MOBILE MENU ────────────────────────────────────────────
-function initMobileMenu() {
-    const hamburger = document.getElementById('hamburger-btn');
-    const drawer = document.getElementById('mobile-drawer');
-    const mobOverlay = document.getElementById('mobile-overlay');
+// ─── STAR BURST (only on copy) ───────────────────────────────
+function triggerStarBurst() {
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
 
-    hamburger?.addEventListener('click', () => {
-        const isOpen = drawer.classList.contains('open');
-        isOpen ? closeMobileMenu() : openMobileMenu();
-    });
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.classList.add('burst-active');
 
-    mobOverlay?.addEventListener('click', closeMobileMenu);
+    const COUNT = 55;
+    const DURATION = 3000; // ms
+    const start = performance.now();
+
+    const particles = Array.from({ length: COUNT }, () => ({
+        x: Math.random() * canvas.width,
+        y: -10 - Math.random() * 60,
+        size: 5 + Math.random() * 7,
+        speed: 2.5 + Math.random() * 4,
+        drift: (Math.random() - 0.5) * 1.2,
+        rotation: Math.random() * Math.PI * 2,
+        rotSp: (Math.random() - 0.5) * 0.08,
+        delay: Math.random() * 800, // stagger start
+    }));
+
+    function drawStar(ctx, x, y, size, rot) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rot);
+        const arm = size / 2;
+        const thin = size / 6;
+        ctx.beginPath();
+        ctx.moveTo(-arm, -thin); ctx.lineTo(-arm, thin);
+        ctx.lineTo(-thin, thin); ctx.lineTo(-thin, arm);
+        ctx.lineTo(thin, arm);  ctx.lineTo(thin, thin);
+        ctx.lineTo(arm, thin);  ctx.lineTo(arm, -thin);
+        ctx.lineTo(thin, -thin);ctx.lineTo(thin, -arm);
+        ctx.lineTo(-thin, -arm);ctx.lineTo(-thin, -thin);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+    }
+
+    let lastTs = null;
+
+    function frame(ts) {
+        if (!lastTs) lastTs = ts;
+        const elapsed = ts - start;
+        const dt = Math.min((ts - lastTs) / 16.67, 3);
+        lastTs = ts;
+
+        // Global fade out in last 30% of duration
+        const progress = elapsed / DURATION;
+        const globalAlpha = progress > 0.7 ? 1 - (progress - 0.7) / 0.3 : 1;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(p => {
+            if (elapsed < p.delay) return;
+
+            p.y += p.speed * dt;
+            p.x += p.drift * dt;
+            p.rotation += p.rotSp * dt;
+
+            // Individual brightness (bright at start, fade with progress)
+            const alpha = globalAlpha * (0.6 + 0.4 * Math.random()); // shimmer
+
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = '#ffffff';
+            drawStar(ctx, p.x, p.y, p.size, p.rotation);
+        });
+
+        ctx.globalAlpha = 1;
+
+        if (elapsed < DURATION) {
+            requestAnimationFrame(frame);
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.classList.remove('burst-active');
+        }
+    }
+
+    requestAnimationFrame(frame);
 }
 
+// ─── MOBILE MENU ─────────────────────────────────────────────
+function initMobileMenu() {
+    document.getElementById('hamburger-btn')?.addEventListener('click', () => {
+        const isOpen = document.getElementById('mobile-drawer').classList.contains('open');
+        isOpen ? closeMobileMenu() : openMobileMenu();
+    });
+    document.getElementById('mobile-overlay')?.addEventListener('click', closeMobileMenu);
+}
 function openMobileMenu() {
     document.getElementById('hamburger-btn').classList.add('open');
     document.getElementById('mobile-drawer').classList.add('open');
     document.getElementById('mobile-overlay').classList.add('open');
 }
-
 function closeMobileMenu() {
     document.getElementById('hamburger-btn')?.classList.remove('open');
     document.getElementById('mobile-drawer')?.classList.remove('open');
     document.getElementById('mobile-overlay')?.classList.remove('open');
 }
 
-// ─── AUTH TABS ──────────────────────────────────────────────
+// ─── AUTH TABS ───────────────────────────────────────────────
 function initAuthTabs() {
-    const tabs = document.querySelectorAll('.auth-tab');
-    const registerFields = document.getElementById('register-fields');
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => {
-                t.classList.remove('active');
-                t.style.color = 'rgba(255,255,255,0.5)';
-            });
-            tab.classList.add('active');
-            tab.style.color = 'white';
-            if (registerFields) {
-                registerFields.classList.toggle('hidden', tab.dataset.type !== 'register');
-            }
-        });
+    document.querySelectorAll('.auth-tab').forEach(tab => {
+        tab.addEventListener('click', () => switchAuthTab(tab.dataset.type));
     });
 }
 
-// ─── STORE INJECT ───────────────────────────────────────────
+function switchAuthTab(type) {
+    const tabs = document.querySelectorAll('.auth-tab');
+    const registerFields = document.getElementById('register-fields');
+
+    tabs.forEach(t => {
+        const active = t.dataset.type === type;
+        t.classList.toggle('active', active);
+        t.style.color = active ? 'white' : 'rgba(255,255,255,0.5)';
+    });
+
+    if (registerFields) {
+        registerFields.classList.toggle('hidden', type !== 'register');
+    }
+}
+
+// ─── STORE ───────────────────────────────────────────────────
 function injectStore() {
     const grid = document.getElementById('store-grid');
     if (!grid) return;
     grid.innerHTML = `
-        <div class="col-span-3 flex items-center justify-center py-24 text-white/30 text-sm">
+        <div class="col-span-1 md:col-span-3 flex items-center justify-center py-24 text-white/30 text-sm">
             Mağaza yakında açılacak...
         </div>
     `;
-}
-
-// ─── PARTICLES ──────────────────────────────────────────────
-function initParticles() {
-    const canvas = document.getElementById('particle-canvas');
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    const PARTICLE_COUNT = 38;
-    const particles = [];
-
-    function resize() {
-        const wrapper = canvas.parentElement;
-        canvas.width = wrapper.offsetWidth;
-        canvas.height = wrapper.offsetHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    function randomX() { return Math.random() * canvas.width; }
-    function randomStartY() { return -20 - Math.random() * 80; }
-    function randomSize() { return 4 + Math.random() * 5; }
-    function randomSpeed() { return 0.5 + Math.random() * 1.2; }
-    function randomOpacity() { return 0.4 + Math.random() * 0.5; }
-    function randomDrift() { return (Math.random() - 0.5) * 0.3; }
-
-    // Draw a small star shape (4-pointed / cross)
-    function drawStar(ctx, x, y, size, rotation) {
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(rotation);
-        ctx.beginPath();
-        const arm = size / 2;
-        const thin = size / 6;
-        // Horizontal bar
-        ctx.moveTo(-arm, -thin);
-        ctx.lineTo(-arm, thin);
-        ctx.lineTo(-thin, thin);
-        ctx.lineTo(-thin, arm);
-        ctx.lineTo(thin, arm);
-        ctx.lineTo(thin, thin);
-        ctx.lineTo(arm, thin);
-        ctx.lineTo(arm, -thin);
-        ctx.lineTo(thin, -thin);
-        ctx.lineTo(thin, -arm);
-        ctx.lineTo(-thin, -arm);
-        ctx.lineTo(-thin, -thin);
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
-    }
-
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-        particles.push({
-            x: randomX(),
-            y: randomStartY() - Math.random() * canvas.height, // spread initial
-            size: randomSize(),
-            speed: randomSpeed(),
-            opacity: randomOpacity(),
-            drift: randomDrift(),
-            rotation: Math.random() * Math.PI * 2,
-            rotationSpeed: (Math.random() - 0.5) * 0.03,
-        });
-    }
-
-    let lastTime = 0;
-    function animate(ts) {
-        const dt = Math.min((ts - lastTime) / 16.67, 3); // cap
-        lastTime = ts;
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        particles.forEach(p => {
-            p.y += p.speed * dt;
-            p.x += p.drift * dt;
-            p.rotation += p.rotationSpeed * dt;
-
-            if (p.y > canvas.height + 20) {
-                p.y = randomStartY();
-                p.x = randomX();
-                p.speed = randomSpeed();
-                p.opacity = randomOpacity();
-                p.drift = randomDrift();
-                p.size = randomSize();
-            }
-
-            ctx.globalAlpha = p.opacity;
-            ctx.fillStyle = '#ffffff';
-            drawStar(ctx, p.x, p.y, p.size, p.rotation);
-        });
-
-        ctx.globalAlpha = 1;
-        requestAnimationFrame(animate);
-    }
-    requestAnimationFrame(animate);
 }
