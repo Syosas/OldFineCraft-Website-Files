@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OldFineCraft | Klasik Minecraft Deneyimi</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
@@ -21,13 +22,18 @@
         <span>Kopyalandı!</span>
     </div>
 
-    <!-- Mobile Menu Overlay -->
+    <!-- Particle Canvas - fullscreen burst on copy -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Mobile Overlay -->
     <div id="mobile-overlay" class="mobile-overlay"></div>
 
     <nav class="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+
+            <!-- Logo -->
             <div class="flex items-center gap-3 cursor-pointer" id="nav-logo">
-                <i data-lucide="pickaxe" style="color:#74211b;"></i>
+                <img src="logo.png" alt="OldFineCraft" class="w-7 h-7 object-contain">
                 <span class="font-bold text-lg tracking-tight">OldFineCraft</span>
             </div>
 
@@ -35,22 +41,23 @@
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-white/60">
                 <button class="nav-btn nav-underline active" data-target="home">Ana Sayfa</button>
                 <button class="nav-btn nav-underline" data-target="store">Mağaza</button>
-                <button class="nav-btn nav-underline" data-target="info">Kurallar</button>
+                <button class="nav-btn nav-underline" data-target="info" data-scroll="bilgiler">Bilgiler</button>
+                <button class="nav-btn nav-underline" data-target="info" data-scroll="kurallar">Kurallar</button>
             </div>
 
             <div class="flex items-center gap-3">
-                <!-- Discord Button -->
-                <a href="https://discord.gg/9x2WYrVpJZ" target="_blank" rel="noopener noreferrer" class="discord-btn hidden md:flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium">
+                <!-- Discord -->
+                <a href="https://discord.gg/9x2WYrVpJZ" target="_blank" rel="noopener noreferrer" class="discord-btn hidden md:flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium mr-1">
                     <svg width="16" height="12" viewBox="0 0 127.14 96.36" fill="currentColor">
                         <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
                     </svg>
                     Discord
                 </a>
 
-                <button class="text-sm font-medium text-white/60 hover:text-white transition-colors nav-btn hidden md:block" data-target="auth">Giriş Yap</button>
-                <button class="px-4 py-2 text-white text-sm font-medium rounded-md transition-all nav-btn hidden md:block register-btn" data-target="auth">Kayıt Ol</button>
+                <button class="text-sm font-medium text-white/60 hover:text-white transition-colors nav-btn hidden md:block" data-target="auth" data-auth="login">Giriş Yap</button>
+                <button class="px-4 py-2 text-white text-sm font-medium rounded-md transition-all nav-btn hidden md:block register-btn" data-target="auth" data-auth="register">Kayıt Ol</button>
 
-                <!-- Mobile Hamburger -->
+                <!-- Hamburger -->
                 <button id="hamburger-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menü">
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
@@ -65,16 +72,17 @@
         <div class="flex flex-col gap-2 p-6 pt-8">
             <button class="mobile-nav-btn nav-btn" data-target="home">Ana Sayfa</button>
             <button class="mobile-nav-btn nav-btn" data-target="store">Mağaza</button>
-            <button class="mobile-nav-btn nav-btn" data-target="info">Kurallar</button>
+            <button class="mobile-nav-btn nav-btn" data-target="info" data-scroll="bilgiler">Bilgiler</button>
+            <button class="mobile-nav-btn nav-btn" data-target="info" data-scroll="kurallar">Kurallar</button>
             <div class="border-t border-white/10 my-3"></div>
-            <a href="https://discord.gg/9x2WYrVpJZ" target="_blank" rel="noopener noreferrer" class="discord-btn flex items-center gap-2 px-4 py-3 rounded-md text-sm font-medium w-full">
+            <a href="https://discord.gg/9x2WYrVpJZ" target="_blank" rel="noopener noreferrer" class="discord-btn flex items-center gap-2 px-4 py-3 rounded-md text-sm font-medium">
                 <svg width="16" height="12" viewBox="0 0 127.14 96.36" fill="currentColor">
                     <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
                 </svg>
                 Discord
             </a>
-            <button class="mobile-nav-btn nav-btn text-center" data-target="auth">Giriş Yap</button>
-            <button class="register-btn nav-btn px-4 py-3 rounded-md text-white text-sm font-medium w-full text-center" data-target="auth">Kayıt Ol</button>
+            <button class="mobile-nav-btn nav-btn" data-target="auth" data-auth="login">Giriş Yap</button>
+            <button class="register-btn nav-btn px-4 py-3 rounded-md text-white text-sm font-medium w-full text-center" data-target="auth" data-auth="register">Kayıt Ol</button>
         </div>
     </div>
 
@@ -82,18 +90,18 @@
 
         <!-- Home View -->
         <section id="view-home" class="view-section active max-w-6xl mx-auto px-6 py-16">
-
-            <!-- Hero with background -->
-            <div class="hero-wrapper flex flex-col items-center text-center space-y-6 mt-12 mb-24 relative">
-                <canvas id="particle-canvas"></canvas>
+            <div class="hero-wrapper flex flex-col items-center text-center space-y-6 mt-12 mb-24">
+                <div class="hero-bg"></div>
 
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full online-badge text-xs font-medium fade-in">
                     <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                     Sunucu Aktif — 0 Oyuncu Çevrimiçi
                 </div>
-                <h1 class="text-5xl md:text-7xl font-bold tracking-tighter bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent fade-in" style="animation-delay:0.1s;">
-                    Eski Tarzın <br> Yeni Adresi.
+
+                <h1 class="hero-title fade-in" style="animation-delay:0.1s;">
+                    Eskilerin Tarzında<br>Yeni Bir Macera
                 </h1>
+
                 <p class="text-lg text-white/50 max-w-2xl fade-in" style="animation-delay:0.2s;">
                     OldFineCraft, klasik Minecraft hayatta kalma deneyimini modern altyapı ile birleştiriyor. Kayıt ol, sunucuya katıl ve efsaneni yazmaya başla.
                 </p>
@@ -132,18 +140,15 @@
                 <h2 class="text-3xl font-bold mb-4">Mağaza</h2>
                 <p class="text-white/50">Sunucuya destek olun ve özel ayrıcalıkların kilidini açın.</p>
             </div>
-            <div id="store-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Injected via JS -->
-            </div>
+            <div id="store-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
         </section>
 
         <!-- Info View -->
         <section id="view-info" class="view-section max-w-5xl mx-auto px-6 py-16">
             <h2 class="text-3xl font-bold mb-8">Bilgiler & Kurallar</h2>
             <div class="flex flex-col md:flex-row gap-6">
-
                 <!-- Bilgiler -->
-                <div class="flex-1 info-card p-8 rounded-xl">
+                <div id="section-bilgiler" class="flex-1 info-card p-8 rounded-xl">
                     <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
                         <i data-lucide="info" class="w-5 h-5 feature-icon"></i>
                         Bilgiler
@@ -169,7 +174,7 @@
                 </div>
 
                 <!-- Kurallar -->
-                <div class="flex-1 info-card p-8 rounded-xl">
+                <div id="section-kurallar" class="flex-1 info-card p-8 rounded-xl">
                     <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
                         <i data-lucide="scroll-text" class="w-5 h-5 feature-icon"></i>
                         Kurallar
@@ -189,7 +194,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -197,7 +201,7 @@
         <section id="view-auth" class="view-section max-w-md mx-auto px-6 py-24">
             <div class="auth-card p-8 rounded-2xl shadow-2xl">
                 <div class="flex justify-center mb-6">
-                    <i data-lucide="user-circle" class="w-12 h-12 feature-icon"></i>
+                    <img src="logo.png" alt="Logo" class="w-14 h-14 object-contain">
                 </div>
                 <div class="flex gap-4 mb-8 border-b border-white/10 pb-4">
                     <button class="flex-1 text-center font-medium auth-tab active text-white" data-type="login">Giriş Yap</button>
@@ -206,7 +210,7 @@
                 <form id="auth-form" class="space-y-4">
                     <div id="register-fields" class="hidden">
                         <label class="block text-sm text-white/60 mb-1">E-Posta</label>
-                        <input type="email" class="auth-input w-full rounded-md px-4 py-2 text-white focus:outline-none transition-colors" placeholder="steve@minecraft.net">
+                        <input type="email" class="auth-input w-full rounded-md px-4 py-2 text-white focus:outline-none transition-colors mb-4" placeholder="steve@minecraft.net">
                     </div>
                     <div>
                         <label class="block text-sm text-white/60 mb-1">Kullanıcı Adı</label>
@@ -228,7 +232,7 @@
     <footer class="border-t border-white/10 py-8 mt-auto">
         <div class="max-w-6xl mx-auto px-6 text-center flex flex-col items-center">
             <div class="flex items-center gap-2 mb-4">
-                <i data-lucide="pickaxe" class="w-4 h-4" style="color:#74211b;"></i>
+                <img src="logo.png" alt="Logo" class="w-4 h-4 object-contain">
                 <span class="font-bold text-white/80">OldFineCraft</span>
             </div>
             <p class="text-sm text-white/40">© 2026 OldFineCraft. Tüm hakları saklıdır. Minecraft veya Mojang ile resmi bir bağı yoktur.</p>
