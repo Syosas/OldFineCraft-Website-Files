@@ -1,47 +1,49 @@
 body {
     font-family: 'Lexend', sans-serif;
     margin: 0;
-    overflow-x: hidden;
 }
 
-/* ARKA PLAN: Şövalye ve Bayrak Odağı */
+/* ARKA PLAN: Yön Değiştirildi (Sağ taraf ve alt odaklı) */
 .background-overlay {
     position: fixed;
     inset: 0;
     z-index: -1;
     background-image: url('images/background.png');
     background-size: cover;
-    background-position: left bottom; /* Şövalye ve Bayrağı Görmek İçin */
+    background-position: right bottom; /* Dediğin yerin tam tersine sabitlendi */
     background-attachment: fixed;
 }
 
-/* Arka planı fazla karartmamak için hafif gölge */
 .background-overlay::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(14, 14, 17, 0.4), rgba(14, 14, 17, 0.2));
+    background: linear-gradient(to top, rgba(14,14,17,0.5), rgba(14,14,17,0.2));
 }
 
-/* Başlık Bölünme Çözümü */
-h1 {
-    display: block;
-    overflow: visible;
+/* Hoş Geldin Animasyonu */
+.animate-content {
+    animation: slideUpFade 0.8s ease-out forwards;
 }
 
-/* Aktif Sayfa Butonu */
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .nav-btn.active {
     color: white;
     border-bottom: 3px solid #74211b;
 }
 
 .rule-box {
-    padding-bottom: 1rem;
+    padding-bottom: 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Animasyonlu Toast Bildirimi */
 #copy-toast.show {
     opacity: 1;
     transform: translate(-50%, 0);
 }
+
+.hidden { display: none !important; }
