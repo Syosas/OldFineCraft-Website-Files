@@ -1,36 +1,139 @@
-<nav class="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <div class="flex items-center cursor-pointer" id="nav-logo">
-            <img src="images/logo.png" alt="OldFineCraft Logo" class="w-16 h-16 object-contain hover:scale-110 transition-transform">
+    <title>OldFineCraft | Klasik Minecraft Deneyimi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="64x64" href="images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#0e0e11] text-[#ededed] font-sans antialiased min-h-screen flex flex-col selection:bg-amber-500/30">
+    
+    <nav class="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" id="nav-logo">
+                <img src="images/logo.png" alt="OldFineCraft Logo" class="w-12 h-12 object-contain">
+                <span class="font-bold text-xl tracking-tight">OldFineCraft</span>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-white/60">
+                <button class="nav-btn hover:text-white transition-colors active" data-target="home">Ana Sayfa</button>
+                <button class="nav-btn hover:text-white transition-colors" data-target="store">Mağaza</button>
+                <button class="nav-btn hover:text-white transition-colors" data-target="info">Kurallar</button>
             </div>
 
-        <div class="hidden md:flex items-center gap-6 text-base font-black text-white">
-            <button class="nav-btn flex items-center gap-2 hover:text-amber-500 transition-colors" data-target="home">
-                <i data-lucide="home" class="w-5 h-5"></i> Ana Sayfa
-            </button>
-            <button class="nav-btn flex items-center gap-2 hover:text-amber-500 transition-colors" data-target="topup">
-                <i data-lucide="wallet" class="w-5 h-5"></i> Bakiye Yükle
-            </button>
-            <button class="nav-btn flex items-center gap-2 hover:text-amber-500 transition-colors" data-target="store">
-                <i data-lucide="shopping-cart" class="w-5 h-5"></i> Mağaza
-            </button>
-            <button class="nav-btn flex items-center gap-2 hover:text-amber-500 transition-colors" data-target="server-info">
-                <i data-lucide="info" class="w-5 h-5"></i> Sunucu Bilgileri
-            </button>
-            <button class="nav-btn flex items-center gap-2 hover:text-amber-500 transition-colors" data-target="info">
-                <i data-lucide="scroll" class="w-5 h-5"></i> Kurallar
-            </button>
-        </div>
-
-        <div class="flex items-center gap-4">
-            <a href="DISCORD_LINKIN" target="_blank" class="flex items-center gap-2 text-[#5865F2] font-black hover:brightness-125 transition-all text-base">
-                <i data-lucide="message-square" class="w-6 h-6"></i> DISCORD
-            </a>
-            <div id="lang-switcher" class="flex items-center gap-1 text-xs font-bold border-l border-white/10 pl-4">
-                <button class="lang-btn text-white/60 hover:text-white" data-lang="tr">TR</button>
-                <span class="text-white/20">|</span>
-                <button class="lang-btn text-white/60 hover:text-white" data-lang="en">EN</button>
+            <div class="flex items-center gap-4">
+                <div id="lang-switcher" class="flex items-center gap-1 text-sm">
+                    <button class="lang-btn px-2 py-1 rounded text-white/60 hover:text-white transition-colors" data-lang="tr" title="Türkçe">TR</button>
+                    <span class="text-white/30">|</span>
+                    <button class="lang-btn px-2 py-1 rounded text-white/60 hover:text-white transition-colors" data-lang="en" title="English">EN</button>
+                </div>
+                <button class="text-sm font-medium text-white/60 hover:text-white transition-colors nav-btn" data-target="auth">Giriş Yap</button>
+                <button class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium rounded-md transition-all shadow-[0_0_15px_rgba(217,119,6,0.3)] nav-btn" data-target="auth">Kayıt Ol</button>
             </div>
+                    Sunucu Aktif - 142 Oyuncu Çevrimiçi
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tighter bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent">
+                    Eskilerin Tarzında <br> Yeni Bir Macera
+                </h1>
+                <p class="text-lg text-white/50 max-w-2xl">
+                    OldFineCraft, klasik Minecraft hayatta kalma deneyimini modern altyapı ile birleştiriyor. Kayıt ol, sunucuya katıl ve efsaneni yazmaya başla.
+                </p>
+                <div class="flex gap-4 pt-4">
+                    <button id="copy-ip-btn" class="px-6 py-3 bg-white text-black font-semibold rounded-md hover:bg-white/90 transition-colors flex items-center gap-2">
+                        <i data-lucide="copy" class="w-4 h-4"></i> oyna.oldfinecraft.online
+                    </button>
+                    <button class="px-6 py-3 bg-white/5 border border-white/10 rounded-md hover:bg-white/10 transition-colors font-medium nav-btn" data-target="store">
+                        Mağazayı İncele
+                </div>
+                <div class="p-6 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-colors">
+                    <i data-lucide="swords" class="w-8 h-8 text-amber-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Klan Savaşları</h3>
+                    <p class="text-white/50 text-sm">Ekibini topla, kaleni inşa et ve rakip klanlara karşı üstünlük kur. OldFineCraft dünyasının en güçlü birliği olduğunu kanıtla.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-colors">
+                    <i data-lucide="gem" class="w-8 h-8 text-amber-500 mb-4"></i>
+
+        <!-- Info View -->
+        <section id="view-info" class="view-section hidden max-w-4xl mx-auto px-6 py-16">
+            <h2 class="text-3xl font-bold mb-8">Kurallar</h2>
+            <div class="space-y-6 text-white/70 bg-white/5 border border-white/10 p-8 rounded-xl">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">1. Küfür ve Argo:</h3>
+                    <p>Oyuncular arası huzuru bozacak ağır küfür ve hakaretler kesinlikle yasaktır.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">2. Siyaset ve Din:</h3>
+                    <p>Sunucu içerisinde tartışma yaratacak hassas konuların konuşulması yasaktır.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">3. Hile Kullanımı:</h3>
+                    <p>Her türlü hile, makro ve avantaj sağlayan üçüncü parti yazılımlar kalıcı ban sebebidir.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">4. Bug Suistimali:</h3>
+                    <p>Oyun içi açıkların bildirilmesi zorunludur; bu açıkları kendi lehine kullanmak yasaktır.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">5. Küçük Düşürücü Davranışlar:</h3>
+                    <p>Savaş sonrası rakip ekibi aşağılayıcı hareketlerde bulunmak hoş görülmeyecek hareketlerden biridir.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">6. İş Birliği (Teaming):</h3>
+                    <p>Sadece kendi klanınla hareket etmelisin; haksız üstünlük sağlayacak gizli ittifaklar kural dışıdır.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">7. Gerçek Para ile Ticaret:</h3>
+                    <p>Oyun içi eşyaların gerçek para karşılığında oyuncular arasında satılması yasaktır (Sadece resmi mağaza üzerinden işlem yapılabilir). Eğer genede ben yapacağım, daha ucuza alabilirim diyorsanız olacak sorumlulukları biz üstlenmiyoruz.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">8. Görüntü Kirliliği ve Claim:</h3>
+                    <p>Sunucu haritasında anlamsız, havada asılı duran blok yığınları veya çirkin yapılar oluşturmak, gereksiz yere claimler almak yasaktır.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">9. Reklam:</h3>
+                    <p>Başka Minecraft sunucularının veya alakasız platformların reklamını yapmak kesinlikle yasaktır.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">10. Karar Saygısı:</h3>
+                    <p>Yetkililerin verdiği kararlara saygı duyulmalı; bir itiraz varsa bu destek sistemi (Discord) üzerinden medeni bir şekilde yapılmalıdır.</p>
+                </div>
+                <div class="mt-8 pt-6 border-t border-white/10 text-sm text-white/50">
+                    <p>Hepimiz adil bir ortam isteriz, kurallar adil ortamı oluşturmak için vardır ve kurallara uymayan kim olursa olsun adil ortamı bozmamak gerekçesiyle cezalanır. Eğer kurallar hakkında bir itirazınız veya rahatsız olduğunuz bir konu varsa lütfen Discord sunucumuz üzerinden destek bileti açarak bize bildirin. Sunucumuzu seçtiğiniz için size teşekkür ediyoruz!</p>
+                </div>
+            </div>
+        </section>
+    <footer class="border-t border-white/10 py-8 mt-auto">
+        <div class="max-w-6xl mx-auto px-6 text-center flex flex-col items-center">
+            <div class="flex items-center gap-2 mb-4">
+                <img src="images/logo.png" alt="OldFineCraft Logo" class="w-10 h-10 object-contain">
+                <span class="font-bold text-white/80">OldFineCraft</span>
+            </div>
+            <p class="text-sm text-white/40">© 2026 OldFineCraft. Tüm hakları saklıdır. Minecraft veya Mojang ile resmi bir bağı yoktur.</p>
         </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="copy-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-5 py-2.5 bg-green-600 text-white text-sm font-medium rounded-lg shadow-lg opacity-0 pointer-events-none transition-all duration-300 z-[9999]" style="transform: translate(-50%, 10px);">
+        Kopyalandı!
     </div>
-</nav>
+
+    <!-- Google Translate Hidden Element -->
+    <div id="google_translate_element" class="hidden"></div>
+
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'tr',
+                includedLanguages: 'tr,en',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
