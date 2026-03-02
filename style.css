@@ -3,42 +3,60 @@ body {
     margin: 0;
 }
 
-/* ARKA PLAN: Yön Değiştirildi (Sağ taraf ve alt odaklı) */
+/* ARKA PLAN: Şövalye ve Bayrağın görünmesi için tam tersi yön odaklı */
 .background-overlay {
     position: fixed;
     inset: 0;
     z-index: -1;
     background-image: url('images/background.png');
     background-size: cover;
-    background-position: right bottom; /* Dediğin yerin tam tersine sabitlendi */
+    /* Şövalyenin ve bayrağın olduğu yeri bulmak için 
+       burayı 'left bottom' veya 'right bottom' olarak değiştirerek dene.
+       Genelde bu tarz tasarımlarda 'left 20% bottom' çok iyi sonuç verir. */
+    background-position: left 20% bottom; 
     background-attachment: fixed;
 }
 
+/* Karartma katmanı - Tam kapkara değil, derin bir siyahlık */
 .background-overlay::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(14,14,17,0.5), rgba(14,14,17,0.2));
+    background: radial-gradient(circle at center, rgba(14,14,17,0.4) 0%, rgba(14,14,17,0.7) 100%);
 }
 
-/* Hoş Geldin Animasyonu */
+/* Sayfa Açılış Animasyonu */
 .animate-content {
-    animation: slideUpFade 0.8s ease-out forwards;
+    animation: fadeInSlide 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes slideUpFade {
-    from { opacity: 0; transform: translateY(20px); }
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+.nav-btn {
+    position: relative;
+    padding-bottom: 4px;
 }
 
 .nav-btn.active {
     color: white;
-    border-bottom: 3px solid #74211b;
+}
+
+.nav-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -28px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #74211b;
 }
 
 .rule-box {
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    padding-bottom: 1rem;
 }
 
 #copy-toast.show {
