@@ -3,26 +3,36 @@ body {
     font-family: 'Lexend', sans-serif;
 }
 
-h1, h2, h3, button, span {
+h1, h2, h3, .font-black {
     font-family: 'Lexend', sans-serif;
     font-weight: 900; /* En kalın hali */
+}
+
+/* Arka plan konumu (Sol alt tarafa çekildi) */
+.background-position-custom {
+    background-position: left bottom;
 }
 
 /* Navigasyon butonları için aktiflik durumu */
 .nav-btn.active {
     color: white;
-    border-bottom: 2px solid #d97706; /* Amber rengi çizgi */
+    border-bottom: 2px solid #74211b; /* #74211b rengi çizgi */
 }
 
-/* Kartların arkasındaki cam efekti */
-.view-section {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-}
-
-/* Google Translate'i gizle (arka planda çalışsın) */
-.goog-te-banner-frame, .skiptranslate {
+/* Sayfa geçişleri için gizleme sınıfı */
+.hidden {
     display: none !important;
+}
+
+/* Kural numarası stili */
+.rule-item span {
+    display: inline-block;
+    color: #74211b; /* #74211b rengi */
+}
+
+/* Kopyalandı bildirimi animasyon aktif hali */
+#copy-toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    pointer-events: auto;
 }
