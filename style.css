@@ -1,67 +1,305 @@
-body {
-    font-family: 'Lexend', sans-serif;
-    margin: 0;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --red: #74211b;
+    --red-glow: rgba(116, 33, 27, 0.4);
 }
 
-/* ARKA PLAN: Şövalye ve Bayrağın görünmesi için tam tersi yön odaklı */
-.background-overlay {
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0e0e11;
+    background-image: radial-gradient(circle at 50% 0%, rgba(116, 33, 27, 0.07) 0%, transparent 55%);
+}
+
+/* ─── PAGE TRANSITION ─────────────────────── */
+#page-overlay {
     position: fixed;
     inset: 0;
-    z-index: -1;
-    background-image: url('images/background.png');
-    background-size: cover;
-    /* Şövalyenin ve bayrağın olduğu yeri bulmak için 
-       burayı 'left bottom' veya 'right bottom' olarak değiştirerek dene.
-       Genelde bu tarz tasarımlarda 'left 20% bottom' çok iyi sonuç verir. */
-    background-position: left 20% bottom; 
-    background-attachment: fixed;
+    background: #0e0e11;
+    z-index: 999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#page-overlay.active {
+    opacity: 1;
+    pointer-events: all;
 }
 
-/* Karartma katmanı - Tam kapkara değil, derin bir siyahlık */
-.background-overlay::after {
+/* ─── VIEW SECTIONS ───────────────────────── */
+.view-section {
+    display: none;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.view-section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ─── FADE IN ─────────────────────────────── */
+.fade-in {
+    animation: fadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+@keyframes fadeIn {
+    0%   { opacity: 0; transform: translateY(22px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── NAV UNDERLINE HOVER ─────────────────── */
+.nav-underline {
+    position: relative;
+    padding-bottom: 2px;
+}
+.nav-underline::after {
     content: '';
     position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(14,14,17,0.4) 0%, rgba(14,14,17,0.7) 100%);
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--red);
+    border-radius: 2px;
+    transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-/* Sayfa Açılış Animasyonu */
-.animate-content {
-    animation: fadeInSlide 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.nav-underline:hover::after,
+.nav-underline.active::after {
+    width: 100%;
 }
-
-@keyframes fadeInSlide {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.nav-btn {
-    position: relative;
-    padding-bottom: 4px;
-}
-
-.nav-btn.active {
+.nav-underline.active {
     color: white;
 }
 
-.nav-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: -28px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: #74211b;
+/* ─── DISCORD BUTTON ──────────────────────── */
+.discord-btn {
+    color: #5865F2;
+    background: rgba(88, 101, 242, 0.08);
+    border: 1px solid rgba(88, 101, 242, 0.25);
+    border-radius: 8px;
+    transition: background 0.2s, border-color 0.2s;
+    text-decoration: none;
+    cursor: pointer;
+}
+.discord-btn:hover {
+    background: rgba(88, 101, 242, 0.18);
+    border-color: rgba(88, 101, 242, 0.55);
 }
 
-.rule-box {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    padding-bottom: 1rem;
+/* ─── REGISTER BUTTON ─────────────────────── */
+.register-btn {
+    background-color: var(--red);
+    box-shadow: 0 0 18px var(--red-glow);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.register-btn:hover {
+    background-color: #8b2920;
+    box-shadow: 0 0 28px var(--red-glow);
 }
 
+/* ─── IP COPY BUTTON ──────────────────────── */
+.ip-btn {
+    background: white;
+    color: black;
+    transition: background 0.2s;
+}
+.ip-btn:hover {
+    background: rgba(255,255,255,0.88);
+}
+
+/* ─── COPY TOAST ──────────────────────────── */
+#copy-toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(16px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: #0e0e11;
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 #copy-toast.show {
     opacity: 1;
-    transform: translate(-50%, 0);
+    transform: translateX(-50%) translateY(0);
+}
+.toast-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.hidden { display: none !important; }
+/* ─── FEATURE CARDS ───────────────────────── */
+.feature-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    transition: border-color 0.25s, transform 0.25s;
+}
+.feature-card:hover {
+    border-color: rgba(116, 33, 27, 0.45);
+    transform: translateY(-3px);
+}
+.feature-icon {
+    color: var(--red);
+}
+
+/* ─── ONLINE BADGE ────────────────────────── */
+.online-badge {
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+}
+
+/* ─── INFO CARDS ──────────────────────────── */
+.info-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+}
+
+/* ─── AUTH CARD ───────────────────────────── */
+.auth-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+}
+.auth-input {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: border-color 0.2s;
+}
+.auth-input:focus {
+    border-color: var(--red);
+}
+.auth-tab {
+    cursor: pointer;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+}
+.auth-tab.active {
+    color: white;
+}
+.submit-btn {
+    background: var(--red);
+    box-shadow: 0 0 18px var(--red-glow);
+    transition: background 0.2s;
+}
+.submit-btn:hover {
+    background: #8b2920;
+}
+
+/* ─── HERO WRAPPER ────────────────────────── */
+.hero-wrapper {
+    position: relative;
+    padding: 60px 0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.hero-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('background.png');
+    background-size: cover;
+    background-position: left bottom;
+    opacity: 0.18;
+    border-radius: 20px;
+    z-index: 0;
+}
+.hero-wrapper > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ─── PARTICLE CANVAS ─────────────────────── */
+#particle-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ─── MOBILE HAMBURGER ────────────────────── */
+.hamburger-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+}
+#hamburger-btn.open .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+#hamburger-btn.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+#hamburger-btn.open .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ─── MOBILE DRAWER ───────────────────────── */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 40;
+    backdrop-filter: blur(2px);
+}
+.mobile-overlay.open {
+    display: block;
+}
+.mobile-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 260px;
+    background: #0e0e11;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    z-index: 50;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    padding-top: 64px;
+}
+.mobile-drawer.open {
+    transform: translateX(0);
+}
+.mobile-nav-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.65);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.mobile-nav-btn:hover {
+    background: rgba(255,255,255,0.05);
+    color: white;
+}
