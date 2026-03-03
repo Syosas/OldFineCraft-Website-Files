@@ -94,7 +94,11 @@ body {
     width: 100%;
 }
 
-/* ─── DISCORD BUTTON ──────────────────────── */
+/* Mouse hover'da aktif butonun çizgisi kaybolur, mouse gidince geri gelir */
+.nav-underline.active.hover-suppressed::after {
+    width: 0;
+    transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
 .discord-btn {
     color: #5865F2;
     background: rgba(88, 101, 242, 0.08);
