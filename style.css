@@ -54,7 +54,7 @@ body {
 .hero-title {
     font-family: 'Lexend', sans-serif;
     font-weight: 900;
-    font-size: clamp(3rem, 9vw, 7rem);
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
     line-height: 1.1;
     letter-spacing: -0.02em;
     background: linear-gradient(to bottom, #ffffff, rgba(255,255,255,0.5));
@@ -191,12 +191,12 @@ body {
 /* ─── HERO WRAPPER ────────────────────────── */
 .hero-wrapper {
     position: relative;
-    min-height: 88vh;
+    min-height: 55vh;
     overflow: hidden;
 }
 @media (max-width: 768px) {
     .hero-wrapper {
-        min-height: 100vh;
+        min-height: 70vh;
     }
 }
 .hero-bg {
