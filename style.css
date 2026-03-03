@@ -194,6 +194,15 @@ body {
     min-height: calc(100vh - 65px);
     overflow: hidden;
 }
+@media (max-width: 768px) {
+    .hero-wrapper {
+        min-height: 100svh;
+    }
+    .hero-bg {
+        background-position: 75% center !important;
+        opacity: 0.35 !important;
+    }
+}
 .hero-bg {
     position: absolute;
     inset: 0;
