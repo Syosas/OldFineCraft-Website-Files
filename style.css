@@ -191,16 +191,17 @@ body {
 /* ─── HERO WRAPPER ────────────────────────── */
 .hero-wrapper {
     position: relative;
+    min-height: 520px;
     padding: 60px 0;
     border-radius: 20px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .hero-bg {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: left bottom;
-    opacity: 0.25;
     border-radius: 20px;
     z-index: 0;
 }
