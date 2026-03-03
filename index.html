@@ -32,16 +32,17 @@
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
             <!-- Logo -->
-            <div class="flex items-center gap-3 cursor-pointer" id="nav-logo">
-                <img src="logo.png" alt="OldFineCraft" class="w-7 h-7 object-contain">
-                <span class="font-bold text-lg tracking-tight">OldFineCraft</span>
+            <div class="flex items-center gap-2 cursor-pointer" id="nav-logo">
+                <img src="logo.png" alt="OldFineCraft" class="w-8 h-8 object-contain">
             </div>
 
-            <!-- Desktop Nav -->
-            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-white/60">
+            <!-- Desktop Nav - shifted left -->
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-white/60">
                 <button class="nav-btn nav-underline active" data-target="home">Ana Sayfa</button>
                 <button class="nav-btn nav-underline" data-target="store">Mağaza</button>
+                <button class="nav-btn nav-underline" data-target="bakiye">Bakiye Yükle</button>
                 <button class="nav-btn nav-underline" data-target="info" data-scroll="bilgiler">Bilgiler</button>
+                <button class="nav-btn nav-underline" data-target="info" data-scroll="oynayis">Oynayış Hakkında</button>
                 <button class="nav-btn nav-underline" data-target="info" data-scroll="kurallar">Kurallar</button>
             </div>
 
@@ -72,7 +73,9 @@
         <div class="flex flex-col gap-2 p-6 pt-8">
             <button class="mobile-nav-btn nav-btn" data-target="home">Ana Sayfa</button>
             <button class="mobile-nav-btn nav-btn" data-target="store">Mağaza</button>
+            <button class="mobile-nav-btn nav-btn" data-target="bakiye">Bakiye Yükle</button>
             <button class="mobile-nav-btn nav-btn" data-target="info" data-scroll="bilgiler">Bilgiler</button>
+            <button class="mobile-nav-btn nav-btn" data-target="info" data-scroll="oynayis">Oynayış Hakkında</button>
             <button class="mobile-nav-btn nav-btn" data-target="info" data-scroll="kurallar">Kurallar</button>
             <div class="border-t border-white/10 my-3"></div>
             <a href="https://discord.gg/9x2WYrVpJZ" target="_blank" rel="noopener noreferrer" class="discord-btn flex items-center gap-2 px-4 py-3 rounded-md text-sm font-medium">
@@ -144,16 +147,16 @@
         </section>
 
         <!-- Info View -->
-        <section id="view-info" class="view-section max-w-5xl mx-auto px-6 py-16">
-            <div class="flex flex-col md:flex-row gap-6">
+        <section id="view-info" class="view-section max-w-4xl mx-auto px-6 py-16">
+            <div class="flex flex-col gap-8">
 
-                <!-- Bilgiler -->
-                <div id="section-bilgiler" class="flex-1 info-card p-8 rounded-xl">
+                <!-- Sunucu Bilgileri -->
+                <div id="section-bilgiler" class="info-card p-8 rounded-xl">
                     <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
                         <i data-lucide="info" class="w-5 h-5 feature-icon"></i>
                         Sunucu Bilgileri:
                     </h3>
-                    <div class="space-y-4 text-white/70">
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-white/70">
                         <div>
                             <h4 class="text-sm font-bold text-white mb-0.5">Sunucu Versiyonu</h4>
                             <p class="text-sm">1.16.5 - 1.21.10</p>
@@ -172,13 +175,35 @@
                         </div>
                         <div>
                             <h4 class="text-sm font-bold text-white mb-0.5">Giriş Kapasitesi</h4>
-                            <p class="text-sm">300</p>
+                            <p class="text-sm">150</p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Oynayış Hakkında -->
+                <div id="section-oynayis" class="info-card p-8 rounded-xl">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <i data-lucide="gamepad-2" class="w-5 h-5 feature-icon"></i>
+                        Oynayış Hakkında:
+                    </h3>
+                    <div class="space-y-5 text-white/70 text-sm leading-relaxed">
+                        <p>Sunucunun oynayış mantığı aslında basittir: Bir kaç temelden oluşur ve diğer sunuculardan farklıdır. Ne gibi bir farklılıktan bahsettiğimizi anlamak için farklılık kısımlarını okuyabilir veya isterseniz oynadıkça da öğrenebilirsiniz, seçim sizin!</p>
+
+                        <div>
+                            <h4 class="text-sm font-bold text-white mb-2">Farklılıklar:</h4>
+                            <p>Sunucumuzda TNT kullanımı adil ortam gerekçesiyle kapalıdır. Eğer bir farm yapmayı, netherite arayışında kullanmak veya savaşlarda rakiplerinizi patlatmayı hedefliyorsanız maalesef ki kullanamayacaksınız. Eğer "İyi de sunucuda Claim yok mu? Ne gerek vardı böyle bir değişikliğe?" diyecek olursanız onun da basit bir açıklaması mevcut. Claim yaptıysanız araziniz her halükarda dokunulmaz olacaktır, ama işin içine TNT dahil olunca maalesef ki bazı oyuncular bunun bir çözümünü bulmuş vaziyette hemen destek ekibine haber ettiler ve bizde düzeltemeyince kapatmayı seçtik. En kötü senaryo büyük bir yapınız varsa emek verdiğiniz, oyuna girdiğinizde onu patlatılmış ve berbat bir halde görebilirdiniz. Böyle bir durumda sorumlu biz oluyoruz çünkü bizim sunucumuzda emek verip saatlerce, günlerce, aylarca, belki de yıllarca uğraştığınız eşyalarla birlikte yapınız patlatılıyor ve siz sadece emek sarf etmiş bir oyuncusunuz sunucuyu yapansa biz. Böyle bir vaziyete düşmenizi asla istemeyiz! Bu sebepten TNT sunucumuzda devre dışıdır. Hasar alma, hasar verme, dağıtmak, öldürmek hiç bir şekilde mümkün değildir.</p>
+                        </div>
+
+                        <p>OldFineCraft'ta lobi mevcut değil. Bununda sebebi çok basit: Biz sunucumuzu Hayatta Kalma üzerine inşa ettik, herkes gibi lobi eklemek yerine herkesten farklı olmak adıyla sadece oyuna her girdiğinizde ıssız ve karanlık bir boşlukta, siteye kayıt olduğunuz şifreyle giriş yaparak Survival dünyasında en son kaldığınız yere ışınlanıyorsunuz. Biz elbette sadece Survival eklemedik, bir bekleme alanı da ekledik. Ancak burası normal bir bekleme alanı yerine çok daha işlevsel ve ödüller alabileceğiniz, kasa anahtarıyla kasalar açabileceğiniz, sohbet edebileceğiniz ve ek olarak oyun paranızla tecrübe seviyesi alabileceğiniz bir sistem ekledik! Sadece onlarla yetinmedik üstelik dakika başına afk kalarak, yani bekleyerek 2 adet parçacık alabilirsiniz. Parçacıklar çoğaldıkca size daha çok avantaj sağlayan, tecrübe puanı kasmanıza olanak sağlayan ve aldığınız moblara özel eşyalarını Spawnerin içinden çok rahatlıkla alabilirsiniz. Bu spawnerları sadece bekleme yerinde ki marketten alabilirsiniz, komutla satın alabileceğiniz sıkıcı bir sistem yerine böylesine daha güzel bir sistem getirmeyi seçtik.</p>
+
+                        <p><em class="font-bold not-italic" style="font-style:italic; font-weight:700;">Komutları:</em> /bekleme, /afk, /alem, /anahtar</p>
+
+                        <p>Sunucumuza herkes gibi sunucu masraflarını karşılamak maksadıyla VIP seviyeleri getirdik: <strong style="color:#6a3ac2;">VIP</strong>, <strong style="color:#ffe14d;">MVP</strong>, <strong style="color:#74211b;">LEGEND</strong>. Mevcut VIP seçenekleri bunlardır ve yenisini eklemeyi düşünmüyoruz. Sadece VIP değil, bir birinden farklı ve avantajlı hoş ürünlerin fiyatına mağaza üzerinden bakabilir ve Azerbaycan, Türkiye banka kartınız hemen varsa ödeme gerçekleştirebilirsiniz! (Aynı zamanda kurucunun <a href="https://linktr.ee/SyosaS" target="_blank" rel="noopener" class="text-white/80 underline hover:text-white transition-colors">Sosyal Medya</a> sayfalarını takip ederek indirim kodlarını anında kapabilirsiniz!)</p>
+                    </div>
+                </div>
+
                 <!-- Kurallar -->
-                <div id="section-kurallar" class="flex-1 info-card p-8 rounded-xl">
+                <div id="section-kurallar" class="info-card p-8 rounded-xl">
                     <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
                         <i data-lucide="scroll-text" class="w-5 h-5 feature-icon"></i>
                         Sunucu Kuralları:
@@ -224,11 +249,22 @@
                             <h4 class="text-sm font-bold text-white mb-0.5">10. Karar Saygısı</h4>
                             <p class="text-sm">Yetkililerin verdiği kararlara saygı duyulmalı; bir itiraz varsa bu destek sistemi (Discord) üzerinden medeni bir şekilde yapılmalıdır.</p>
                         </div>
-                        <p class="text-xs text-white/30 pt-2 border-t border-white/10 leading-relaxed">
-                            Hepimiz adil bir ortam isteriz, kurallar adil ortamı oluşturmak için vardır ve kurallara uymayan kim olursa olsun adil ortamı bozmamak gerekçesiyle cezalanır. Bir itiraz veya rahatsızlık için Discord üzerinden destek bileti açabilirsiniz. Sunucumuzu seçtiğiniz için teşekkür ederiz.
+                        <p class="text-xs text-white/30 pt-3 border-t border-white/10 leading-relaxed">
+                            Hepimiz adil bir ortam isteriz, kurallar adil ortamı oluşturmak için vardır ve kurallara uymayan kim olursa olsun adil ortamı bozmamak gerekçesiyle cezalanır. Eğer kurallar hakkında bir itirazınız veya rahatsız olduğunuz bir konu varsa lütfen Discord sunucumuz üzerinden destek bileti açarak bize bildirin. Sunucumuzu seçtiğiniz için size teşekkür ediyoruz!
                         </p>
                     </div>
                 </div>
+
+            </div>
+        </section>
+
+        <!-- Bakiye Yükle View -->
+        <section id="view-bakiye" class="view-section max-w-lg mx-auto px-6 py-24">
+            <div class="auth-card p-8 rounded-2xl shadow-2xl text-center">
+                <i data-lucide="wallet" class="w-12 h-12 feature-icon mx-auto mb-4"></i>
+                <h2 class="text-2xl font-bold mb-2">Bakiye Yükle</h2>
+                <p class="text-white/50 text-sm mb-8">Hesabına kredi yükleyerek mağazadan alışveriş yapabilirsin.</p>
+                <p class="text-white/30 text-xs">Bu özellik yakında aktif olacak. Şimdilik mağazadan doğrudan ödeme yapabilirsin.</p>
             </div>
         </section>
 
