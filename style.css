@@ -199,8 +199,10 @@ body {
         min-height: 100svh;
     }
     .hero-bg {
-        background-position: 75% center !important;
-        opacity: 0.35 !important;
+        background-image: url('images/backgroundmob.png') !important;
+        background-position: center center !important;
+        background-size: cover !important;
+        opacity: 0.4 !important;
     }
 }
 .hero-bg {
