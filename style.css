@@ -191,13 +191,8 @@ body {
 /* ─── HERO WRAPPER ────────────────────────── */
 .hero-wrapper {
     position: relative;
-    min-height: 55vh;
+    min-height: calc(100vh - 65px);
     overflow: hidden;
-}
-@media (max-width: 768px) {
-    .hero-wrapper {
-        min-height: 70vh;
-    }
 }
 .hero-bg {
     position: absolute;
