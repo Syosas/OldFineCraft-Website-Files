@@ -3,6 +3,7 @@ window.addEventListener('load', () => {
     if (window.lucide) window.lucide.createIcons();
     initPageReveal();
     initNav();
+    initNavHoverEffect();
     initCopyBtn();
     initMobileMenu();
     initAuthTabs();
@@ -101,6 +102,23 @@ function updateNavActive(target, scrollTarget) {
         const isActive = sameTarget && (target !== 'info' || sameScroll);
         btn.classList.toggle('active', isActive);
         btn.style.color = isActive ? 'white' : '';
+    });
+}
+
+// Hover: underline slides to hovered button, returns to active on mouse leave
+function initNavHoverEffect() {
+    const navBtns = document.querySelectorAll('.nav-underline');
+    navBtns.forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            // Temporarily show underline on hovered (non-active) btn via CSS hover — already handled
+            // But we need to suppress active underline visually while hovering another
+            navBtns.forEach(b => {
+                if (b !== btn) b.classList.add('hover-suppressed');
+            });
+        });
+        btn.addEventListener('mouseleave', () => {
+            navBtns.forEach(b => b.classList.remove('hover-suppressed'));
+        });
     });
 }
 
