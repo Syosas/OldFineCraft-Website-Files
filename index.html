@@ -91,8 +91,9 @@
 
         <!-- Home View -->
         <section id="view-home" class="view-section active max-w-6xl mx-auto px-6 py-16">
-            <div class="hero-wrapper flex flex-col items-center text-center space-y-6 mt-12 mb-24">
-                <div class="hero-bg" style="background-image: url('images/background.png'); background-position: right bottom; background-size: cover; opacity: 0.35;"></div>
+            <div class="hero-wrapper" style="position:relative;">
+                <div class="hero-bg" style="position:absolute; inset:0; background-image: url('images/background.png'); background-position: right bottom; background-size: cover; opacity: 0.35; border-radius: 20px; pointer-events:none;"></div>
+                <div class="flex flex-col items-center text-center space-y-6 mt-12 mb-24" style="position:relative; z-index:1;">
 
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full online-badge text-xs font-medium fade-in">
                     <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
@@ -114,7 +115,8 @@
                         Mağazayı İncele
                     </button>
                 </div>
-            </div>
+                </div><!-- end inner flex -->
+            </div><!-- end hero-wrapper -->
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in" style="animation-delay:0.4s;">
                 <div class="feature-card p-6 rounded-xl">
