@@ -1,14 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Lexend:wght@900&display=swap');
 
 :root {
     --red: #74211b;
     --red-glow: rgba(116, 33, 27, 0.4);
 }
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: #0e0e11;
     background-image: radial-gradient(circle at 50% 0%, rgba(116, 33, 27, 0.07) 0%, transparent 55%);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeSpeed;
 }
 
 /* ─── PAGE TRANSITION ─────────────────────── */
@@ -19,7 +25,8 @@ body {
     z-index: 999;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.3s ease;
+    will-change: opacity;
 }
 #page-overlay.active {
     opacity: 1;
@@ -30,9 +37,10 @@ body {
 .view-section {
     display: none;
     opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(10px);
+    transition: opacity 0.35s ease,
+                transform 0.35s ease;
+    will-change: opacity, transform;
 }
 .view-section.active {
     display: block;
@@ -42,11 +50,11 @@ body {
 
 /* ─── FADE IN ─────────────────────────────── */
 .fade-in {
-    animation: fadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fadeIn 0.7s ease forwards;
     opacity: 0;
 }
 @keyframes fadeIn {
-    0%   { opacity: 0; transform: translateY(22px); }
+    0%   { opacity: 0; transform: translateY(16px); }
     100% { opacity: 1; transform: translateY(0); }
 }
 
@@ -64,13 +72,11 @@ body {
 }
 
 /* ─── NAV UNDERLINE HOVER ─────────────────── */
-/* Only CSS hover — no JS class toggling for hover underline */
 .nav-underline {
     position: relative;
     padding-bottom: 2px;
-    transition: color 0.35s ease;
+    transition: color 0.3s ease;
 }
-/* Underline base */
 .nav-underline::after {
     content: '';
     position: absolute;
@@ -80,10 +86,9 @@ body {
     height: 2px;
     background-color: var(--red);
     border-radius: 2px;
-    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.35s ease;
+    transition: width 0.3s ease;
+    will-change: width;
 }
-/* Hover: slide in */
 .nav-underline:hover::after {
     width: 100%;
 }
@@ -93,11 +98,9 @@ body {
 .nav-underline.active::after {
     width: 100%;
 }
-
-/* Aktif butonun çizgisi hover sırasında gizlenir */
 .nav-underline.active.hover-suppressed::after {
     width: 0;
-    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: width 0.3s ease;
 }
 .discord-btn {
     color: #5865F2;
@@ -193,6 +196,7 @@ body {
     position: relative;
     min-height: calc(100vh - 65px);
     overflow: hidden;
+    contain: layout;
 }
 @media (max-width: 768px) {
     .hero-wrapper {
@@ -208,8 +212,9 @@ body {
 .hero-bg {
     position: absolute;
     inset: 0;
-    border-radius: 20px;
     z-index: 0;
+    transform: translateZ(0);
+    will-change: transform;
 }
 .hero-wrapper > * {
     position: relative;
