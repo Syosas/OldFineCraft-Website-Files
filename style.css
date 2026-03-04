@@ -68,25 +68,25 @@ body {
 .nav-underline {
     position: relative;
     padding-bottom: 2px;
-    transition: color 0.2s;
+    transition: color 0.35s ease;
 }
 /* Underline base */
 .nav-underline::after {
     content: '';
     position: absolute;
-    bottom: -20px; /* align with nav border */
+    bottom: -20px;
     left: 0;
     width: 0;
     height: 2px;
     background-color: var(--red);
     border-radius: 2px;
-    transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.35s ease;
 }
 /* Hover: slide in */
 .nav-underline:hover::after {
     width: 100%;
 }
-/* Mouse leave handled by CSS — width returns to 0 when no hover (unless active) */
 .nav-underline.active {
     color: white;
 }
@@ -94,10 +94,10 @@ body {
     width: 100%;
 }
 
-/* Mouse hover'da aktif butonun çizgisi kaybolur, mouse gidince geri gelir */
+/* Aktif butonun çizgisi hover sırasında gizlenir */
 .nav-underline.active.hover-suppressed::after {
     width: 0;
-    transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .discord-btn {
     color: #5865F2;
