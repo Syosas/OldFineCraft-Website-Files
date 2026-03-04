@@ -1,0 +1,21 @@
+{
+  "name": "OldFineCraft",
+  "short_name": "OldFineCraft",
+  "description": "Klasik Minecraft hayatta kalma deneyimi.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e0e11",
+  "theme_color": "#0e0e11",
+  "icons": [
+    {
+      "src": "images/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
