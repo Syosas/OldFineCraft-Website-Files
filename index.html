@@ -10,33 +10,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#0e0e11] text-[#ededed] font-sans antialiased min-h-screen flex flex-col selection:bg-[#74211b]/30">
-
-    <!-- Page transition overlay -->
     <div id="page-overlay"></div>
-
-    <!-- Copy Toast -->
-    <div id="copy-toast">
-        <div class="toast-icon">
-            <i data-lucide="check" style="width:12px;height:12px;"></i>
-        </div>
-        <span>Kopyalandı!</span>
-    </div>
-
-    <!-- Particle Canvas - fullscreen burst on copy -->
+    <div id="copy-toast"><div class="toast-icon"><i data-lucide="check" style="width:12px;height:12px;"></i></div><span>Kopyalandı!</span></div>
     <canvas id="particle-canvas"></canvas>
-
-    <!-- Mobile Overlay -->
     <div id="mobile-overlay" class="mobile-overlay"></div>
 
     <nav class="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-
-            <!-- Logo -->
             <div class="flex items-center gap-2 cursor-pointer" id="nav-logo">
                 <img src="images/logo.png" alt="OldFineCraft" class="w-11 h-11 object-contain">
             </div>
-
-            <!-- Desktop Nav -->
             <div class="hidden md:flex items-center gap-6 text-sm font-medium text-white/60">
                 <button class="nav-btn nav-underline active" data-target="home">Ana Sayfa</button>
                 <button class="nav-btn nav-underline" data-target="store">Mağaza</button>
@@ -44,30 +27,20 @@
                 <button class="nav-btn nav-underline" data-target="bilgiler">Bilgiler</button>
                 <button class="nav-btn nav-underline" data-target="kurallar">Kurallar</button>
             </div>
-
             <div class="flex items-center gap-3">
-                <!-- Discord -->
                 <a href="https://discord.gg/kj5PgcXEM9" target="_blank" rel="noopener noreferrer" class="discord-btn hidden md:flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium mr-1">
-                    <svg width="16" height="12" viewBox="0 0 127.14 96.36" fill="currentColor">
-                        <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
-                    </svg>
+                    <svg width="16" height="12" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
                     Discord
                 </a>
-
                 <button class="text-sm font-medium text-white/60 hover:text-white transition-colors nav-btn hidden md:block" data-target="auth" data-auth="login">Giriş Yap</button>
                 <button class="px-4 py-2 text-white text-sm font-medium rounded-md transition-all nav-btn hidden md:block register-btn" data-target="auth" data-auth="register">Kayıt Ol</button>
-
-                <!-- Hamburger -->
                 <button id="hamburger-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menü">
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Mobile Drawer -->
     <div id="mobile-drawer" class="mobile-drawer">
         <div class="flex flex-col gap-2 p-6 pt-8">
             <button class="mobile-nav-btn nav-btn" data-target="home">Ana Sayfa</button>
@@ -77,9 +50,7 @@
             <button class="mobile-nav-btn nav-btn" data-target="kurallar">Kurallar</button>
             <div class="border-t border-white/10 my-3"></div>
             <a href="https://discord.gg/kj5PgcXEM9" target="_blank" rel="noopener noreferrer" class="discord-btn flex items-center gap-2 px-4 py-3 rounded-md text-sm font-medium">
-                <svg width="16" height="12" viewBox="0 0 127.14 96.36" fill="currentColor">
-                    <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
-                </svg>
+                <svg width="16" height="12" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
                 Discord
             </a>
             <button class="mobile-nav-btn nav-btn" data-target="auth" data-auth="login">Giriş Yap</button>
@@ -91,60 +62,48 @@
 
         <!-- Home View -->
         <section id="view-home" class="view-section active">
-            <!-- Hero - full width -->
             <div class="hero-wrapper px-6" style="position:relative;">
                 <div class="hero-bg" style="position:absolute; inset:0; background-image: url('images/background.png'); background-position: 40% center; background-size: cover; background-repeat: no-repeat; opacity: 0.45; pointer-events:none;"></div>
                 <div class="flex flex-col items-center text-center space-y-6 py-16 max-w-6xl mx-auto" style="position:relative; z-index:1;">
-
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full online-badge text-xs font-medium fade-in">
-                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                    Sunucu Aktif — 0 Oyuncu Çevrimiçi
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full online-badge text-xs font-medium fade-in">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Sunucu Aktif — 0 Oyuncu Çevrimiçi
+                    </div>
+                    <h1 class="hero-title fade-in" style="animation-delay:0.1s;">
+                        Eskilerin Tarzında<br style="line-height:0.8;">Yeni Bir Macera
+                    </h1>
+                    <p class="text-lg text-white/50 max-w-2xl fade-in" style="animation-delay:0.2s;">
+                        OldFineCraft, klasik Minecraft hayatta kalma deneyimini modern altyapı ile birleştiriyor. Kayıt ol, sunucuya katıl ve efsaneni yazmaya başla.
+                    </p>
+                    <div class="flex gap-4 pt-4 fade-in" style="animation-delay:0.3s;">
+                        <button id="copy-ip-btn" class="ip-btn px-6 py-3 font-semibold rounded-md flex items-center gap-2">
+                            <i data-lucide="copy" class="w-4 h-4"></i> oyna.oldfinecraft.online
+                        </button>
+                        <button class="px-6 py-3 bg-white/5 border border-white/10 rounded-md hover:bg-white/10 transition-colors font-medium nav-btn" data-target="store">
+                            Mağazayı İncele
+                        </button>
+                    </div>
                 </div>
-
-                <h1 class="hero-title fade-in" style="animation-delay:0.1s;">
-                    Eskilerin Tarzında<br style="line-height:0.8;">Yeni Bir Macera
-                </h1>
-
-                <p class="text-lg text-white/50 max-w-2xl fade-in" style="animation-delay:0.2s;">
-                    OldFineCraft, klasik Minecraft hayatta kalma deneyimini modern altyapı ile birleştiriyor. Kayıt ol, sunucuya katıl ve efsaneni yazmaya başla.
-                </p>
-                <div class="flex gap-4 pt-4 fade-in" style="animation-delay:0.3s;">
-                    <button id="copy-ip-btn" class="ip-btn px-6 py-3 font-semibold rounded-md flex items-center gap-2">
-                        <i data-lucide="copy" class="w-4 h-4"></i> oyna.oldfinecraft.online
-                    </button>
-                    <button class="px-6 py-3 bg-white/5 border border-white/10 rounded-md hover:bg-white/10 transition-colors font-medium nav-btn" data-target="store">
-                        Mağazayı İncele
-                    </button>
-                </div>
-                </div><!-- end inner flex -->
-
-                <!-- Feature cards inside hero, bottom -->
                 <div class="max-w-6xl mx-auto px-6 pb-12 w-full" style="position:relative; z-index:1;">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in" style="animation-delay:0.4s;">
                         <div class="feature-card p-6 rounded-xl">
-                            <div class="icon-glow-wrap mb-4">
-                                <i data-lucide="shield" class="w-8 h-8 icon-glow"></i>
-                            </div>
+                            <div class="icon-glow-wrap mb-4"><i data-lucide="shield" class="w-8 h-8 icon-glow"></i></div>
                             <h3 class="text-xl font-semibold mb-2">Adil Oyun</h3>
                             <p class="text-white/50 text-sm">Gelişmiş hile koruması ve aktif yetkili ekibi ile %100 adil bir oyun ortamı sunuyoruz.</p>
                         </div>
                         <div class="feature-card p-6 rounded-xl">
-                            <div class="icon-glow-wrap mb-4">
-                                <i data-lucide="sword" class="w-8 h-8 icon-glow"></i>
-                            </div>
+                            <div class="icon-glow-wrap mb-4"><i data-lucide="sword" class="w-8 h-8 icon-glow"></i></div>
                             <h3 class="text-xl font-semibold mb-2">Klan Savaşları</h3>
                             <p class="text-white/50 text-sm">Ekibini topla, kaleni inşa et ve rakip klanlara karşı üstünlük kur! OldFineCraft dünyasının en güçlü birliği olduğunu kanıtla!</p>
                         </div>
                         <div class="feature-card p-6 rounded-xl">
-                            <div class="icon-glow-wrap mb-4">
-                                <i data-lucide="calendar-days" class="w-8 h-8 icon-glow"></i>
-                            </div>
+                            <div class="icon-glow-wrap mb-4"><i data-lucide="calendar-days" class="w-8 h-8 icon-glow"></i></div>
                             <h3 class="text-xl font-semibold mb-2">Özel Eventler</h3>
                             <p class="text-white/50 text-sm">Özel günlerde ve belirli dönemlerde düzenlenen eventlere katıl, eşsiz ödüller kazan ve topluluğun bir parçası ol!</p>
                         </div>
                     </div>
                 </div>
-            </div><!-- end hero-wrapper -->
+            </div>
         </section>
 
         <!-- Store View -->
@@ -159,55 +118,131 @@
         <!-- Bilgiler View -->
         <section id="view-bilgiler" class="view-section max-w-4xl mx-auto px-6 py-16">
             <div class="flex flex-col gap-8">
-                <!-- Sunucu Bilgileri -->
                 <div id="section-bilgiler" class="info-card p-8 rounded-xl">
                     <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
                         <i data-lucide="info" class="w-5 h-5 feature-icon"></i>
                         Sunucu Bilgileri:
                     </h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-white/70">
-                        <div>
-                            <h4 class="text-sm font-bold text-white mb-0.5">Sunucu Versiyonu</h4>
-                            <p class="text-sm">1.16.5 - 1.21.10</p>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-white mb-0.5">Sunucu Adresi</h4>
-                            <p class="text-sm font-mono">oyna.oldfinecraft.online</p>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-white mb-0.5">Oyun Modu</h4>
-                            <p class="text-sm">Hayatta kalma</p>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-white mb-0.5">Kapasite</h4>
-                            <p class="text-sm">150 Oyuncu</p>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-white mb-0.5">Lokasyon</h4>
-                            <p class="text-sm">Azerbaycan, Türkiye</p>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-white mb-0.5">Zorluk</h4>
-                            <p class="text-sm">Normal</p>
-                        </div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Sunucu Versiyonu</h4><p class="text-sm">1.16.5 - 1.21.10</p></div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Sunucu Adresi</h4><p class="text-sm font-mono">oyna.oldfinecraft.online</p></div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Oyun Modu</h4><p class="text-sm">Hayatta kalma</p></div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Kapasite</h4><p class="text-sm">150 Oyuncu</p></div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Lokasyon</h4><p class="text-sm">Azerbaycan, Türkiye</p></div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Zorluk</h4><p class="text-sm">Normal</p></div>
                     </div>
                 </div>
-
-                <!-- Oynayış Hakkında -->
                 <div id="section-oynayis" class="info-card p-8 rounded-xl">
                     <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
                         <i data-lucide="gamepad-2" class="w-5 h-5 feature-icon"></i>
-                        Oynanış Mantığı:
+                        Oynanış Hakkında Bilgilendirme:
                     </h3>
-                    <div class="space-y-5 text-white/70 text-sm leading-relaxed">
-                        <p>OldFineCraft, karmaşık sistemlerden uzak, saf bir hayatta kalma deneyimi üzerine kuruludur. Temel prensibimiz sadelik ve sürdürülebilirliktir. Diğer sunucuların aksine, sizi gereksiz kalabalıklarla boğmak yerine doğrudan maceranın içine bırakıyoruz.</p>
+                    <div class="space-y-6 text-white/70 text-sm leading-relaxed">
+
+                        <!-- Lobi Yok -->
                         <div>
-                            <h4 class="text-sm font-bold text-white mb-2">Farklılıklar:</h4>
-                            <p>OldFineCraft'ta lobi mevcut değil. Bunun sebebi çok basit: Biz sunucumuzu Hayatta Kalma üzerine inşa ettik, herkes gibi lobi eklemek yerine herkesten farklı olmak adıyla sadece oyuna her girdiğinizde ıssız ve karanlık bir boşlukta, siteye kayıt olduğunuz şifreyle giriş yaparak Survival dünyasında en son kaldığınız yere ışınlanıyorsunuz.</p>
+                            <h4 class="text-sm font-semibold text-white mb-2">OldFineCraft'ta Geleneksel Bir Lobi Yok</h4>
+                            <p>OldFineCraft'ta oyun deneyimini bölen, oyuncuyu zorunlu olarak durduran alışılmış lobi sistemini rafa kaldırdık. Bu karar, sunucumuzun temel yapısı olan Saf Hayatta Kalma (Survival) felsefesinin bir parçasıdır.</p>
+                            <p class="mt-2">Birçok sunucuda lobi, her girişte aşmanız gereken zorunlu bir "bekleme odası" gibidir. Biz ise bu bariyeri ortadan kaldırarak macerayı doğrudan başlatıyoruz. OldFineCraft'a adım attığınız an, sunucumuzun o gizemli End boşluğunda kimliğinizi doğrular (giriş yapar) ve hiç vakit kaybetmeden dünyadaki en son konumunuza ışınlanırsınız.</p>
+                            <p class="mt-2">Bizim için esas olan, oyuncunun oyun akışına kesintisiz bir şekilde adapte olmasıdır. Sunucumuzdaki diğer alanlar (bekleme veya etkinlik alanları gibi) sizin için zorunlu bir durak değil, oyun içinden dilediğiniz zaman erişebileceğiniz birer seçenektir.</p>
+                            <p class="mt-2">Sonuç olarak: OldFineCraft'ta sizi hiçbir şey bekletmez. Giriş yaptığınız saniyeden itibaren dünya sizin, macera sizindir. Sizi gereksiz arayüzlerle oyalamıyor, doğrudan hayatta kalma mücadelesinin kalbine bırakıyoruz.</p>
                         </div>
-                        <p>Biz elbette sadece Survival eklemedik, bir bekleme alanı da ekledik. Ancak burası normal bir bekleme alanı yerine çok daha işlevsel ve ödüller alabileceğiniz, kasa anahtarıyla kasalar açabileceğiniz, sohbet edebileceğiniz ve ek olarak oyun paranızla tecrübe seviyesi alabileceğiniz bir sistem ekledik! Sadece onlarla yetinmedik üstelik dakika başına afk kalarak, yani bekleyerek 2 adet parçacık alabilirsiniz. Parçacıklar çoğaldıkca size daha çok avantaj sağlayan, tecrübe puanı kasmanıza olanak sağlayan ve aldığınız moblara özel eşyalarını Spawnerin içinden çok rahatlıkla alabilirsiniz. Bu spawnerları sadece bekleme yerinde ki marketten alabilirsiniz, komutla satın alabileceğiniz sıkıcı bir sistem yerine böylesine daha güzel bir sistem getirmeyi seçtik.
-                        <br><em style="font-style:italic; font-weight:700;">Komutları:</em> /bekleme, /afk, /alem, /anahtar</p>
+
+                        <!-- Bekleme Alanı -->
+                        <div>
+                            <h4 class="text-sm font-semibold text-white mb-2">Macera Molası, İşlevsel Bekleme Alanı</h4>
+                            <p>OldFineCraft'ta sizi oyuna girmekten alıkoyan zorunlu bir lobi olmadığını söylemiştik; ancak bu, vakit geçirebileceğiniz özel bir alanımız olmadığı anlamına gelmiyor! Aksine, hayatta kalma mücadelesine ara vermek veya gelişiminizi hızlandırmak istediğinizde uğrayabileceğiniz, tamamen işlevsel bir bekleme alanı tasarladık. Bu alan, sadece bir "durak" değil, gelişiminizi yönettiğiniz bir strateji merkezidir.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Ekonomi ve Tecrübe:</span> Kazandığınız oyun paralarını burada değerlendirebilir, doğrudan tecrübe puanı (XP) satın alarak karakterinizi güçlendirebilir ve çoğu oyun eşyalarını oyun parasıyla bekleme alanındaki marketten satın alabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Kasa Sistemi:</span> Kazandığınız kasa anahtarlarıyla veya oyunda geçirdiğiniz her saat başına 1 adet verilen anahtar ile tamamen elmastan olabilir, şansınızı deneyebilir, nadir eşyaların sahibi olabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">AFK Ödülleri:</span> Sunucuda geçirdiğiniz her an değerli! Bekleme alanında bulunduğunuz her dakika başına 2 adet Ejderha Ruhu kazanırsınız. Bu ruhlarla sadece Spawnerlar satın alabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Özel Spawner Marketi:</span> Klasik ve sıkıcı komutlarla eşya alma devrini kapattık. Biriktirdiğiniz ruhlarla sadece bu alandaki marketten alınabilen, mob eşyalarını otomatik toplayan, tecrübe puanı toplayan özel Spawner'lara sahip olabilirsiniz.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Oyuncu Pazarı -->
+                        <div>
+                            <h4 class="text-sm font-semibold text-white mb-2">Oyuncu Pazarı</h4>
+                            <p>OldFineCraft'ta ticaret sadece köylülerle veya sistemle sınırlı değildir! Kendi ekonominizi yaratmanız ve diğer oyuncularla etkileşime geçmeniz için gelişmiş bir Pazaryeri (Auction House) sistemi kurduk. Bu sistem, sunucunun dinamik ekonomisinin merkezidir. Kurallar basit: Satan sen, belirleyen sen, kazanan sen!</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Özgür Ticaret:</span> Elindeki değerli bir kılıcı, kazandığın nadir bir eşyayı veya topladığın kaynakları istediğin fiyattan satışa çıkarabilirsin.</li>
+                                <li><span class="font-semibold text-white">Fırsatları Yakala:</span> Diğer oyuncuların satışa sunduğu eşyaları takip ederek, ihtiyacın olan malzemeleri en uygun fiyata bulabilirsin.</li>
+                                <li><span class="font-semibold text-white">7/24 Aktif:</span> Sen oyunda olmasan bile eşyaların listelenmeye devam eder. Satış gerçekleştiğinde paran hesabına anında geçer!</li>
+                                <li><span class="font-semibold text-white">Kolay Erişim:</span> Pazaryerine gitmek için uzun yollar kat etmene gerek yok. <code class="bg-white/10 px-1 rounded">/ah</code> komutuyla dilediğin an ilanları inceleyebilir veya kendi ilanını <code class="bg-white/10 px-1 rounded">/ah sell</code> komutuyla oluşturabilirsin.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Hızlı Kazanç -->
+                        <div>
+                            <h4 class="text-sm font-semibold text-white mb-2">Hızlı Kazanç</h4>
+                            <p>OldFineCraft'ta emeğinizin karşılığını almak için her zaman bir alıcı beklemenize gerek yok! Topladığınız kaynakları, tarım ürünlerini veya madenleri doğrudan sunucuya satarak anında oyun parası kazanabilirsiniz.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Anında Nakit:</span> Diğer oyuncuların eşyanızı almasını beklemeden, sistemin belirlediği fiyatlar üzerinden saniyeler içinde satış yapabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Stratejik Satış:</span> Hangi eşyanın ne kadar kazandırdığını öğrenerek, en kârlı madenleri veya tarım ürünlerini toplamaya odaklanabilir, ekonominizi hızla büyütebilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Pratik Komutlar:</span> Elinizdeki eşyayı satmak için <code class="bg-white/10 px-1 rounded">/sell</code>, envanterinizdeki tüm uygun eşyaları satmak için <code class="bg-white/10 px-1 rounded">/sell all</code> komutlarını kullanabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Ticaretin Altın Kuralı:</span> Değerli ve nadir eşyalarınızı daha yüksek fiyatlara /ah üzerinden diğer oyunculara satmayı deneyebilir; ancak temel kaynaklarınızı hızlıca paraya çevirmek için /sell sistemini kullanabilirsiniz.</li>
+                                <li><em class="text-white/50">Tüccar İpucu: Topladığınız odunlar, kazdığınız taşlar ve hasat ettiğiniz ekinler cebinizi doldurmak için bekliyor. Maceranı kazanca dönüştür!</em></li>
+                            </ul>
+                        </div>
+
+                        <!-- Ev Sistemi -->
+                        <div>
+                            <h4 class="text-sm font-semibold text-white mb-2">Gelişmiş Ev Sistemi</h4>
+                            <p>OldFineCraft'ta karmaşık komutlarla vakit kaybetmenizi istemiyoruz. Bu yüzden tüm ev yönetim işlemlerinizi tek bir akıllı menüde topladık! Artık /sethome gibi eski usul komutlar yerine, her şeyi görsel ve pratik bir arayüzden yönetebilirsiniz.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Tek Komut, Tam Kontrol:</span> <code class="bg-white/10 px-1 rounded">/home</code> veya <code class="bg-white/10 px-1 rounded">/homes</code> komutunu kullanarak özel ev yönetim menünüzü açabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Kolay Kurulum:</span> Menü üzerinden saniyeler içinde yeni bir ev noktası ekleyebilir veya artık ihtiyacınız olmayan bir noktayı silebilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Hızlı Işınlanma:</span> Kaydettiğiniz evlerinize tek bir tıklama ile 3 saniyede ulaşın.</li>
+                                <li><span class="font-semibold text-white">Düzenli Yapı:</span> Evleriniz sizin seçtiğiniz ev noktasının sırasına göre kaydedilir, böylece hangi evin neresi olduğunu kolayca takip edebilirsiniz.</li>
+                            </ul>
+                            <div class="mt-2 space-y-1">
+                                <p><em class="text-white/50">Ev Limitleri Hakkında Bilgilendirme:</em></p>
+                                <p>• <span class="font-semibold text-white">Sade Oyuncular:</span> En fazla 2 adet ev noktası kaydedebilir. Maceranız için en stratejik noktaları seçmeyi unutmayın!</p>
+                                <p>• <span class="font-semibold text-white">VIP Oyuncular:</span> VIP statünüze göre daha fazla ev kaydetme hakkına sahip olabilir ve haritanın dört bir yanına kendi ağınızı kurabilirsiniz.</p>
+                            </div>
+                        </div>
+
+                        <!-- RTP -->
+                        <div>
+                            <h4 class="text-sm font-semibold text-white mb-2">Rastgele Işınlanma</h4>
+                            <p>OldFineCraft'ın devasa dünyasında keşfedilecek çok yer, toplanacak çok kaynak var! Eğer başlangıç bölgesinden uzaklaşmak, kimsenin ayak basmadığı topraklar bulmak veya kendi gizli üssünüz için mükemmel bir yer arıyorsanız, RTP sistemimiz tam size göre.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Anında Keşif:</span> <code class="bg-white/10 px-1 rounded">/rtp</code> komutunu kullandığınızda, sistem sizi haritanın güvenli ve rastgele bir noktasına anında ışınlar.</li>
+                                <li><span class="font-semibold text-white">Vakit Kaybetmeyin:</span> Yürüyerek saatler sürecek mesafeleri tek bir komutla aşın ve maceraya el değmemiş bir bölgede devam edin.</li>
+                                <li><span class="font-semibold text-white">Güvenli İniş:</span> Sistem sizi okyanusun ortasına veya lavın içine değil, ayak basabileceğiniz güvenli bir kara parçasına bırakacak şekilde tasarlanmıştır.</li>
+                                <li><span class="font-semibold text-white">Dünyalara Işınlanma:</span> Rastgele ışınlanma sadece mevcut olduğunuz dünyada çalışır; normal dünyadaysanız Nether veya End'e ışınlanamazsınız. Geri dönmek için <code class="bg-white/10 px-1 rounded">/home</code> yapabilir veya Nether'daysanız obsidiyen portalıyla geri dönebilirsiniz.</li>
+                                <li><em class="text-white/50">Küçük Bir İpucu: RTP ile harika bir yer bulduğunuzda, orayı kaybetmemek için hemen /home menünüzü açıp ev noktanızı belirlemeyi unutmayın!</em></li>
+                            </ul>
+                        </div>
+
+                        <!-- Claim -->
+                        <div>
+                            <h4 class="text-sm font-semibold text-white mb-2">Emeğini Güvenceye Al</h4>
+                            <p>OldFineCraft'ın uçsuz buçksuz dünyasında kendinize bir yer buldunuz, evinizi inşa ettiniz... Peki, burayı nasıl koruyacaksınız? İşte burada Claim (Arazi Koruma) sistemimiz devreye giriyor. Birkaç basit adımda evinizi hırsızlara ve kırıcılara karşı tamamen korunaklı hale getirebilirsiniz.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Altın Kürek Gücü:</span> Elinize bir altın kürek alarak korumak istediğiniz alanın iki çapraz köşesine sağ tıklamanız yeterlidir. Belirlediğiniz bu alan artık tamamen size aittir!</li>
+                                <li><span class="font-semibold text-white">Blok Biriktirme:</span> Sunucuda aktif olduğunuz her an "Claim Bloğu" kazanırsınız. Ne kadar çok vakit geçirirseniz, o kadar büyük arazileri koruma altına alabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Arkadaşlarını Ekle:</span> <code class="bg-white/10 px-1 rounded">/trust [isim]</code> komutunu kullanarak güvendiğin kişilere bölgende inşaat yapma izni verebilirsin.</li>
+                                <li><span class="font-semibold text-white">Tam Koruma:</span> Claim attığın bölgede sandıkların açılması, blokların kırılması ve diğer oyuncuların sana zarar vermesi (PvP) tamamen engellenir.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Sunucu Takvimi -->
+                        <div>
+                            <h4 class="text-sm font-semibold text-white mb-2">Sunucu Takvimi ve Sıfırlama</h4>
+                            <p>OldFineCraft düzenini korumak ve performansı zirvede tutmak için belirlenmiş rutinler aşağıdadır. Lütfen bu saatleri dikkate alarak planınızı yapın.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Genel Bakım Çalışması:</span> 2 günde bir, 22:00–00:00 arasında. Teknik iyileştirmeler ve sistem optimizasyonları yapılır. Bakım sırasında erişim kısıtlanacaktır.</li>
+                                <li><span class="font-semibold text-white">Günlük Sistem Restartı:</span> Her gece 00:00'da. Bellek temizliği ve performans tazelemesi için sunucu her gece yarısı yeniden başlatılır.</li>
+                                <li><span class="font-semibold text-white">End Dünyası Sıfırlanması:</span> Haftada bir. Ejderha, ganimetler ve Elytra'lar her hafta yenilenir.</li>
+                                <li><span class="font-semibold text-white">Nether Dünyası Sıfırlanması:</span> 2 ayda bir. Kaynak dengesini korumak adına Nether dünyası periyodik olarak sıfırlanır.</li>
+                            </ul>
+                            <p class="mt-3"><em class="text-white/50">Önemli Hatırlatmalar: Sıfırlanan dünyalarda (End ve Nether) bulunan tüm bloklar ve yapılar silinir. Değerli eşyalarınızı sıfırlama gününden önce ana dünyadaki güvenli bölgenize taşımayı unutmayın. Periyotler her an değişebilir, bu sebepten Discord sunucumuzun bildirimlerini açık tutmayı unutmayın.</em></p>
+                        </div>
+
+                        <!-- VIP -->
                         <p>Sunucumuza herkes gibi sunucu masraflarını karşılamak maksadıyla VIP seviyeleri getirdik: <strong style="color:#6a3ac2;">VIP</strong>, <strong style="color:#ffe14d;">MVP</strong>, <strong style="color:#74211b;">LEGEND</strong>. Mevcut VIP seçenekleri bunlardır ve yenisini eklemeyi düşünmüyoruz. Sadece VIP değil, bir birinden farklı ve avantajlı hoş ürünlerin fiyatına mağaza üzerinden bakabilir ve Azerbaycan, Türkiye banka kartınız hemen varsa ödeme gerçekleştirebilirsiniz! (Aynı zamanda kurucunun <a href="https://linktr.ee/SyosaS" target="_blank" rel="noopener" class="text-blue-400 underline hover:text-blue-300 transition-colors">Sosyal Medya</a> sayfalarını takip ederek indirim kodlarını anında kapabilirsiniz!)</p>
+
                     </div>
                 </div>
             </div>
@@ -231,46 +266,16 @@
                     Sunucu Kuralları:
                 </h3>
                 <div class="space-y-4 text-white/70">
-                    <div>
-                        <h4 class="text-sm font-bold text-white mb-0.5">1. Küfür ve Argo</h4>
-                        <p class="text-sm">Oyuncular arası huzuru bozacak ağır küfür ve hakaretler kesinlikle yasaktır.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white mb-0.5">2. Siyaset ve Din</h4>
-                        <p class="text-sm">Sunucu içerisinde tartışma yaratacak hassas konuların konuşulması yasaktır.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white mb-0.5">3. Hile Kullanımı</h4>
-                        <p class="text-sm">Her türlü hile, makro ve avantaj sağlayan üçüncü parti yazılımlar kalıcı ban sebebidir.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white mb-0.5">4. Bug Suistimali</h4>
-                        <p class="text-sm">Oyun içi açıkların bildirilmesi zorunludur; bu açıkları kendi lehine kullanmak yasaktır.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white mb-0.5">5. Küçük Düşürücü Davranışlar</h4>
-                        <p class="text-sm">Savaş sonrası rakip ekibi aşağılayıcı hareketlerde bulunmak hoş görülmeyecek hareketlerden biridir.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white mb-0.5">6. Kişisel Veri ve Gizlilik İhlali (Doxing)</h4>
-                        <p class="text-sm">Oyuncuların gerçek hayattaki isimlerini, fotoğraflarını, sosyal medya hesaplarını veya telefon numaralarını onlardan izinsiz paylaşmak kesinlikle yasaktır. Sanal ortamdaki tartışmaların gerçek hayata taşınması kalıcı ban sebebidir.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white mb-0.5">7. Gerçek Para ile Ticaret</h4>
-                        <p class="text-sm">Oyun içi eşyaların gerçek para karşılığında oyuncular arasında satılması yasaktır (Sadece resmi mağaza üzerinden işlem yapılabilir). Eğer genede ben yapacağım, daha ucuza alabilirim diyorsanız olacak sorumlulukları biz üstlenmiyoruz.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white mb-0.5">8. Görüntü Kirliliği ve Claim</h4>
-                        <p class="text-sm">Sunucu haritasında anlamsız, havada asılı duran blok yığınları veya çirkin yapılar oluşturmak, gereksiz yere claimler almak yasaktır.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white mb-0.5">9. Reklam</h4>
-                        <p class="text-sm">Başka Minecraft sunucularının veya alakasız platformların reklamını yapmak kesinlikle yasaktır.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white mb-0.5">10. Karar Saygısı</h4>
-                        <p class="text-sm">Yetkililerin verdiği kararlara saygı duyulmalı; bir itiraz varsa bu destek sistemi (Discord) üzerinden medeni bir şekilde yapılmalıdır.</p>
-                    </div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">1. Küfür ve Argo</h4><p class="text-sm">Oyuncular arası huzuru bozacak ağır küfür ve hakaretler kesinlikle yasaktır.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">2. Siyaset ve Din</h4><p class="text-sm">Sunucu içerisinde tartışma yaratacak hassas konuların konuşulması yasaktır.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">3. Hile Kullanımı</h4><p class="text-sm">Her türlü hile, makro ve avantaj sağlayan üçüncü parti yazılımlar kalıcı ban sebebidir.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">4. Bug Suistimali</h4><p class="text-sm">Oyun içi açıkların bildirilmesi zorunludur; bu açıkları kendi lehine kullanmak yasaktır.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">5. Küçük Düşürücü Davranışlar</h4><p class="text-sm">Savaş sonrası rakip ekibi aşağılayıcı hareketlerde bulunmak hoş görülmeyecek hareketlerden biridir.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">6. Kişisel Veri ve Gizlilik İhlali (Doxing)</h4><p class="text-sm">Oyuncuların gerçek hayattaki isimlerini, fotoğraflarını, sosyal medya hesaplarını veya telefon numaralarını onlardan izinsiz paylaşmak kesinlikle yasaktır. Sanal ortamdaki tartışmaların gerçek hayata taşınması kalıcı ban sebebidir.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">7. Gerçek Para ile Ticaret</h4><p class="text-sm">Oyun içi eşyaların gerçek para karşılığında oyuncular arasında satılması yasaktır (Sadece resmi mağaza üzerinden işlem yapılabilir). Eğer genede ben yapacağım, daha ucuza alabilirim diyorsanız olacak sorumlulukları biz üstlenmiyoruz.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">8. Görüntü Kirliliği ve Claim</h4><p class="text-sm">Sunucu haritasında anlamsız, havada asılı duran blok yığınları veya çirkin yapılar oluşturmak, gereksiz yere claimler almak yasaktır.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">9. Reklam</h4><p class="text-sm">Başka Minecraft sunucularının veya alakasız platformların reklamını yapmak kesinlikle yasaktır.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">10. Karar Saygısı</h4><p class="text-sm">Yetkililerin verdiği kararlara saygı duyulmalı; bir itiraz varsa bu destek sistemi (Discord) üzerinden medeni bir şekilde yapılmalıdır.</p></div>
                     <p class="text-xs text-white/30 pt-3 border-t border-white/10 leading-relaxed">
                         Hepimiz adil bir ortam isteriz, kurallar adil ortamı oluşturmak için vardır ve kurallara uymayan kim olursa olsun adil ortamı bozmamak gerekçesiyle cezalanır. Eğer kurallar hakkında bir itirazınız veya rahatsız olduğunuz bir konu varsa lütfen Discord sunucumuz üzerinden destek bileti açarak bize bildirin. Sunucumuzu seçtiğiniz için size teşekkür ediyoruz!
                     </p>
@@ -301,9 +306,7 @@
                         <label class="block text-sm text-white/60 mb-1">Şifre</label>
                         <input type="password" class="auth-input w-full rounded-md px-4 py-2 text-white focus:outline-none transition-colors" placeholder="••••••••">
                     </div>
-                    <button type="button" class="w-full text-white font-medium py-2 rounded-md transition-colors mt-4 submit-btn">
-                        Devam Et
-                    </button>
+                    <button type="button" class="w-full text-white font-medium py-2 rounded-md transition-colors mt-4 submit-btn">Devam Et</button>
                 </form>
             </div>
         </section>
