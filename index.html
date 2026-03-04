@@ -16,11 +16,11 @@
     <div id="mobile-overlay" class="mobile-overlay"></div>
 
     <nav class="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between relative">
             <div class="flex items-center gap-2 cursor-pointer" id="nav-logo">
-                <img src="images/logo.png" alt="OldFineCraft" class="w-11 h-11 object-contain">
+                <img src="images/logo.png" alt="OldFineCraft" class="w-11 h-11 md:w-13 md:h-13 object-contain">
             </div>
-            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-white/60">
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-white/60 absolute left-1/2 -translate-x-1/2">
                 <button class="nav-btn nav-underline active" data-target="home">Ana Sayfa</button>
                 <button class="nav-btn nav-underline" data-target="store">Mağaza</button>
                 <button class="nav-btn nav-underline" data-target="bakiye">Bakiye Yükle</button>
@@ -141,7 +141,7 @@
 
                         <!-- Lobi Yok -->
                         <div>
-                            <h4 class="text-sm font-semibold text-white mb-2">OldFineCraft'ta Geleneksel Bir Lobi Yok</h4>
+                            <h4 class="text-sm font-semibold text-white mb-2">Giriş Protokolü</h4>
                             <p>OldFineCraft'ta oyun deneyimini bölen, oyuncuyu zorunlu olarak durduran alışılmış lobi sistemini rafa kaldırdık. Bu karar, sunucumuzun temel yapısı olan Saf Hayatta Kalma (Survival) felsefesinin bir parçasıdır.</p>
                             <p class="mt-2">Birçok sunucuda lobi, her girişte aşmanız gereken zorunlu bir "bekleme odası" gibidir. Biz ise bu bariyeri ortadan kaldırarak macerayı doğrudan başlatıyoruz. OldFineCraft'a adım attığınız an, sunucumuzun o gizemli End boşluğunda kimliğinizi doğrular (giriş yapar) ve hiç vakit kaybetmeden dünyadaki en son konumunuza ışınlanırsınız.</p>
                             <p class="mt-2">Bizim için esas olan, oyuncunun oyun akışına kesintisiz bir şekilde adapte olmasıdır. Sunucumuzdaki diğer alanlar (bekleme veya etkinlik alanları gibi) sizin için zorunlu bir durak değil, oyun içinden dilediğiniz zaman erişebileceğiniz birer seçenektir.</p>
@@ -150,7 +150,7 @@
 
                         <!-- Bekleme Alanı -->
                         <div>
-                            <h4 class="text-sm font-semibold text-white mb-2">Macera Molası, İşlevsel Bekleme Alanı</h4>
+                            <h4 class="text-sm font-semibold text-white mb-2">İşlevsel Bekleme Alanı</h4>
                             <p>OldFineCraft'ta sizi oyuna girmekten alıkoyan zorunlu bir lobi olmadığını söylemiştik; ancak bu, vakit geçirebileceğiniz özel bir alanımız olmadığı anlamına gelmiyor! Aksine, hayatta kalma mücadelesine ara vermek veya gelişiminizi hızlandırmak istediğinizde uğrayabileceğiniz, tamamen işlevsel bir bekleme alanı tasarladık. Bu alan, sadece bir "durak" değil, gelişiminizi yönettiğiniz bir strateji merkezidir.</p>
                             <ul class="mt-3 space-y-1.5">
                                 <li><span class="font-semibold text-white">Ekonomi ve Tecrübe:</span> Kazandığınız oyun paralarını burada değerlendirebilir, doğrudan tecrübe puanı (XP) satın alarak karakterinizi güçlendirebilir ve çoğu oyun eşyalarını oyun parasıyla bekleme alanındaki marketten satın alabilirsiniz.</li>
@@ -317,7 +317,7 @@
         <div class="max-w-6xl mx-auto px-6 text-center flex flex-col items-center">
             <div class="flex items-center gap-2 mb-4">
                 <img src="images/logo.png" alt="Logo" class="w-7 h-7 object-contain">
-                <span class="font-bold text-white/80">OldFineCraft</span>
+                <span class="font-bold text-white/80" style="font-family:'Lexend',sans-serif; font-weight:900; letter-spacing:-0.02em;">OldFineCraft</span>
             </div>
             <p class="text-sm text-white/40">© 2026 OldFineCraft. Tüm hakları saklıdır. Minecraft veya Mojang ile resmi bir bağı yoktur.</p>
         </div>
