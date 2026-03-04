@@ -141,7 +141,7 @@ function initCopyBtn() {
     });
 }
 
-// ─── STAR BURST (only on copy) ───────────────────────────────
+// ─── NEON FLASH BURST (copy effect) ─────────────────────────
 function triggerStarBurst() {
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
@@ -150,71 +150,92 @@ function triggerStarBurst() {
     canvas.height = window.innerHeight;
     canvas.classList.add('burst-active');
 
-    const COUNT = 55;
-    const DURATION = 3000; // ms
+    const DURATION = 3000;
     const start = performance.now();
 
-    const particles = Array.from({ length: COUNT }, () => ({
+    // Create 4-6 random flash points
+    const flashes = Array.from({ length: 5 }, () => ({
         x: Math.random() * canvas.width,
-        y: -10 - Math.random() * 60,
-        size: 5 + Math.random() * 7,
-        speed: 2.5 + Math.random() * 4,
-        drift: (Math.random() - 0.5) * 1.2,
-        rotation: Math.random() * Math.PI * 2,
-        rotSp: (Math.random() - 0.5) * 0.08,
-        delay: Math.random() * 800, // stagger start
+        y: Math.random() * canvas.height,
+        delay: Math.random() * 1800,
+        duration: 600 + Math.random() * 600,
+        maxSize: 80 + Math.random() * 140,
+        born: null,
     }));
 
-    function drawStar(ctx, x, y, size, rot) {
+    function drawGeminiStar(ctx, x, y, size, alpha) {
         ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(rot);
-        const arm = size / 2;
-        const thin = size / 6;
+        ctx.globalAlpha = alpha;
+
+        // Outer soft glow
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, size * 1.8);
+        glow.addColorStop(0, 'rgba(255,255,255,0.18)');
+        glow.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = glow;
         ctx.beginPath();
-        ctx.moveTo(-arm, -thin); ctx.lineTo(-arm, thin);
-        ctx.lineTo(-thin, thin); ctx.lineTo(-thin, arm);
-        ctx.lineTo(thin, arm);  ctx.lineTo(thin, thin);
-        ctx.lineTo(arm, thin);  ctx.lineTo(arm, -thin);
-        ctx.lineTo(thin, -thin);ctx.lineTo(thin, -arm);
-        ctx.lineTo(-thin, -arm);ctx.lineTo(-thin, -thin);
-        ctx.closePath();
+        ctx.arc(x, y, size * 1.8, 0, Math.PI * 2);
         ctx.fill();
+
+        // 4-point star (Gemini style) - two elongated diamonds
+        ctx.fillStyle = 'rgba(255,255,255,1)';
+
+        // Vertical spike
+        ctx.beginPath();
+        ctx.moveTo(x, y - size);
+        ctx.quadraticCurveTo(x + size * 0.08, y, x, y + size);
+        ctx.quadraticCurveTo(x - size * 0.08, y, x, y - size);
+        ctx.fill();
+
+        // Horizontal spike
+        ctx.beginPath();
+        ctx.moveTo(x - size * 0.55, y);
+        ctx.quadraticCurveTo(x, y + size * 0.08, x + size * 0.55, y);
+        ctx.quadraticCurveTo(x, y - size * 0.08, x - size * 0.55, y);
+        ctx.fill();
+
+        // Bright core
+        const core = ctx.createRadialGradient(x, y, 0, x, y, size * 0.15);
+        core.addColorStop(0, 'rgba(255,255,255,1)');
+        core.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = core;
+        ctx.beginPath();
+        ctx.arc(x, y, size * 0.15, 0, Math.PI * 2);
+        ctx.fill();
+
         ctx.restore();
     }
 
-    let lastTs = null;
-
     function frame(ts) {
-        if (!lastTs) lastTs = ts;
         const elapsed = ts - start;
-        const dt = Math.min((ts - lastTs) / 16.67, 3);
-        lastTs = ts;
-
-        // Global fade out in last 30% of duration
-        const progress = elapsed / DURATION;
-        const globalAlpha = progress > 0.7 ? 1 - (progress - 0.7) / 0.3 : 1;
-
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        particles.forEach(p => {
-            if (elapsed < p.delay) return;
+        let anyActive = false;
 
-            p.y += p.speed * dt;
-            p.x += p.drift * dt;
-            p.rotation += p.rotSp * dt;
+        flashes.forEach(f => {
+            if (elapsed < f.delay) { anyActive = true; return; }
+            if (!f.born) f.born = ts;
 
-            // Individual brightness (bright at start, fade with progress)
-            const alpha = globalAlpha * (0.6 + 0.4 * Math.random()); // shimmer
+            const age = ts - f.born;
+            if (age > f.duration) return;
 
-            ctx.globalAlpha = alpha;
-            ctx.fillStyle = '#ffffff';
-            drawStar(ctx, p.x, p.y, p.size, p.rotation);
+            anyActive = true;
+            const progress = age / f.duration;
+
+            // Bell curve alpha: rises then fades
+            let alpha;
+            if (progress < 0.3) {
+                alpha = progress / 0.3;
+            } else if (progress < 0.6) {
+                alpha = 1;
+            } else {
+                alpha = 1 - (progress - 0.6) / 0.4;
+            }
+
+            const size = f.maxSize * Math.sin(progress * Math.PI);
+            drawGeminiStar(ctx, f.x, f.y, size, alpha);
         });
 
-        ctx.globalAlpha = 1;
-
-        if (elapsed < DURATION) {
+        if (elapsed < DURATION && anyActive) {
             requestAnimationFrame(frame);
         } else {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
