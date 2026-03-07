@@ -13,6 +13,12 @@ window.addEventListener('load', () => {
 // ─── PAGE REVEAL (fade in from black on load/refresh) ───────
 function initPageReveal() {
     const overlay = document.getElementById('page-overlay');
+    // Ensure home section is properly visible on first load
+    const homeSection = document.getElementById('view-home');
+    if (homeSection) {
+        homeSection.style.display = 'block';
+        homeSection.classList.add('active');
+    }
     overlay.classList.add('active');
     requestAnimationFrame(() => {
         setTimeout(() => {
@@ -69,7 +75,7 @@ function showView(target, authType = null, scrollTarget = null) {
         // Show target
         const el = document.getElementById('view-' + target);
         if (el) {
-            el.style.display = 'block';
+            el.style.display = target === 'auth' ? 'flex' : 'block';
             requestAnimationFrame(() => el.classList.add('active'));
         }
 
