@@ -47,10 +47,17 @@ body {
     opacity: 1;
     transform: translateY(0);
 }
+#view-auth.view-section.active {
+    display: flex;
+}
+#view-auth.view-section.active {
+    display: flex;
+}
 
 /* ─── FADE IN ─────────────────────────────── */
 .fade-in {
     animation: fadeIn 0.7s ease forwards;
+    animation-fill-mode: forwards;
     opacity: 0;
 }
 @keyframes fadeIn {
