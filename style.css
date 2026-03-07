@@ -361,3 +361,92 @@ body {
     background: rgba(255,255,255,0.05);
     color: white;
 }
+
+/* ─── AUTH REDESIGN ───────────────────────── */
+.auth-tab-bar {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 10px;
+    padding: 3px;
+    gap: 3px;
+}
+.auth-tab {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.4);
+    border-radius: 7px;
+    transition: background 0.2s, color 0.2s;
+    font-size: 0.875rem;
+}
+.auth-tab.active {
+    background: rgba(255,255,255,0.10);
+    color: white;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+}
+
+.auth-card-new {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+}
+
+.auth-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(116,33,27,0.18);
+    border: 1px solid rgba(116,33,27,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 24px rgba(116,33,27,0.25);
+}
+
+.auth-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.auth-field-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-input-new {
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: white;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+.auth-input-new::placeholder { color: rgba(255,255,255,0.2); }
+.auth-input-new:focus {
+    border-color: rgba(116,33,27,0.7);
+    box-shadow: 0 0 0 3px rgba(116,33,27,0.12);
+}
+
+.submit-btn-new {
+    background: var(--red);
+    box-shadow: 0 0 20px rgba(116,33,27,0.45);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.02em;
+}
+.submit-btn-new:hover {
+    background: #8b2920;
+    box-shadow: 0 0 32px rgba(116,33,27,0.6);
+    transform: translateY(-1px);
+}
+.submit-btn-new:active { transform: translateY(0); }
