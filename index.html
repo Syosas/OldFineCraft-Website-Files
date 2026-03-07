@@ -246,10 +246,12 @@
                                 <li><span class="font-semibold text-white">Hızlı Işınlanma:</span> Kaydettiğiniz evlerinize tek bir tıklama ile 3 saniyede ulaşın.</li>
                                 <li><span class="font-semibold text-white">Düzenli Yapı:</span> Evleriniz sizin seçtiğiniz ev noktasının sırasına göre kaydedilir, böylece hangi evin neresi olduğunu kolayca takip edebilirsiniz.</li>
                             </ul>
-                            <div class="mt-2 space-y-1">
-                                <p><em class="text-white/50">Ev Limitleri Hakkında Bilgilendirme:</em></p>
-                                <p>• <span class="font-semibold text-white">Sade Oyuncular:</span> En fazla 2 adet ev noktası kaydedebilir. Maceranız için en stratejik noktaları seçmeyi unutmayın!</p>
-                                <p>• <span class="font-semibold text-white">VIP Oyuncular:</span> VIP statünüze göre daha fazla ev kaydetme hakkına sahip olabilir ve haritanın dört bir yanına kendi ağınızı kurabilirsiniz.</p>
+                            <div class="mt-2">
+                                <p class="mb-2"><em class="text-white/50">Ev Limitleri Hakkında Bilgilendirme:</em></p>
+                                <ul class="space-y-1.5">
+                                    <li><span class="font-semibold text-white">Sade Oyuncular:</span> En fazla 2 adet ev noktası kaydedebilir. Maceranız için en stratejik noktaları seçmeyi unutmayın!</li>
+                                    <li><span class="font-semibold text-white">VIP Oyuncular:</span> VIP statünüze göre daha fazla ev kaydetme hakkına sahip olabilir ve haritanın dört bir yanına kendi ağınızı kurabilirsiniz.</li>
+                                </ul>
                             </div>
                         </div>
 
@@ -338,7 +340,12 @@
         <section id="view-auth" class="view-section max-w-md mx-auto px-6 py-24">
             <div class="auth-card p-8 rounded-2xl shadow-2xl">
                 <div class="flex justify-center mb-6">
-                    <img src="images/logo.png" alt="Logo" class="w-14 h-14 object-contain">
+                    <div class="w-16 h-16 rounded-full bg-white/8 border border-white/15 flex items-center justify-center">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="8" r="4" fill="rgba(255,255,255,0.35)"/>
+                            <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" stroke="rgba(255,255,255,0.35)" stroke-width="1.8" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                 </div>
                 <div class="flex gap-4 mb-8 border-b border-white/10 pb-4">
                     <button class="flex-1 text-center font-medium auth-tab active text-white" data-type="login">Giriş Yap</button>
