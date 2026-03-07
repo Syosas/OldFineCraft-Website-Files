@@ -271,15 +271,23 @@ function initAuthTabs() {
 function switchAuthTab(type) {
     const tabs = document.querySelectorAll('.auth-tab');
     const registerFields = document.getElementById('register-fields');
+    const titleBlock = document.getElementById('auth-title-block');
 
     tabs.forEach(t => {
         const active = t.dataset.type === type;
         t.classList.toggle('active', active);
-        t.style.color = active ? 'white' : 'rgba(255,255,255,0.5)';
     });
 
     if (registerFields) {
         registerFields.classList.toggle('hidden', type !== 'register');
+    }
+
+    if (titleBlock) {
+        if (type === 'register') {
+            titleBlock.innerHTML = '<h2 class="text-lg font-bold text-white mb-1">Hesap Oluştur</h2><p class="text-xs text-white/40">Sunucuya katıl ve efsaneni yazmaya başla</p>';
+        } else {
+            titleBlock.innerHTML = '<h2 class="text-lg font-bold text-white mb-1">Tekrar hoş geldin</h2><p class="text-xs text-white/40">Hesabına giriş yap ve macerana devam et</p>';
+        }
     }
 }
 
