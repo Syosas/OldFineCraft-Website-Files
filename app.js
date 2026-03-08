@@ -117,14 +117,17 @@ function initNavHoverEffect() {
     const navBtns = document.querySelectorAll('.nav-underline');
     navBtns.forEach(btn => {
         btn.addEventListener('mouseenter', () => {
-            // Temporarily show underline on hovered (non-active) btn via CSS hover — already handled
-            // But we need to suppress active underline visually while hovering another
             navBtns.forEach(b => {
-                if (b !== btn) b.classList.add('hover-suppressed');
+                if (b !== btn && b.classList.contains('active')) {
+                    b.classList.add('hover-suppressed');
+                }
             });
         });
         btn.addEventListener('mouseleave', () => {
-            navBtns.forEach(b => b.classList.remove('hover-suppressed'));
+            // Küçük gecikme ile geri al — ani kırmızı geçişi önler
+            setTimeout(() => {
+                navBtns.forEach(b => b.classList.remove('hover-suppressed'));
+            }, 80);
         });
     });
 }
