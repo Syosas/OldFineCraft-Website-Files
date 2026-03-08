@@ -204,11 +204,15 @@ body {
     min-height: calc(100vh - 65px);
     overflow: hidden;
     contain: layout;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 @media (max-width: 768px) {
     .hero-wrapper {
         min-height: unset;
         height: auto;
+        padding-bottom: 2rem;
     }
     .hero-bg {
         background-image: url('images/backgroundmob.png') !important;
