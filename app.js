@@ -73,11 +73,13 @@ function showView(target, authType = null, scrollTarget = null) {
         document.querySelectorAll('.view-section').forEach(s => {
             s.classList.remove('active');
             s.style.display = 'none';
+            s.style.transition = '';
         });
 
         // Show target
         const el = document.getElementById('view-' + target);
         if (el) {
+            el.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
             el.style.display = target === 'auth' ? 'flex' : 'block';
             requestAnimationFrame(() => el.classList.add('active'));
         }
