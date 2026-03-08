@@ -8,6 +8,7 @@ window.addEventListener('load', () => {
     initMobileMenu();
     initAuthTabs();
     injectStore();
+    initRememberMe();
 });
 
 // ─── PAGE REVEAL (fade in from black on load/refresh) ───────
@@ -288,6 +289,10 @@ function switchAuthTab(type) {
         registerFields.classList.toggle('hidden', type !== 'register');
     }
 
+    // Beni hatırla sadece login'de görünsün
+    const rememberRow = document.getElementById('remember-row');
+    if (rememberRow) rememberRow.style.display = type === 'login' ? 'flex' : 'none';
+
     if (titleBlock) {
         if (type === 'register') {
             titleBlock.innerHTML = '<h2 class="text-lg font-bold text-white mb-1">Hesap Oluştur</h2><p class="text-xs text-white/40">Sunucuya katıl ve efsaneni yazmaya başla</p>';
@@ -295,6 +300,51 @@ function switchAuthTab(type) {
             titleBlock.innerHTML = '<h2 class="text-lg font-bold text-white mb-1">Tekrar hoş geldin</h2><p class="text-xs text-white/40">Hesabına giriş yap ve macerana devam et</p>';
         }
     }
+}
+
+// Submit: beni hatırla aktifse kullanıcı adını kaydet
+document.addEventListener('click', e => {
+    if (e.target.closest('.submit-btn-new') && rememberEnabled) {
+        const userInput = document.querySelector('#auth-form input[type="text"]');
+        if (userInput && userInput.value.trim()) {
+            localStorage.setItem('ofc_remember', userInput.value.trim());
+        }
+    }
+});
+
+// ─── REMEMBER ME ─────────────────────────────────────────────
+let rememberEnabled = false;
+
+function initRememberMe() {
+    // Kayıtlı kullanıcı adı varsa doldur
+    const saved = localStorage.getItem('ofc_remember');
+    if (saved) {
+        rememberEnabled = true;
+        const userInput = document.querySelector('#auth-form input[type="text"]');
+        if (userInput) userInput.value = saved;
+        const box = document.getElementById('remember-box');
+        const check = document.getElementById('remember-check');
+        if (box) box.classList.add('checked');
+        if (check) check.classList.remove('hidden');
+    }
+}
+
+window.toggleRemember = function() {
+    rememberEnabled = !rememberEnabled;
+    const box = document.getElementById('remember-box');
+    const check = document.getElementById('remember-check');
+    if (box) box.classList.toggle('checked', rememberEnabled);
+    if (check) check.classList.toggle('hidden', !rememberEnabled);
+
+    if (!rememberEnabled) {
+        localStorage.removeItem('ofc_remember');
+    }
+};
+
+// Kayıt ol sekmesinde "Beni Hatırla" satırını gizle
+function updateRememberRow(type) {
+    const row = document.getElementById('remember-row');
+    if (row) row.style.display = type === 'login' ? 'flex' : 'none';
 }
 
 // ─── STORE ───────────────────────────────────────────────────
