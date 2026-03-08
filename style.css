@@ -50,6 +50,13 @@ body {
 #view-auth.view-section.active {
     display: flex;
 }
+/* Home section: ilk yüklemede transition olmadan anında görünür */
+#view-home {
+    display: block;
+    opacity: 1;
+    transform: none;
+    transition: none;
+}
 
 /* ─── FADE IN ─────────────────────────────── */
 .fade-in {
@@ -208,7 +215,6 @@ body {
     position: relative;
     min-height: calc(100dvh - 65px);
     overflow: hidden;
-    contain: layout;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
