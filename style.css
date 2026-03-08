@@ -207,7 +207,8 @@ body {
 }
 @media (max-width: 768px) {
     .hero-wrapper {
-        min-height: 100svh;
+        min-height: unset;
+        height: auto;
     }
     .hero-bg {
         background-image: url('images/backgroundmob.png') !important;
