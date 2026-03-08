@@ -462,3 +462,22 @@ body {
     transform: translateY(-1px);
 }
 .submit-btn-new:active { transform: translateY(0); }
+
+/* ─── REMEMBER ME ─────────────────────────── */
+.remember-checkbox {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.2s, background 0.2s;
+}
+.remember-checkbox.checked {
+    border-color: var(--red);
+    background: var(--red);
+}
