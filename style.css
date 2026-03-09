@@ -252,11 +252,15 @@ body {
 .hero-bg-wrap {
     position: relative;
 }
-@media (max-width: 768px) {
-    .hero-bg-wrap {
-        background-image: url('images/backgroundmob.png');
-        background-position: center center;
-    }
+@media (max-width:768px){
+
+.hero-bg-wrap{
+    min-height:65vh;
+    background-image:url('images/backgroundmob.png');
+    background-position:center bottom;
+}
+
+}
     .hero-bg-wrap::before {
         background: rgba(14, 14, 17, 0.62);
     }
