@@ -1,5 +1,5 @@
 // ─── INIT ──────────────────────────────────────────────────
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     if (window.lucide) window.lucide.createIcons();
     initPageReveal();
     initNav();
@@ -9,31 +9,41 @@ window.addEventListener('load', () => {
     initAuthTabs();
     injectStore();
     initRememberMe();
+    initSession();
 });
 
-// ─── PAGE REVEAL (fade in from black on load/refresh) ───────
+// ─── PAGE REVEAL ────────────────────────────────────────────
+// İlk yüklemede overlay görünmez, home section inline style ile gösterilir
 function initPageReveal() {
-    // Overlay sadece sayfa geçişlerinde kullanılır, ilk yüklemede dokunmuyoruz
     const overlay = document.getElementById('page-overlay');
     if (overlay) {
         overlay.style.opacity = '0';
         overlay.style.pointerEvents = 'none';
+    }
+    // Home section'ı kesin göster — CSS view-section:display:none'dan kurtarmak için
+    const home = document.getElementById('view-home');
+    if (home) {
+        home.style.display = 'block';
+        home.style.opacity = '1';
+        home.style.transform = 'none';
     }
 }
 
 // ─── PAGE TRANSITION ────────────────────────────────────────
 function transitionTo(cb) {
     const overlay = document.getElementById('page-overlay');
-    overlay.style.transition = 'opacity 0.25s ease';
-    overlay.classList.add('active');
+    overlay.style.transition = 'opacity 0.22s ease';
+    overlay.style.opacity = '1';
+    overlay.style.pointerEvents = 'all';
     setTimeout(() => {
         cb();
         if (window.lucide) window.lucide.createIcons();
         setTimeout(() => {
-            overlay.style.transition = 'opacity 0.4s ease';
-            overlay.classList.remove('active');
-        }, 60);
-    }, 260);
+            overlay.style.transition = 'opacity 0.38s ease';
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+        }, 50);
+    }, 230);
 }
 
 // ─── NAVIGATION ─────────────────────────────────────────────
@@ -43,7 +53,6 @@ function initNav() {
     document.querySelectorAll('.nav-btn').forEach(btn => {
         const target = btn.dataset.target;
         if (!target) return;
-
         btn.addEventListener('click', () => {
             const authType = btn.dataset.auth || null;
             const scrollTo = btn.dataset.scroll || null;
@@ -51,7 +60,6 @@ function initNav() {
             showView(target, authType, scrollTo);
         });
     });
-
     document.getElementById('nav-logo')?.addEventListener('click', () => showView('home'));
 }
 
@@ -59,32 +67,32 @@ function showView(target, authType = null, scrollTarget = null) {
     if (target === currentView && !scrollTarget && !authType) return;
 
     transitionTo(() => {
-        // Hide all
+        // Tüm section'ları gizle — inline style ile (CSS !important'ı geçersiz kılar)
         document.querySelectorAll('.view-section').forEach(s => {
             s.classList.remove('active', 'anim-enter');
             s.style.display = 'none';
+            s.style.opacity = '';
+            s.style.transform = '';
         });
 
-        // Show target
+        // Hedefi göster
         const el = document.getElementById('view-' + target);
         if (el) {
-            el.style.display = target === 'auth' ? 'flex' : 'block';
-            el.classList.remove('anim-enter');
-            void el.offsetWidth; // reflow
+            const displayVal = target === 'auth' ? 'flex' : 'block';
+            el.style.display = displayVal;
+            el.style.opacity = '1';
+            el.style.transform = 'none';
             el.classList.add('active', 'anim-enter');
-            // anim-enter class'ını animasyon bitince kaldır
             setTimeout(() => el.classList.remove('anim-enter'), 450);
         }
 
         currentView = target;
         updateNavActive(target, scrollTarget);
 
-        // Auth tab auto-switch
         if (target === 'auth' && authType) {
             switchAuthTab(authType);
         }
 
-        // Scroll to section within bilgiler view
         if (scrollTarget) {
             setTimeout(() => {
                 const sec = document.getElementById('section-' + scrollTarget);
@@ -95,6 +103,8 @@ function showView(target, authType = null, scrollTarget = null) {
                 }
             }, 350);
         }
+
+        window.scrollTo({ top: 0, behavior: 'instant' });
     });
 }
 
@@ -108,14 +118,12 @@ function updateNavActive(target, scrollTarget) {
     });
 }
 
-// Hover: underline slides to hovered button, returns to active on mouse leave
+// ─── NAV HOVER EFFECT ────────────────────────────────────────
 function initNavHoverEffect() {
     const navBtns = document.querySelectorAll('.nav-underline');
     navBtns.forEach(btn => {
         btn.addEventListener('mouseenter', () => {
-            navBtns.forEach(b => {
-                if (b !== btn) b.classList.add('hover-suppressed');
-            });
+            navBtns.forEach(b => { if (b !== btn) b.classList.add('hover-suppressed'); });
         });
         btn.addEventListener('mouseleave', () => {
             navBtns.forEach(b => b.classList.remove('hover-suppressed'));
@@ -128,19 +136,14 @@ function initCopyBtn() {
     const btn = document.getElementById('copy-ip-btn');
     const toast = document.getElementById('copy-toast');
     let toastTimer;
-
     btn?.addEventListener('click', () => {
         navigator.clipboard.writeText('oyna.oldfinecraft.online').then(() => {
-            // Toast
             clearTimeout(toastTimer);
             toast.classList.add('show');
             toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
-
-
         });
     });
 }
-
 
 // ─── MOBILE MENU ─────────────────────────────────────────────
 function initMobileMenu() {
@@ -170,46 +173,58 @@ function initAuthTabs() {
 
 function switchAuthTab(type) {
     const tabs = document.querySelectorAll('.auth-tab');
-    const registerFields = document.getElementById('register-fields');
+    const card = document.getElementById('auth-card-inner');
     const titleBlock = document.getElementById('auth-title-block');
-
-    tabs.forEach(t => {
-        const active = t.dataset.type === type;
-        t.classList.toggle('active', active);
-    });
-
-    if (registerFields) {
-        registerFields.classList.toggle('hidden', type !== 'register');
-    }
-
-    // Beni hatırla sadece login'de görünsün
+    const registerFields = document.getElementById('register-fields');
     const rememberRow = document.getElementById('remember-row');
-    if (rememberRow) rememberRow.style.display = type === 'login' ? 'flex' : 'none';
 
-    if (titleBlock) {
-        if (type === 'register') {
-            titleBlock.innerHTML = '<h2 class="text-lg font-bold text-white mb-1">Hesap Oluştur</h2><p class="text-xs text-white/40">Sunucuya katıl ve efsaneni yazmaya başla</p>';
-        } else {
-            titleBlock.innerHTML = '<h2 class="text-lg font-bold text-white mb-1">Tekrar hoş geldin</h2><p class="text-xs text-white/40">Hesabına giriş yap ve macerana devam et</p>';
-        }
+    // Tab butonları
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.type === type));
+
+    // Kart blur geçiş animasyonu
+    if (card) {
+        card.classList.add('auth-switching');
+        setTimeout(() => {
+            // İçerikleri değiştir
+            if (registerFields) registerFields.classList.toggle('hidden', type !== 'register');
+            if (rememberRow) rememberRow.style.display = type === 'login' ? 'flex' : 'none';
+            if (titleBlock) {
+                if (type === 'register') {
+                    titleBlock.innerHTML = '<h2 class="auth-title-text">Hesap Oluştur</h2><p class="auth-subtitle-text">Sunucuya katıl ve efsaneni yazmaya başla</p>';
+                } else {
+                    titleBlock.innerHTML = '<h2 class="auth-title-text">Tekrar hoş geldin</h2><p class="auth-subtitle-text">Hesabına giriş yap ve macerana devam et</p>';
+                }
+            }
+            card.classList.remove('auth-switching');
+            card.classList.add('auth-switched');
+            setTimeout(() => card.classList.remove('auth-switched'), 400);
+        }, 280);
     }
 }
 
-// Submit: beni hatırla aktifse kullanıcı adını kaydet
-document.addEventListener('click', e => {
-    if (e.target.closest('.submit-btn-new') && rememberEnabled) {
-        const userInput = document.querySelector('#auth-form input[type="text"]');
-        if (userInput && userInput.value.trim()) {
-            localStorage.setItem('ofc_remember', userInput.value.trim());
+// ─── SESSION (3 günde bir oturum kapatma) ───────────────────
+function initSession() {
+    const SESSION_KEY = 'ofc_session_ts';
+    const MAX_AGE = 3 * 24 * 60 * 60 * 1000; // 3 gün ms cinsinden
+    const now = Date.now();
+    const stored = localStorage.getItem(SESSION_KEY);
+
+    if (stored) {
+        const age = now - parseInt(stored, 10);
+        if (age > MAX_AGE) {
+            // Oturum süresi dolmuş — temizle
+            localStorage.removeItem('ofc_remember');
+            localStorage.removeItem(SESSION_KEY);
         }
+    } else {
+        localStorage.setItem(SESSION_KEY, String(now));
     }
-});
+}
 
 // ─── REMEMBER ME ─────────────────────────────────────────────
 let rememberEnabled = false;
 
 function initRememberMe() {
-    // Kayıtlı kullanıcı adı varsa doldur
     const saved = localStorage.getItem('ofc_remember');
     if (saved) {
         rememberEnabled = true;
@@ -228,17 +243,23 @@ window.toggleRemember = function() {
     const check = document.getElementById('remember-check');
     if (box) box.classList.toggle('checked', rememberEnabled);
     if (check) check.classList.toggle('hidden', !rememberEnabled);
-
     if (!rememberEnabled) {
         localStorage.removeItem('ofc_remember');
     }
 };
 
-// Kayıt ol sekmesinde "Beni Hatırla" satırını gizle
-function updateRememberRow(type) {
-    const row = document.getElementById('remember-row');
-    if (row) row.style.display = type === 'login' ? 'flex' : 'none';
-}
+// Submit tıklandığında remember me kaydet + session timestamp güncelle
+document.addEventListener('click', e => {
+    if (e.target.closest('.submit-btn-new')) {
+        if (rememberEnabled) {
+            const userInput = document.querySelector('#auth-form input[type="text"]');
+            if (userInput && userInput.value.trim()) {
+                localStorage.setItem('ofc_remember', userInput.value.trim());
+                localStorage.setItem('ofc_session_ts', String(Date.now()));
+            }
+        }
+    }
+});
 
 // ─── STORE ───────────────────────────────────────────────────
 function injectStore() {
