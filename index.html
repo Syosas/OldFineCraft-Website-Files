@@ -411,5 +411,31 @@
     </footer>
 
     <script type="module" src="app.js"></script>
+
+    <!-- INDEX PROBLEM FIX-->
+<script id="heroHeightFix">
+function fixHeroHeight(){
+  const hero = document.querySelector(".hero-bg-wrap");
+  if(!hero) return;
+
+  const nav = document.querySelector("header");
+  const navHeight = nav ? nav.offsetHeight : 0;
+
+  hero.style.minHeight = (window.innerHeight - navHeight) + "px";
+}
+
+/* İlk yükleme */
+document.addEventListener("DOMContentLoaded", fixHeroHeight);
+window.addEventListener("load", fixHeroHeight);
+
+/* Ekran değişirse */
+window.addEventListener("resize", fixHeroHeight);
+
+/* Sayfa görünürlüğü değişirse */
+document.addEventListener("visibilitychange", fixHeroHeight);
+
+/* SPA / sayfa geçişleri için */
+setTimeout(fixHeroHeight, 100);
+</script>
 </body>
 </html>
