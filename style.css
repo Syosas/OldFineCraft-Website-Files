@@ -15,6 +15,13 @@ body {
     background-image: radial-gradient(circle at 50% 0%, rgba(116, 33, 27, 0.07) 0%, transparent 55%);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeSpeed;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
 }
 
 /* ─── PAGE TRANSITION ─────────────────────── */
@@ -46,6 +53,7 @@ body {
     display: block;
     opacity: 1;
     transform: translateY(0);
+    min-height: calc(100vh - 64px - 97px); /* viewport - navbar - footer */
 }
 #view-auth.view-section.active {
     display: flex;
@@ -206,13 +214,16 @@ body {
 }
 
 /* ─── HERO ────────────────────────────────── */
-/* Arka plan doğrudan wrap'a verildi — ayrı absolute div YOK
-   Yükseklik tamamen içeriğe göre, siyah boşluk imkansız */
+/* Arka plan doğrudan wrap'a verildi — ayrı absolute div YOK */
 .hero-bg-wrap {
     background-image: url('images/background.png');
     background-position: 40% center;
     background-size: cover;
     background-repeat: no-repeat;
+    min-height: calc(100vh - 64px); /* navbar yüksekliği çıkarıldı */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .hero-content,
 .hero-cards {
@@ -235,6 +246,7 @@ body {
     .hero-bg-wrap {
         background-image: url('images/backgroundmob.png');
         background-position: center center;
+        min-height: calc(100vh - 64px);
     }
     .hero-bg-wrap::before {
         background: rgba(14, 14, 17, 0.62);
@@ -512,6 +524,7 @@ body {
 /* ─── AUTH SECTION FIX ────────────────────── */
 #view-auth.view-section.active {
     display: flex !important;
+    min-height: calc(100vh - 64px - 97px);
 }
 
 /* ─── AUTH KART GEÇİŞ ANİMASYONU ──────────── */
