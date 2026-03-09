@@ -61,17 +61,19 @@ function showView(target, authType = null, scrollTarget = null) {
     transitionTo(() => {
         // Hide all
         document.querySelectorAll('.view-section').forEach(s => {
-            s.classList.remove('active');
+            s.classList.remove('active', 'anim-enter');
             s.style.display = 'none';
-            s.style.transition = '';
         });
 
         // Show target
         const el = document.getElementById('view-' + target);
         if (el) {
-            el.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
             el.style.display = target === 'auth' ? 'flex' : 'block';
-            requestAnimationFrame(() => el.classList.add('active'));
+            el.classList.remove('anim-enter');
+            void el.offsetWidth; // reflow
+            el.classList.add('active', 'anim-enter');
+            // anim-enter class'ını animasyon bitince kaldır
+            setTimeout(() => el.classList.remove('anim-enter'), 450);
         }
 
         currentView = target;
@@ -134,112 +136,11 @@ function initCopyBtn() {
             toast.classList.add('show');
             toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
 
-            // Particle burst
-            triggerStarBurst();
+
         });
     });
 }
 
-// ─── NEON STAR BURST (copy effect) ──────────────────────────
-function triggerStarBurst() {
-    const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    canvas.classList.add('burst-active');
-
-    const DURATION = 5000;
-    const start = performance.now();
-
-    // 6 stars at random positions, staggered
-    const stars = Array.from({ length: 6 }, (_, i) => ({
-        x: 80 + Math.random() * (canvas.width - 160),
-        y: 80 + Math.random() * (canvas.height - 160),
-        delay: i * 550 + Math.random() * 200,
-        duration: 900 + Math.random() * 400,
-        maxSize: 55 + Math.random() * 70,
-        born: null,
-        done: false,
-    }));
-
-    // True 4-point star (diamond cross shape)
-    function draw4Star(x, y, size, alpha) {
-        ctx.save();
-        ctx.globalAlpha = alpha;
-
-        // Soft outer glow
-        const glow = ctx.createRadialGradient(x, y, 0, x, y, size * 2.2);
-        glow.addColorStop(0, 'rgba(255,255,255,0.22)');
-        glow.addColorStop(0.4, 'rgba(255,255,255,0.06)');
-        glow.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = glow;
-        ctx.beginPath();
-        ctx.arc(x, y, size * 2.2, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Vertical elongated spike
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.moveTo(x, y - size);
-        ctx.bezierCurveTo(x + size * 0.07, y - size * 0.3, x + size * 0.07, y + size * 0.3, x, y + size);
-        ctx.bezierCurveTo(x - size * 0.07, y + size * 0.3, x - size * 0.07, y - size * 0.3, x, y - size);
-        ctx.fill();
-
-        // Horizontal elongated spike (shorter)
-        ctx.beginPath();
-        ctx.moveTo(x - size * 0.6, y);
-        ctx.bezierCurveTo(x - size * 0.2, y + size * 0.07, x + size * 0.2, y + size * 0.07, x + size * 0.6, y);
-        ctx.bezierCurveTo(x + size * 0.2, y - size * 0.07, x - size * 0.2, y - size * 0.07, x - size * 0.6, y);
-        ctx.fill();
-
-        // Bright core dot
-        const core = ctx.createRadialGradient(x, y, 0, x, y, size * 0.2);
-        core.addColorStop(0, 'rgba(255,255,255,1)');
-        core.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = core;
-        ctx.beginPath();
-        ctx.arc(x, y, size * 0.2, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-    }
-
-    function frame(ts) {
-        const elapsed = ts - start;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        let anyVisible = elapsed < DURATION;
-
-        stars.forEach(s => {
-            if (elapsed < s.delay) return;
-            if (!s.born) s.born = ts;
-
-            const age = ts - s.born;
-            if (age > s.duration) { s.done = true; return; }
-
-            const p = age / s.duration;
-
-            // Sharp rise (0→0.25), hold (0.25→0.65), fade (0.65→1)
-            let alpha;
-            if (p < 0.25) alpha = p / 0.25;
-            else if (p < 0.65) alpha = 1;
-            else alpha = 1 - (p - 0.65) / 0.35;
-
-            const size = s.maxSize * Math.sin(p * Math.PI * 0.9 + 0.1);
-            draw4Star(s.x, s.y, size, alpha);
-        });
-
-        if (anyVisible) {
-            requestAnimationFrame(frame);
-        } else {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            canvas.classList.remove('burst-active');
-        }
-    }
-
-    requestAnimationFrame(frame);
-}
 
 // ─── MOBILE MENU ─────────────────────────────────────────────
 function initMobileMenu() {
