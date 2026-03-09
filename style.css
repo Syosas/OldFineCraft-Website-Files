@@ -206,52 +206,42 @@ body {
 }
 
 /* ─── HERO ────────────────────────────────── */
-
-.hero-bg-wrap{
-    position: relative;
-    overflow: hidden;
-    min-height: 70vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 80px 0;
+/* Arka plan doğrudan wrap'a verildi — ayrı absolute div YOK
+   Yükseklik tamamen içeriğe göre, siyah boşluk imkansız */
+.hero-bg-wrap {
+    background-image: url('images/background.png');
+    background-position: 40% center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
-
-.hero-bg-img{
-    position:absolute;
-    inset:0;
-    background-image:url("images/background.png");
-    background-size:cover;
-    background-position:left bottom;
-    background-repeat:no-repeat;
-    opacity:.45;
-    z-index:0;
-    pointer-events:none;
-}
-
 .hero-content,
-.hero-cards{
-    position:relative;
-    z-index:1;
+.hero-cards {
+    position: relative;
+    z-index: 1;
 }
-
-.hero-cards{
-    margin-top:40px;
+/* Arka planın solukluğu için içeriği pseudo-element ile kapat */
+.hero-bg-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(14, 14, 17, 0.57);
+    z-index: 0;
+    pointer-events: none;
 }
-
-@media (max-width:768px){
-
-    .hero-bg-wrap{
-        min-height:60vh;
-        padding:60px 0;
+.hero-bg-wrap {
+    position: relative;
+}
+@media (max-width: 768px) {
+    .hero-bg-wrap {
+        background-image: url('images/backgroundmob.png');
+        background-position: center center;
     }
-
-    .hero-bg-img{
-        background-image:url("images/backgroundmob.png");
-        background-position:center bottom;
-        opacity:.4;
+    .hero-bg-wrap::before {
+        background: rgba(14, 14, 17, 0.62);
     }
-
+    .hero-cards {
+        padding-bottom: 2rem;
+    }
 }
 
 /* ─── ONLINE BADGE ────────────────────────── */
