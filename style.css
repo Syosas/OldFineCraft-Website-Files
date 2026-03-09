@@ -209,39 +209,12 @@ body {
 }
 
 /* ─── HERO ────────────────────────────────── */
-/* Arka plan doğrudan wrap'a verildi — ayrı absolute div YOK
-   Yükseklik tamamen içeriğe göre, siyah boşluk imkansız */
-.hero-bg-wrap {
-    background-image: url('images/background.png');
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
 .hero-content,
 .hero-cards {
     position: relative;
     z-index: 1;
 }
-/* Arka planın solukluğu için içeriği pseudo-element ile kapat */
-.hero-bg-wrap::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(14, 14, 17, 0.57);
-    z-index: 0;
-    pointer-events: none;
-}
-.hero-bg-wrap {
-    position: relative;
-}
 @media (max-width: 768px) {
-    .hero-bg-wrap {
-        background-image: url('images/backgroundmob.png');
-        background-position: center center;
-    }
-    .hero-bg-wrap::before {
-        background: rgba(14, 14, 17, 0.62);
-    }
     .hero-cards {
         padding-bottom: 2rem;
     }
