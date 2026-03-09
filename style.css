@@ -210,9 +210,10 @@ body {
    Yükseklik tamamen içeriğe göre, siyah boşluk imkansız */
 .hero-bg-wrap {
     background-image: url('images/background.png');
-    background-position: 40% center;
-    background-size: cover;
+    background-position: 55% center;
+    background-size: 120% auto;
     background-repeat: no-repeat;
+    min-height: 520px;
 }
 .hero-content,
 .hero-cards {
