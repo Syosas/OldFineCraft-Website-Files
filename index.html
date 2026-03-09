@@ -128,10 +128,10 @@
         <section id="view-home" class="view-section active">
             <div class="hero-wrapper px-6" style="position:relative;">
                 <div class="hero-bg" style="position:absolute; inset:0; background-image: url('images/background.png'); background-position: 40% center; background-size: cover; background-repeat: no-repeat; opacity: 0.45; pointer-events:none;"></div>
-                <div class="flex flex-col items-center text-center space-y-6 py-16 max-w-6xl mx-auto" style="position:relative; z-index:1;">
+                <div class="flex flex-col items-center text-center space-y-6 pt-8 pb-4 max-w-6xl mx-auto" style="position:relative; z-index:1;">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full online-badge text-xs font-medium fade-in">
                         <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                        Sunucu Aktif — 0 Oyuncu Çevrimiçi
+                        Sunucu Aktif - 0 Oyuncu Çevrimiçi
                     </div>
                     <h1 class="hero-title fade-in" style="animation-delay:0.1s;">
                         Eskilerin Tarzında<br style="line-height:0.8;">Yeni Bir Macera
@@ -259,10 +259,12 @@
                                 <li><span class="font-semibold text-white">Hızlı Işınlanma:</span> Kaydettiğiniz evlerinize tek bir tıklama ile 3 saniyede ulaşın.</li>
                                 <li><span class="font-semibold text-white">Düzenli Yapı:</span> Evleriniz sizin seçtiğiniz ev noktasının sırasına göre kaydedilir, böylece hangi evin neresi olduğunu kolayca takip edebilirsiniz.</li>
                             </ul>
-                            <div class="mt-2 space-y-1">
-                                <p><em class="text-white/50">Ev Limitleri Hakkında Bilgilendirme:</em></p>
-                                <p>• <span class="font-semibold text-white">Sade Oyuncular:</span> En fazla 2 adet ev noktası kaydedebilir. Maceranız için en stratejik noktaları seçmeyi unutmayın!</p>
-                                <p>• <span class="font-semibold text-white">VIP Oyuncular:</span> VIP statünüze göre daha fazla ev kaydetme hakkına sahip olabilir ve haritanın dört bir yanına kendi ağınızı kurabilirsiniz.</p>
+                            <div class="mt-3">
+                                <p class="mb-2"><em class="text-white/50">Ev Limitleri Hakkında Bilgilendirme:</em></p>
+                                <ul class="space-y-1.5 list-disc list-outside pl-5">
+                                    <li><span class="font-semibold text-white">Sade Oyuncular:</span> En fazla 2 adet ev noktası kaydedebilir. Maceranız için en stratejik noktaları seçmeyi unutmayın!</li>
+                                    <li><span class="font-semibold text-white">VIP Oyuncular:</span> VIP statünüze göre daha fazla ev kaydetme hakkına sahip olabilir ve haritanın dört bir yanına kendi ağınızı kurabilirsiniz.</li>
+                                </ul>
                             </div>
                         </div>
 
@@ -348,30 +350,44 @@
         </section>
 
         <!-- Auth View -->
-        <section id="view-auth" class="view-section max-w-md mx-auto px-6 py-24">
-            <div class="auth-card p-8 rounded-2xl shadow-2xl">
-                <div class="flex justify-center mb-6">
-                    <img src="images/logo.png" alt="Logo" class="w-14 h-14 object-contain">
+        <section id="view-auth" class="view-section min-h-screen flex items-center justify-center px-6 py-16" style="background: radial-gradient(ellipse at 50% 0%, rgba(116,33,27,0.13) 0%, transparent 60%);">
+            <div class="w-full max-w-sm">
+                <div class="auth-tab-bar flex mb-6">
+                    <button class="auth-tab active flex-1 py-2.5 text-sm font-semibold rounded-l-lg" data-type="login">Giriş Yap</button>
+                    <button class="auth-tab flex-1 py-2.5 text-sm font-semibold rounded-r-lg" data-type="register">Kayıt Ol</button>
                 </div>
-                <div class="flex gap-4 mb-8 border-b border-white/10 pb-4">
-                    <button class="flex-1 text-center font-medium auth-tab active text-white" data-type="login">Giriş Yap</button>
-                    <button class="flex-1 text-center font-medium auth-tab text-white/50" data-type="register">Kayıt Ol</button>
+                <div class="auth-card-new rounded-2xl p-8">
+                    <div class="flex justify-center mb-6">
+                        <div class="auth-avatar">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="8" r="4" fill="rgba(255,255,255,0.5)"/>
+                                <path d="M4 20c0-3.866 3.582-7 8-7s8 3.134 8 7" stroke="rgba(255,255,255,0.5)" stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="auth-title-block" class="text-center mb-7">
+                        <h2 class="text-lg font-bold text-white mb-1">Tekrar hoş geldin</h2>
+                        <p class="text-xs text-white/40">Hesabına giriş yap ve macerana devam et</p>
+                    </div>
+                    <form id="auth-form" class="space-y-4">
+                        <div id="register-fields" class="hidden space-y-4">
+                            <div class="auth-field-wrap">
+                                <label class="auth-label">E-Posta</label>
+                                <input type="email" class="auth-input-new" placeholder="steve@minecraft.net">
+                            </div>
+                        </div>
+                        <div class="auth-field-wrap">
+                            <label class="auth-label">Kullanıcı Adı</label>
+                            <input type="text" class="auth-input-new" placeholder="Steve">
+                        </div>
+                        <div class="auth-field-wrap">
+                            <label class="auth-label">Şifre</label>
+                            <input type="password" class="auth-input-new" placeholder="••••••••">
+                        </div>
+                        <button type="button" class="submit-btn-new w-full py-2.5 rounded-lg text-white text-sm font-semibold mt-2">Devam Et</button>
+                    </form>
+                    <p class="text-center text-xs text-white/25 mt-6">OldFineCraft © 2026</p>
                 </div>
-                <form id="auth-form" class="space-y-4">
-                    <div id="register-fields" class="hidden">
-                        <label class="block text-sm text-white/60 mb-1">E-Posta</label>
-                        <input type="email" class="auth-input w-full rounded-md px-4 py-2 text-white focus:outline-none transition-colors mb-4" placeholder="steve@minecraft.net">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-white/60 mb-1">Kullanıcı Adı</label>
-                        <input type="text" class="auth-input w-full rounded-md px-4 py-2 text-white focus:outline-none transition-colors" placeholder="Steve">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-white/60 mb-1">Şifre</label>
-                        <input type="password" class="auth-input w-full rounded-md px-4 py-2 text-white focus:outline-none transition-colors" placeholder="••••••••">
-                    </div>
-                    <button type="button" class="w-full text-white font-medium py-2 rounded-md transition-colors mt-4 submit-btn">Devam Et</button>
-                </form>
             </div>
         </section>
 
