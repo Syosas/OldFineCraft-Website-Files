@@ -85,7 +85,7 @@
                 <button class="nav-btn nav-underline" data-target="kurallar">Kurallar</button>
             </div>
             <div class="flex items-center gap-3">
-                <button class="px-5 py-2 text-[#0e0e11] text-xs rounded-md transition-all nav-btn hidden md:block bg-white hover:bg-white/85" style="font-family:'Cinzel',serif; font-weight:700; letter-spacing:0.08em;" data-target="auth" data-auth="login">GİRİŞ YAP</button>
+                <button class="px-5 py-2 text-[#0e0e11] text-xs rounded-md transition-all nav-btn hidden md:block bg-white hover:bg-white/85" style="font-family:'Cinzel',serif; font-weight:900; letter-spacing:0.08em;" data-target="auth" data-auth="login">GİRİŞ YAP</button>
                 <button id="hamburger-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menü">
                     <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
                 </button>
@@ -327,15 +327,9 @@
 
         <!-- Auth View -->
         <section id="view-auth" class="view-section items-start justify-center px-6 pt-12 pb-16" style="background: radial-gradient(ellipse at 50% 0%, rgba(116,33,27,0.13) 0%, transparent 60%);">
-            <div class="w-full max-w-sm mx-auto">
+            <div class="w-full max-w-lg mx-auto">
 
-                <!-- Tab başlıkları — kutucuksuz, sadece yazı -->
-                <div class="flex justify-center gap-8 mb-8">
-                    <button id="tab-login-btn" class="auth-tab-plain active text-base font-black tracking-widest uppercase" data-type="login">GİRİŞ YAP</button>
-                    <button id="tab-register-btn" class="auth-tab-plain text-base font-black tracking-widest uppercase" data-type="register">KAYIT OL</button>
-                </div>
-
-                <div class="auth-card-new rounded-2xl p-8" id="auth-card-inner">
+                <div class="auth-card-new rounded-2xl p-10" id="auth-card-inner">
                     <div class="flex justify-center mb-6">
                         <div class="auth-avatar">
                             <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
@@ -369,12 +363,11 @@
                             </div>
                             <span class="text-xs text-white/40">Beni hatırla</span>
                         </div>
-                        <button type="button" class="submit-btn-new w-full py-2.5 rounded-lg text-white text-sm font-semibold mt-2">Devam Et</button>
+                        <button type="button" class="submit-btn-new w-full py-3 rounded-lg text-white text-sm font-semibold mt-2">Devam Et</button>
                     </form>
 
-                    <!-- Switch link -->
                     <p id="auth-switch-text" class="text-center text-xs text-white/40 mt-5">
-                        Hesabınız yok mu? Hemen bir tane oluştur — <button class="auth-switch-link" onclick="switchAuthTabFromLink('register')">Kayıt Ol</button>
+                        Hesabınız yok mu? <button class="auth-switch-link" onclick="switchAuthTabFromLink('register')">Hemen bir tane oluştur</button>
                     </p>
                 </div>
             </div>
