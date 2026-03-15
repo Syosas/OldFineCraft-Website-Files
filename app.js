@@ -86,10 +86,10 @@ function showView(target, authType = null, scrollTarget = null) {
         currentView = target;
         updateNavActive(target, scrollTarget);
 
-        // URL hash güncelle
-        const hashMap = { home: '', store: 'magaza', bakiye: 'bakiye', bilgiler: 'bilgiler', kurallar: 'kurallar', auth: 'giris' };
-        const hash = hashMap[target] || target;
-        history.replaceState(null, '', hash ? '#' + hash : window.location.pathname);
+        // URL güncelle
+        const urlMap = { home: '/', store: '/magaza', bakiye: '/bakiye', bilgiler: '/bilgiler', kurallar: '/kurallar', auth: '/giris' };
+        const url = urlMap[target] || '/' + target;
+        history.replaceState(null, '', url);
 
         if (target === 'auth' && authType) {
             switchAuthTab(authType);
@@ -263,18 +263,13 @@ document.addEventListener('click', e => {
     }
 });
 
-// ─── HASH ROUTING ────────────────────────────────────────────
+// ─── PATH ROUTING ────────────────────────────────────────────
 function initHashRouting() {
-    const hashMap = { magaza: 'store', bakiye: 'bakiye', bilgiler: 'bilgiler', kurallar: 'kurallar', giris: 'auth' };
-    const hash = window.location.hash.replace('#', '');
-    if (hash && hashMap[hash]) {
-        showView(hashMap[hash]);
+    const pathMap = { '/magaza': 'store', '/bakiye': 'bakiye', '/bilgiler': 'bilgiler', '/kurallar': 'kurallar', '/giris': 'auth' };
+    const path = window.location.pathname;
+    if (path && pathMap[path]) {
+        showView(pathMap[path]);
     }
-    window.addEventListener('hashchange', () => {
-        const h = window.location.hash.replace('#', '');
-        if (h && hashMap[h]) showView(hashMap[h]);
-        else if (!h) showView('home');
-    });
 }
 
 // ─── STORE ───────────────────────────────────────────────────
