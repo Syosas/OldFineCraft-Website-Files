@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="canonical" href="https://oldfinecraft.online/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OldFineCraft | Efsanevi Macera</title>
+    <title>OldFineCraft</title>
     <meta name="description" content="OldFineCraft — Klasik Minecraft hayatta kalma deneyimi. Katıl, inşa et, efsaneni yaz!">
     <meta name="keywords" content="OldFineCraft, Minecraft sunucu, survival, Türkçe Minecraft, hayatta kalma">
     <meta name="robots" content="index, follow">
@@ -16,15 +16,8 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="OldFineCraft">
-    <meta property="og:title" content="OldFineCraft | Efsanevi Macera">
-    <meta property="og:description" content="Klasik Minecraft hayatta kalma deneyimi. Katıl, inşa et, efsaneni yaz!">
-    <meta property="og:url" content="https://oldfinecraft.online/">
-    <meta property="og:image" content="https://oldfinecraft.online/images/logo.png">
-    <meta property="og:locale" content="tr_TR">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="OldFineCraft | Efsanevi Macera">
+    <meta property="og:title" content="OldFineCraft">
+    <meta name="twitter:title" content="OldFineCraft">
     <meta name="twitter:description" content="Klasik Minecraft hayatta kalma deneyimi.">
     <meta name="twitter:image" content="https://oldfinecraft.online/images/logo.png">
 
@@ -93,7 +86,7 @@
             </div>
             <div class="flex items-center gap-3">
                 <button class="text-sm font-medium text-white hover:text-white/80 transition-colors nav-btn hidden md:block" data-target="auth" data-auth="login">Giriş Yap</button>
-                <button class="px-4 py-2 text-white text-sm font-medium rounded-md transition-all nav-btn hidden md:block register-btn" data-target="auth" data-auth="register">Kayıt Ol</button>
+                <button class="px-4 py-2 text-[#0e0e11] text-sm font-bold rounded-md transition-all nav-btn hidden md:block bg-white hover:bg-white/85 tracking-wide" data-target="auth" data-auth="register">KAYIT OL</button>
                 <button id="hamburger-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menü">
                     <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
                 </button>
@@ -349,10 +342,13 @@
         <!-- Auth View -->
         <section id="view-auth" class="view-section items-start justify-center px-6 pt-12 pb-16" style="background: radial-gradient(ellipse at 50% 0%, rgba(116,33,27,0.13) 0%, transparent 60%);">
             <div class="w-full max-w-sm mx-auto">
-                <div class="auth-tab-bar flex mb-6">
-                    <button class="auth-tab active flex-1 py-2.5 text-sm font-semibold rounded-l-lg" data-type="login">Giriş Yap</button>
-                    <button class="auth-tab flex-1 py-2.5 text-sm font-semibold rounded-r-lg" data-type="register">Kayıt Ol</button>
+
+                <!-- Tab başlıkları — kutucuksuz, sadece yazı -->
+                <div class="flex justify-center gap-8 mb-8">
+                    <button id="tab-login-btn" class="auth-tab-plain active text-base font-bold tracking-widest uppercase" data-type="login">GİRİŞ YAP</button>
+                    <button id="tab-register-btn" class="auth-tab-plain text-base font-bold tracking-widest uppercase" data-type="register">KAYIT OL</button>
                 </div>
+
                 <div class="auth-card-new rounded-2xl p-8" id="auth-card-inner">
                     <div class="flex justify-center mb-6">
                         <div class="auth-avatar">
@@ -389,7 +385,12 @@
                         </div>
                         <button type="button" class="submit-btn-new w-full py-2.5 rounded-lg text-white text-sm font-semibold mt-2">Devam Et</button>
                     </form>
-                    <p class="text-center text-xs text-white/25 mt-6">OldFineCraft © 2026</p>
+
+                    <!-- Giriş Yap altı: Hesabınız yok mu? -->
+                    <p id="auth-switch-text" class="text-center text-xs text-white/40 mt-5">
+                        Hesabınız yok mu?
+                        <button id="auth-switch-btn" class="auth-switch-link ml-1" onclick="switchAuthTabFromLink('register')">Kayıt Ol</button>
+                    </p>
                 </div>
             </div>
         </section>
