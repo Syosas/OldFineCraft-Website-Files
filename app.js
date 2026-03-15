@@ -168,17 +168,21 @@ function closeMobileMenu() {
 
 // ─── AUTH TABS ───────────────────────────────────────────────
 function initAuthTabs() {
-    document.querySelectorAll('.auth-tab').forEach(tab => {
+    document.querySelectorAll('.auth-tab-plain').forEach(tab => {
         tab.addEventListener('click', () => switchAuthTab(tab.dataset.type));
     });
 }
 
+window.switchAuthTabFromLink = function(type) { switchAuthTab(type); };
+
 function switchAuthTab(type) {
-    const tabs = document.querySelectorAll('.auth-tab');
+    const tabs = document.querySelectorAll('.auth-tab-plain');
     const card = document.getElementById('auth-card-inner');
     const titleBlock = document.getElementById('auth-title-block');
     const registerFields = document.getElementById('register-fields');
     const rememberRow = document.getElementById('remember-row');
+    const switchText = document.getElementById('auth-switch-text');
+    const switchBtn = document.getElementById('auth-switch-btn');
 
     // Tab butonları
     tabs.forEach(t => t.classList.toggle('active', t.dataset.type === type));
@@ -187,7 +191,6 @@ function switchAuthTab(type) {
     if (card) {
         card.classList.add('auth-switching');
         setTimeout(() => {
-            // İçerikleri değiştir
             if (registerFields) registerFields.classList.toggle('hidden', type !== 'register');
             if (rememberRow) rememberRow.style.display = type === 'login' ? 'flex' : 'none';
             if (titleBlock) {
@@ -195,6 +198,14 @@ function switchAuthTab(type) {
                     titleBlock.innerHTML = '<h2 class="auth-title-text">Hesap Oluştur</h2><p class="auth-subtitle-text">Sunucuya katıl ve efsaneni yazmaya başla</p>';
                 } else {
                     titleBlock.innerHTML = '<h2 class="auth-title-text">Tekrar hoş geldin</h2><p class="auth-subtitle-text">Hesabına giriş yap ve macerana devam et</p>';
+                }
+            }
+            // Switch link güncelle
+            if (switchText && switchBtn) {
+                if (type === 'login') {
+                    switchText.innerHTML = 'Hesabınız yok mu? <button class="auth-switch-link ml-1" onclick="switchAuthTabFromLink(\'register\')">Kayıt Ol</button>';
+                } else {
+                    switchText.innerHTML = 'Hesabın var mı? <button class="auth-switch-link ml-1" onclick="switchAuthTabFromLink(\'login\')">Giriş Yap</button>';
                 }
             }
             card.classList.remove('auth-switching');
