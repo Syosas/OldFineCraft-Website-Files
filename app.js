@@ -201,11 +201,11 @@ function switchAuthTab(type) {
                 }
             }
             // Switch link güncelle
-            if (switchText && switchBtn) {
+            if (switchText) {
                 if (type === 'login') {
-                    switchText.innerHTML = 'Hesabınız yok mu? <button class="auth-switch-link ml-1" onclick="switchAuthTabFromLink(\'register\')">Kayıt Ol</button>';
+                    switchText.innerHTML = 'Hesabınız yok mu? Hemen bir tane oluştur — <button class="auth-switch-link" onclick="switchAuthTabFromLink(\'register\')">Kayıt Ol</button>';
                 } else {
-                    switchText.innerHTML = 'Hesabın var mı? <button class="auth-switch-link ml-1" onclick="switchAuthTabFromLink(\'login\')">Giriş Yap</button>';
+                    switchText.innerHTML = 'Hesabın var mı? — <button class="auth-switch-link" onclick="switchAuthTabFromLink(\'login\')">Giriş Yap</button>';
                 }
             }
             card.classList.remove('auth-switching');
