@@ -84,43 +84,40 @@ main {
     background-clip: text;
 }
 
-/* ─── NAV UNDERLINE HOVER ─────────────────── */
+/* ─── NAV ITEM HOVER & ACTIVE ─────────────────── */
 .nav-underline {
     position: relative;
-    padding-bottom: 2px;
-    transition: color 0.55s ease;
-    color: rgba(255,255,255,0.6);
+    padding: 4px 10px;
+    border-radius: 999px;
+    transition: color 0.25s ease;
+    color: rgba(255,255,255,0.5);
+    z-index: 0;
 }
-.nav-underline::after {
+/* Kırmızı arka plan pill — aktif sayfa */
+.nav-underline::before {
     content: '';
     position: absolute;
-    bottom: -20px;
-    left: 0;
-    width: 0;
-    height: 2px;
+    inset: 0;
+    border-radius: 999px;
     background-color: var(--red);
-    border-radius: 2px;
-    transition: width 0.55s ease;
-    will-change: width;
+    box-shadow: 0 0 14px var(--red-glow);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    z-index: -1;
 }
 .nav-underline:hover {
-    color: rgba(255,255,255,0.9);
-    transition: color 0.55s ease;
-}
-.nav-underline:hover::after {
-    width: 100%;
+    color: rgba(255,255,255,0.95);
 }
 .nav-underline.active {
     color: white;
 }
-.nav-underline.active::after {
-    width: 100%;
+.nav-underline.active::before {
+    opacity: 1;
 }
-.nav-underline.active.hover-suppressed::after {
-    width: 0;
-    transition: width 0.55s ease;
+/* hover-suppressed: diğer butonlar soluklaşsın */
+.nav-underline.active.hover-suppressed::before {
+    opacity: 1;
 }
-/* hover-suppressed durumunda rengi değiştirme */
 .nav-underline.active.hover-suppressed {
     color: white;
 }
