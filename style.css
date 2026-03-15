@@ -395,26 +395,52 @@ main {
 }
 
 /* ─── AUTH REDESIGN ───────────────────────── */
-.auth-tab-bar {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 10px;
-    padding: 3px;
-    gap: 3px;
-}
-.auth-tab {
-    cursor: pointer;
+/* Eski kutucuklu tab bar kaldırıldı — sadece yazı tabları */
+.auth-tab-plain {
+    background: none;
     border: none;
-    background: transparent;
-    color: rgba(255,255,255,0.4);
-    border-radius: 7px;
-    transition: background 0.2s, color 0.2s;
-    font-size: 0.875rem;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    color: rgba(255,255,255,0.25);
+    transition: color 0.2s ease;
+    padding: 0;
+    position: relative;
 }
-.auth-tab.active {
-    background: rgba(255,255,255,0.10);
+.auth-tab-plain::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: width 0.25s ease;
+}
+.auth-tab-plain.active {
     color: white;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+}
+.auth-tab-plain.active::after {
+    width: 100%;
+}
+.auth-tab-plain:hover {
+    color: rgba(255,255,255,0.7);
+}
+
+/* Switch link (Hesabınız yok mu? Kayıt Ol) */
+.auth-switch-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    color: var(--red);
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0;
+    transition: color 0.2s;
+}
+.auth-switch-link:hover {
+    color: #a03028;
 }
 
 .auth-card-new {
