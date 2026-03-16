@@ -45,30 +45,27 @@ main {
     display: none;
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.35s ease,
-                transform 0.35s ease;
     will-change: opacity, transform;
 }
 .view-section.active {
     display: block;
     opacity: 1;
     transform: translateY(0);
-    min-height: calc(100vh - 64px - 97px); /* viewport - navbar - footer */
+    min-height: calc(100vh - 64px - 97px);
 }
 #view-auth.view-section.active {
     display: flex;
+    align-items: center;
+    min-height: calc(100vh - 64px - 97px);
 }
 
-
-/* ─── FADE IN ─────────────────────────────── */
 .fade-in {
-    animation: fadeIn 0.7s ease forwards;
-    animation-fill-mode: forwards;
+    animation: popIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     opacity: 0;
 }
-@keyframes fadeIn {
-    0%   { opacity: 0; transform: translateY(16px); }
-    100% { opacity: 1; transform: translateY(0); }
+@keyframes popIn {
+    0%   { opacity: 0; transform: translateY(20px) scale(0.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* ─── HERO TITLE ──────────────────────────── */
@@ -562,28 +559,10 @@ main {
     background: var(--red);
 }
 
-/* ─── HOME: İLK YÜKLEME FIX ──────────────── */
-/* JS initPageReveal() inline style ile handle eder.
-   CSS'de sadece fade-in delay ayarı var */
 #view-home .fade-in {
     animation-delay: 0.05s;
 }
 
-/* ─── SAYFA GEÇİŞİ ANİMASYONU ─────────────── */
-.view-section.anim-enter {
-    animation: sectionEnter 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-@keyframes sectionEnter {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ─── AUTH SECTION FIX ────────────────────── */
-#view-auth.view-section.active {
-    display: flex !important;
-    align-items: center;
-    min-height: calc(100vh - 64px - 97px);
-}
 
 /* ─── AUTH KART GEÇİŞ ANİMASYONU ──────────── */
 .auth-title-text {
