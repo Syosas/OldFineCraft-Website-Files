@@ -218,18 +218,21 @@ function switchAuthTab(type) {
 // ─── SESSION (3 günde bir oturum kapatma) ───────────────────
 function initSession() {
     const SESSION_KEY = 'ofc_session_ts';
-    const MAX_AGE = 3 * 24 * 60 * 60 * 1000; // 3 gün ms cinsinden
+    const REMEMBER_KEY = 'ofc_remember';
+    const MAX_AGE = 3 * 24 * 60 * 60 * 1000;
     const now = Date.now();
     const stored = localStorage.getItem(SESSION_KEY);
+    const remembered = localStorage.getItem(REMEMBER_KEY);
 
-    if (stored) {
+    if (stored && remembered) {
         const age = now - parseInt(stored, 10);
         if (age > MAX_AGE) {
-            // Oturum süresi dolmuş — temizle
-            localStorage.removeItem('ofc_remember');
+            localStorage.removeItem(REMEMBER_KEY);
             localStorage.removeItem(SESSION_KEY);
+            const modal = document.getElementById('session-modal');
+            if (modal) modal.style.display = 'flex';
         }
-    } else {
+    } else if (!stored) {
         localStorage.setItem(SESSION_KEY, String(now));
     }
 }
