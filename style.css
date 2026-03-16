@@ -100,8 +100,9 @@ main {
     transform-origin: top center;
     width: 100%;
     height: 2px;
-    background: white;
+    background: var(--red);
     border-radius: 2px;
+    box-shadow: 0 0 8px var(--red-glow);
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .nav-underline:hover {
@@ -145,16 +146,16 @@ main {
 
 /* ─── IP COPY BUTTON ──────────────────────── */
 .ip-btn {
-    background: #FFB300;
-    color: #0e0e11;
+    background: var(--red);
+    color: white;
     cursor: pointer;
     font-weight: 700;
     transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 0 18px rgba(255,179,0,0.35);
+    box-shadow: 0 0 18px var(--red-glow);
 }
 .ip-btn:hover {
-    background: #e6a200;
-    box-shadow: 0 0 30px rgba(255,179,0,0.55);
+    background: #8b2920;
+    box-shadow: 0 0 30px rgba(116,33,27,0.6);
 }
 
 /* ─── COPY TOAST ──────────────────────────── */
