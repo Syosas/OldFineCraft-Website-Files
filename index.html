@@ -1,225 +1,397 @@
-window.addEventListener('DOMContentLoaded', () => {
-    if (window.lucide) window.lucide.createIcons();
-    initNav();
-    initNavHoverEffect();
-    initCopyBtn();
-    initMobileMenu();
-    initAuthTabs();
-    injectStore();
-    initSession();
-    initRouting();
-});
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="canonical" href="https://oldfinecraft.online/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OldFineCraft</title>
+    <meta name="description" content="OldFineCraft — Klasik Minecraft hayatta kalma deneyimi. Katıl, inşa et, efsaneni yaz!">
+    <meta name="keywords" content="OldFineCraft, Minecraft sunucu, survival, Türkçe Minecraft, hayatta kalma">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="OldFineCraft">
+    <meta name="application-name" content="OldFineCraft">
+    <meta name="apple-mobile-web-app-title" content="OldFineCraft">
+    <meta name="theme-color" content="#0e0e11">
 
-function initRouting() {
-    const pathMap = {
-        '/magaza': { view: 'store' },
-        '/bakiye': { view: 'bakiye' },
-        '/bilgiler': { view: 'bilgiler' },
-        '/kurallar': { view: 'kurallar' },
-        '/giris': { view: 'auth', auth: 'login' },
-        '/kayit': { view: 'auth', auth: 'register' }
-    };
-    const path = window.location.pathname;
-    const entry = pathMap[path];
-    if (entry) {
-        revealView(entry.view, entry.auth || null);
-    } else {
-        revealView('home');
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="OldFineCraft">
+    <meta property="og:title" content="OldFineCraft">
+    <meta name="twitter:title" content="OldFineCraft">
+    <meta name="twitter:description" content="Klasik Minecraft hayatta kalma deneyimi.">
+    <meta name="twitter:image" content="https://oldfinecraft.online/images/logo.png">
+
+    <!-- Schema.org: WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "OldFineCraft",
+      "alternateName": "OldFineCraft Minecraft Sunucusu",
+      "url": "https://oldfinecraft.online/",
+      "description": "Klasik Minecraft hayatta kalma deneyimi.",
+      "inLanguage": "tr"
     }
-}
+    </script>
 
-function revealView(target, authType) {
-    document.querySelectorAll('.view-section').forEach(s => {
-        s.classList.remove('active');
-        s.style.cssText = 'display:none;';
-    });
-    const el = document.getElementById('view-' + target);
-    if (el) {
-        const d = target === 'auth' ? 'flex' : 'block';
-        el.style.cssText = `display:${d};opacity:1;transform:none;`;
-        el.classList.add('active');
+    <!-- Schema.org: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "OldFineCraft",
+       "url": "https://oldfinecraft.online/",
+      "logo": "https://oldfinecraft.online/images/logo.png"
     }
-    currentView = target;
-    updateNavActive(target);
-    if (target === 'auth' && authType) switchAuthTab(authType);
-    if (window.lucide) window.lucide.createIcons();
-}
+    </script>
 
-let currentView = 'home';
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/android-chrome-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 
-function initNav() {
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        const target = btn.dataset.target;
-        if (!target) return;
-        btn.addEventListener('click', () => {
-            closeMobileMenu();
-            showView(target, btn.dataset.auth || null, btn.dataset.scroll || null);
-        });
-    });
-    document.getElementById('nav-logo')?.addEventListener('click', () => showView('home'));
-}
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
 
-function showView(target, authType, scrollTarget) {
-    if (target === currentView && !scrollTarget && !authType) return;
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Uncial+Antiqua&family=Inter:wght@300;400;500;600;700&family=Lexend:wght@900&display=swap" rel="stylesheet">
 
-    const leaving = document.getElementById('view-' + currentView);
-    if (leaving) {
-        leaving.style.transition = 'opacity 0.16s ease, transform 0.16s ease';
-        leaving.style.opacity = '0';
-        leaving.style.transform = 'translateY(-6px)';
-    }
+    <!-- Tailwind + Lucide -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#0e0e11] text-[#ededed] font-sans antialiased selection:bg-[#74211b]/30">
+    <div id="page-overlay"></div>
+    <div id="copy-toast"><div class="toast-icon"><i data-lucide="check" style="width:12px;height:12px;"></i></div><span>Kopyalandı!</span></div>
+    <canvas id="particle-canvas"></canvas>
+    <div id="mobile-overlay" class="mobile-overlay"></div>
 
-    setTimeout(() => {
-        document.querySelectorAll('.view-section').forEach(s => {
-            s.classList.remove('active');
-            s.style.cssText = 'display:none;';
-        });
-
-        const el = document.getElementById('view-' + target);
-        if (el) {
-            const d = target === 'auth' ? 'flex' : 'block';
-            el.style.cssText = `display:${d};opacity:0;transform:translateY(10px);transition:opacity 0.28s ease,transform 0.28s ease;`;
-            el.classList.add('active');
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-            }));
-        }
-
-        currentView = target;
-        updateNavActive(target, scrollTarget);
-
-        const urlMap = { home: '/', store: '/magaza', bakiye: '/bakiye', bilgiler: '/bilgiler', kurallar: '/kurallar', auth: authType === 'register' ? '/kayit' : '/giris' };
-        history.replaceState(null, '', urlMap[target] || '/' + target);
-
-        if (target === 'auth' && authType) switchAuthTab(authType);
-
-        if (scrollTarget) {
-            setTimeout(() => {
-                const sec = document.getElementById('section-' + scrollTarget);
-                if (sec) {
-                    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    sec.classList.add('highlight');
-                    setTimeout(() => sec.classList.remove('highlight'), 1200);
-                }
-            }, 320);
-        }
-
-        if (window.lucide) window.lucide.createIcons();
-        window.scrollTo({ top: 0, behavior: 'instant' });
-    }, 165);
-}
-
-function updateNavActive(target, scrollTarget) {
-    document.querySelectorAll('.nav-underline').forEach(btn => {
-        const same = btn.dataset.target === target && (scrollTarget ? btn.dataset.scroll === scrollTarget : !btn.dataset.scroll);
-        btn.classList.toggle('active', same);
-        btn.style.color = same ? 'white' : '';
-    });
-}
-
-function initNavHoverEffect() {
-    const btns = document.querySelectorAll('.nav-underline');
-    btns.forEach(btn => {
-        btn.addEventListener('mouseenter', () => btns.forEach(b => { if (b !== btn) b.classList.add('hover-suppressed'); }));
-        btn.addEventListener('mouseleave', () => btns.forEach(b => b.classList.remove('hover-suppressed')));
-    });
-}
-
-function initCopyBtn() {
-    const btn = document.getElementById('copy-ip-btn');
-    const toast = document.getElementById('copy-toast');
-    let timer;
-    btn?.addEventListener('click', () => {
-        navigator.clipboard.writeText('oyna.oldfinecraft.online').then(() => {
-            clearTimeout(timer);
-            toast.classList.add('show');
-            timer = setTimeout(() => toast.classList.remove('show'), 2800);
-        });
-    });
-}
-
-function initMobileMenu() {
-    document.getElementById('hamburger-btn')?.addEventListener('click', () => {
-        document.getElementById('mobile-drawer').classList.contains('open') ? closeMobileMenu() : openMobileMenu();
-    });
-    document.getElementById('mobile-overlay')?.addEventListener('click', closeMobileMenu);
-}
-function openMobileMenu() {
-    document.getElementById('hamburger-btn').classList.add('open');
-    document.getElementById('mobile-drawer').classList.add('open');
-    document.getElementById('mobile-overlay').classList.add('open');
-}
-function closeMobileMenu() {
-    document.getElementById('hamburger-btn')?.classList.remove('open');
-    document.getElementById('mobile-drawer')?.classList.remove('open');
-    document.getElementById('mobile-overlay')?.classList.remove('open');
-}
-
-function initAuthTabs() {
-    document.querySelectorAll('.auth-tab-plain').forEach(tab => {
-        tab.addEventListener('click', () => switchAuthTab(tab.dataset.type));
-    });
-}
-
-window.switchAuthTabFromLink = function(type) { switchAuthTab(type); };
-
-function switchAuthTab(type) {
-    const tabs = document.querySelectorAll('.auth-tab-plain');
-    const card = document.getElementById('auth-card-inner');
-    const titleBlock = document.getElementById('auth-title-block');
-    const registerFields = document.getElementById('register-fields');
-    const rememberRow = document.getElementById('remember-row');
-    const switchText = document.getElementById('auth-switch-text');
-
-    tabs.forEach(t => t.classList.toggle('active', t.dataset.type === type));
-    history.replaceState(null, '', type === 'register' ? '/kayit' : '/giris');
-
-    if (card) {
-        card.classList.add('auth-switching');
-        setTimeout(() => {
-            if (registerFields) registerFields.classList.toggle('hidden', type !== 'register');
-            if (rememberRow) rememberRow.style.display = type === 'login' ? 'flex' : 'none';
-            if (titleBlock) {
-                titleBlock.innerHTML = type === 'register'
-                    ? '<h2 class="auth-title-text">Hesap Oluştur</h2><p class="auth-subtitle-text">Sunucuya katıl ve efsaneni yazmaya başla</p>'
-                    : '<h2 class="auth-title-text">Tekrar hoş geldin</h2><p class="auth-subtitle-text">Hesabına giriş yap ve macerana devam et</p>';
-            }
-            if (switchText) {
-                switchText.innerHTML = type === 'login'
-                    ? 'Hesabınız yok mu? <button class="auth-switch-link" onclick="switchAuthTabFromLink(\'register\')">Hemen bir tane oluştur</button>'
-                    : 'Hesabın var mı? <button class="auth-switch-link" onclick="switchAuthTabFromLink(\'login\')">Giriş Yap</button>';
-            }
-            card.classList.remove('auth-switching');
-            card.classList.add('auth-switched');
-            setTimeout(() => card.classList.remove('auth-switched'), 400);
-        }, 280);
-    }
-}
-
-function initSession() {
-    const SK = 'ofc_session_ts';
-    if (!localStorage.getItem(SK)) localStorage.setItem(SK, String(Date.now()));
-}
-
-let rememberEnabled = false;
-window.toggleRemember = function() {
-    rememberEnabled = !rememberEnabled;
-    const box = document.getElementById('remember-box');
-    const check = document.getElementById('remember-check');
-    if (box) box.classList.toggle('checked', rememberEnabled);
-    if (check) check.classList.toggle('hidden', !rememberEnabled);
-};
-
-function injectStore() {
-    const grid = document.getElementById('store-grid');
-    if (!grid) return;
-    grid.innerHTML = `
-        <div class="col-span-1 md:col-span-3 flex flex-col items-center justify-center py-20 gap-5 text-center">
-            <i data-lucide="package-open" style="width:52px;height:52px;color:rgba(116,33,27,0.6);"></i>
-            <p class="text-white/70 text-lg font-semibold">Mağaza henüz hazır değil.</p>
-            <p class="text-white/35 text-sm max-w-sm leading-relaxed">Yakında VIP paketleri, özel kozmetikler ve çok daha fazlası burada olacak. Takipte kal!</p>
+    <div id="session-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.75); backdrop-filter:blur(6px); align-items:center; justify-content:center;">
+        <div style="background:#161618; border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:40px 48px; max-width:420px; width:90%; text-align:center;">
+            <p style="font-size:1.6rem; font-weight:900; color:white; letter-spacing:0.05em; margin-bottom:12px;">UYARI</p>
+            <p style="font-size:0.9rem; color:rgba(255,255,255,0.55); line-height:1.7; margin-bottom:28px;">Oturumunuzun süresi dolduğu için hesabınızdan çıkış yapıldı.<br>Devam etmek için lütfen tekrar giriş yapınız.</p>
+            <button onclick="document.getElementById('session-modal').style.display='none'; showView('auth','login');" style="background:#FFB300; color:#0e0e11; font-weight:700; font-size:0.875rem; padding:10px 32px; border:none; border-radius:8px; cursor:pointer;">Giriş Yap</button>
         </div>
-    `;
-    if (window.lucide) window.lucide.createIcons();
-}
+    </div>
+
+    <nav class="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between relative">
+            <div class="flex items-center gap-2 cursor-pointer" id="nav-logo">
+                <img src="images/logo.png" alt="OldFineCraft" class="w-13 h-13 md:w-14 md:h-14 object-contain" style="width:52px;height:52px;">
+            </div>
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-white/60 absolute left-1/2 -translate-x-1/2">
+                <button class="nav-btn nav-underline active" data-target="home">Ana Sayfa</button>
+                <button class="nav-btn nav-underline" data-target="store">Mağaza</button>
+                <button class="nav-btn nav-underline" data-target="bakiye">Bakiye Yükle</button>
+                <button class="nav-btn nav-underline" data-target="bilgiler">Bilgiler</button>
+                <button class="nav-btn nav-underline" data-target="kurallar">Kurallar</button>
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="px-5 py-2 text-[#0e0e11] rounded-md transition-all nav-btn hidden md:block bg-white hover:bg-white/85" style="font-family:'Uncial Antiqua',serif; font-size:15px; font-weight:900; letter-spacing:0.04em;" data-target="auth" data-auth="login">Giriş Yap</button>
+                <button id="hamburger-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menü">
+                    <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobile-drawer" class="mobile-drawer">
+        <div class="flex flex-col gap-2 p-6 pt-8">
+            <button class="mobile-nav-btn nav-btn flex items-center gap-3" data-target="home"><i data-lucide="home" class="w-4 h-4 opacity-60"></i>Ana Sayfa</button>
+            <button class="mobile-nav-btn nav-btn flex items-center gap-3" data-target="store"><i data-lucide="shopping-bag" class="w-4 h-4 opacity-60"></i>Mağaza</button>
+            <button class="mobile-nav-btn nav-btn flex items-center gap-3" data-target="bakiye"><i data-lucide="wallet" class="w-4 h-4 opacity-60"></i>Bakiye Yükle</button>
+            <button class="mobile-nav-btn nav-btn flex items-center gap-3" data-target="bilgiler"><i data-lucide="info" class="w-4 h-4 opacity-60"></i>Bilgiler</button>
+            <button class="mobile-nav-btn nav-btn flex items-center gap-3" data-target="kurallar"><i data-lucide="scroll-text" class="w-4 h-4 opacity-60"></i>Kurallar</button>
+            <div class="border-t border-white/10 my-3"></div>
+            <a href="https://discord.gg/kj5PgcXEM9" target="_blank" rel="noopener noreferrer" class="discord-btn flex items-center gap-2 px-4 py-3 rounded-md text-sm font-medium">
+                <svg width="16" height="12" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
+                Discord
+            </a>
+            <button class="nav-btn flex items-center gap-3 px-4 py-3 rounded-md w-full bg-white text-[#0e0e11] font-black" style="font-family:'Uncial Antiqua',serif; font-size:15px;" data-target="auth" data-auth="login"><i data-lucide="log-in" class="w-4 h-4 opacity-60"></i>Giriş Yap</button>
+        </div>
+    </div>
+
+    <main>
+
+        <!-- Home View -->
+        <section id="view-home" class="view-section active" style="display:block;opacity:1;transform:none;">
+            <!-- Hero: arka plan görseli section'a bağlı, wrapper yok -->
+            <div class="hero-bg-wrap">
+                <div class="hero-content max-w-6xl mx-auto px-6 pt-20 pb-6 text-center flex flex-col items-center space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full online-badge text-xs font-medium fade-in">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Sunucu Aktif - 0 Oyuncu Çevrimiçi
+                    </div>
+                    <h1 class="hero-title fade-in" style="animation-delay:0.1s;">
+                        Eskilerin Tarzında<br style="line-height:0.8;">Yeni Bir Macera
+                    </h1>
+                    <p class="text-lg text-white/50 max-w-2xl fade-in" style="animation-delay:0.2s;">
+                        OldFineCraft, klasik Minecraft hayatta kalma deneyimini modern altyapı ile birleştiriyor. Kayıt ol, sunucuya katıl ve efsaneni yazmaya başla.
+                    </p>
+                    <div class="flex gap-4 pt-4 fade-in" style="animation-delay:0.3s;">
+                        <button id="copy-ip-btn" class="ip-btn px-6 py-3 font-semibold rounded-md flex items-center gap-2">
+                            <i data-lucide="copy" class="w-4 h-4"></i> oyna.oldfinecraft.online
+                        </button>
+                        <a href="https://discord.gg/kj5PgcXEM9" target="_blank" rel="noopener noreferrer" class="discord-btn px-6 py-3 font-medium rounded-md flex items-center gap-2 text-sm">
+                            <svg width="16" height="12" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
+                            Discord'a Katıl
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-cards max-w-6xl mx-auto px-6 pb-10 mt-12">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in" style="animation-delay:0.4s;">
+                        <div class="feature-card p-6 rounded-xl">
+                            <div class="icon-glow-wrap mb-4"><i data-lucide="shield" class="w-8 h-8 icon-glow"></i></div>
+                            <h3 class="text-xl font-semibold mb-2">Adil Oyun</h3>
+                            <p class="text-white/50 text-sm">Gelişmiş hile koruması ve aktif yetkili ekibi ile %100 adil bir oyun ortamı sunuyoruz.</p>
+                        </div>
+                        <div class="feature-card p-6 rounded-xl">
+                            <div class="icon-glow-wrap mb-4"><i data-lucide="sword" class="w-8 h-8 icon-glow"></i></div>
+                            <h3 class="text-xl font-semibold mb-2">Klan Savaşları</h3>
+                            <p class="text-white/50 text-sm">Ekibini topla, kaleni inşa et ve rakip klanlara karşı üstünlük kur! OldFineCraft dünyasının en güçlü birliği olduğunu kanıtla!</p>
+                        </div>
+                        <div class="feature-card p-6 rounded-xl">
+                            <div class="icon-glow-wrap mb-4"><i data-lucide="calendar-days" class="w-8 h-8 icon-glow"></i></div>
+                            <h3 class="text-xl font-semibold mb-2">Özel Eventler</h3>
+                            <p class="text-white/50 text-sm">Özel günlerde ve belirli dönemlerde düzenlenen eventlere katıl, eşsiz ödüller kazan ve topluluğun bir parçası ol!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Store View -->
+        <section id="view-store" class="view-section max-w-6xl mx-auto px-6 pt-8 pb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Mağaza</h2>
+                <p class="text-white/50">Sunucuya destek olun ve özel ayrıcalıkların kilidini açın.</p>
+            </div>
+            <div id="store-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+        </section>
+
+        <!-- Bilgiler View -->
+        <section id="view-bilgiler" class="view-section max-w-4xl mx-auto px-6 pt-8 pb-16">
+            <div class="flex flex-col gap-8">
+                <div id="section-bilgiler" class="info-card p-8 rounded-xl">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <i data-lucide="info" class="w-5 h-5 feature-icon"></i>
+                        Sunucu Bilgileri:
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-white/70">
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Sunucu Versiyonu</h4><p class="text-sm">1.16.5 - 1.21.10</p></div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Sunucu Adresi</h4><p class="text-sm font-mono">oyna.oldfinecraft.online</p></div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Oyun Modu</h4><p class="text-sm">Hayatta kalma</p></div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Kapasite</h4><p class="text-sm">300 Oyuncu</p></div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Lokasyon</h4><p class="text-sm">Azerbaycan, Türkiye</p></div>
+                        <div><h4 class="text-sm font-bold text-white mb-0.5">Zorluk</h4><p class="text-sm">Normal</p></div>
+                    </div>
+                </div>
+                <div id="section-oynayis" class="info-card p-8 rounded-xl">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <i data-lucide="gamepad-2" class="w-5 h-5 feature-icon"></i>
+                        Oynanış Hakkında Bilgilendirme:
+                    </h3>
+                    <div class="space-y-6 text-white/70 text-sm leading-relaxed">
+
+                        <!-- Lobi Yok -->
+                        <div>
+                            <h4 class="text-base font-bold text-white mb-3 mt-2 tracking-wide" style="font-size:1rem;border-left:3px solid rgba(116,33,27,0.7);padding-left:10px;">Giriş Protokolü</h4>
+                            <p>OldFineCraft'ta oyun deneyimini bölen, oyuncuyu zorunlu olarak durduran alışılmış lobi sistemini rafa kaldırdık. Bu karar, sunucumuzun temel yapısı olan Saf Hayatta Kalma (Survival) felsefesinin bir parçasıdır.</p>
+                            <p class="mt-2">Birçok sunucuda lobi, her girişte aşmanız gereken zorunlu bir "bekleme odası" gibidir. Biz ise bu bariyeri ortadan kaldırarak macerayı doğrudan başlatıyoruz. OldFineCraft'a adım attığınız an, sunucumuzun o gizemli End boşluğunda kimliğinizi doğrular (giriş yapar) ve hiç vakit kaybetmeden dünyadaki en son konumunuza ışınlanırsınız.</p>
+                            <p class="mt-2">Bizim için esas olan, oyuncunun oyun akışına kesintisiz bir şekilde adapte olmasıdır. Sunucumuzdaki diğer alanlar (bekleme veya etkinlik alanları gibi) sizin için zorunlu bir durak değil, oyun içinden dilediğiniz zaman erişebileceğiniz birer seçenektir.</p>
+                            <p class="mt-2">Sonuç olarak: OldFineCraft'ta sizi hiçbir şey bekletmez. Giriş yaptığınız saniyeden itibaren dünya sizin, macera sizindir. Sizi gereksiz arayüzlerle oyalamıyor, doğrudan hayatta kalma mücadelesinin kalbine bırakıyoruz.</p>
+                        </div>
+
+                        <!-- Bekleme Alanı -->
+                        <div>
+                            <h4 class="text-base font-bold text-white mb-3 mt-2 tracking-wide" style="font-size:1rem;border-left:3px solid rgba(116,33,27,0.7);padding-left:10px;">İşlevsel Bekleme Alanı</h4>
+                            <p>OldFineCraft'ta sizi oyuna girmekten alıkoyan zorunlu bir lobi olmadığını söylemiştik; ancak bu, vakit geçirebileceğiniz özel bir alanımız olmadığı anlamına gelmiyor! Aksine, hayatta kalma mücadelesine ara vermek veya gelişiminizi hızlandırmak istediğinizde uğrayabileceğiniz, tamamen işlevsel bir bekleme alanı tasarladık. Bu alan, sadece bir "durak" değil, gelişiminizi yönettiğiniz bir strateji merkezidir.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Ekonomi ve Tecrübe:</span> Kazandığınız oyun paralarını burada değerlendirebilir, doğrudan tecrübe puanı (XP) satın alarak karakterinizi güçlendirebilir ve çoğu oyun eşyalarını oyun parasıyla bekleme alanındaki marketten satın alabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Kasa Sistemi:</span> Kazandığınız kasa anahtarlarıyla veya oyunda geçirdiğiniz her saat başına 1 adet verilen anahtar ile tamamen elmastan olabilir, şansınızı deneyebilir, nadir eşyaların sahibi olabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">AFK Ödülleri:</span> Sunucuda geçirdiğiniz her an değerli! Bekleme alanında bulunduğunuz her dakika başına 2 adet Ejderha Ruhu kazanırsınız. Bu ruhlarla sadece Spawnerlar satın alabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Özel Spawner Marketi:</span> Klasik ve sıkıcı komutlarla eşya alma devrini kapattık. Biriktirdiğiniz ruhlarla sadece bu alandaki marketten alınabilen, mob eşyalarını otomatik toplayan, tecrübe puanı toplayan özel Spawner'lara sahip olabilirsiniz.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Oyuncu Pazarı -->
+                        <div>
+                            <h4 class="text-base font-bold text-white mb-3 mt-2 tracking-wide" style="font-size:1rem;border-left:3px solid rgba(116,33,27,0.7);padding-left:10px;">Oyuncu Pazarı</h4>
+                            <p>OldFineCraft'ta ticaret sadece köylülerle veya sistemle sınırlı değildir! Kendi ekonominizi yaratmanız ve diğer oyuncularla etkileşime geçmeniz için gelişmiş bir Pazaryeri (Auction House) sistemi kurduk. Bu sistem, sunucunun dinamik ekonomisinin merkezidir. Kurallar basit: Satan sen, belirleyen sen, kazanan sen!</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Özgür Ticaret:</span> Elindeki değerli bir kılıcı, kazandığın nadir bir eşyayı veya topladığın kaynakları istediğin fiyattan satışa çıkarabilirsin.</li>
+                                <li><span class="font-semibold text-white">Fırsatları Yakala:</span> Diğer oyuncuların satışa sunduğu eşyaları takip ederek, ihtiyacın olan malzemeleri en uygun fiyata bulabilirsin.</li>
+                                <li><span class="font-semibold text-white">7/24 Aktif:</span> Sen oyunda olmasan bile eşyaların listelenmeye devam eder. Satış gerçekleştiğinde paran hesabına anında geçer!</li>
+                                <li><span class="font-semibold text-white">Kolay Erişim:</span> Pazaryerine gitmek için uzun yollar kat etmene gerek yok. <code class="bg-white/10 px-1 rounded">/ah</code> komutuyla dilediğin an ilanları inceleyebilir veya kendi ilanını <code class="bg-white/10 px-1 rounded">/ah sell</code> komutuyla oluşturabilirsin.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Hızlı Kazanç -->
+                        <div>
+                            <h4 class="text-base font-bold text-white mb-3 mt-2 tracking-wide" style="font-size:1rem;border-left:3px solid rgba(116,33,27,0.7);padding-left:10px;">Hızlı Kazanç</h4>
+                            <p>OldFineCraft'ta emeğinizin karşılığını almak için her zaman bir alıcı beklemenize gerek yok! Topladığınız kaynakları, tarım ürünlerini veya madenleri doğrudan sunucuya satarak anında oyun parası kazanabilirsiniz.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Anında Nakit:</span> Diğer oyuncuların eşyanızı almasını beklemeden, sistemin belirlediği fiyatlar üzerinden saniyeler içinde satış yapabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Stratejik Satış:</span> Hangi eşyanın ne kadar kazandırdığını öğrenerek, en kârlı madenleri veya tarım ürünlerini toplamaya odaklanabilir, ekonominizi hızla büyütebilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Pratik Komutlar:</span> Elinizdeki eşyayı satmak için <code class="bg-white/10 px-1 rounded">/sell</code>, envanterinizdeki tüm uygun eşyaları satmak için <code class="bg-white/10 px-1 rounded">/sell all</code> komutlarını kullanabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Ticaretin Altın Kuralı:</span> Değerli ve nadir eşyalarınızı daha yüksek fiyatlara /ah üzerinden diğer oyunculara satmayı deneyebilir; ancak temel kaynaklarınızı hızlıca paraya çevirmek için /sell sistemini kullanabilirsiniz.</li>
+                                <li><em class="text-white/50">Tüccar İpucu: Topladığınız odunlar, kazdığınız taşlar ve hasat ettiğiniz ekinler cebinizi doldurmak için bekliyor. Maceranı kazanca dönüştür!</em></li>
+                            </ul>
+                        </div>
+
+                        <!-- Ev Sistemi -->
+                        <div>
+                            <h4 class="text-base font-bold text-white mb-3 mt-2 tracking-wide" style="font-size:1rem;border-left:3px solid rgba(116,33,27,0.7);padding-left:10px;">Gelişmiş Ev Sistemi</h4>
+                            <p>OldFineCraft'ta karmaşık komutlarla vakit kaybetmenizi istemiyoruz. Bu yüzden tüm ev yönetim işlemlerinizi tek bir akıllı menüde topladık! Artık /sethome gibi eski usul komutlar yerine, her şeyi görsel ve pratik bir arayüzden yönetebilirsiniz.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Tek Komut, Tam Kontrol:</span> <code class="bg-white/10 px-1 rounded">/home</code> veya <code class="bg-white/10 px-1 rounded">/homes</code> komutunu kullanarak özel ev yönetim menünüzü açabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Kolay Kurulum:</span> Menü üzerinden saniyeler içinde yeni bir ev noktası ekleyebilir veya artık ihtiyacınız olmayan bir noktayı silebilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Hızlı Işınlanma:</span> Kaydettiğiniz evlerinize tek bir tıklama ile 3 saniyede ulaşın.</li>
+                                <li><span class="font-semibold text-white">Düzenli Yapı:</span> Evleriniz sizin seçtiğiniz ev noktasının sırasına göre kaydedilir, böylece hangi evin neresi olduğunu kolayca takip edebilirsiniz.</li>
+                            </ul>
+                            <div class="mt-3">
+                                <p class="mb-2"><em class="text-white/50">Ev Limitleri Hakkında Bilgilendirme:</em></p>
+                                <ul class="space-y-1.5 list-disc list-outside pl-5">
+                                    <li><span class="font-semibold text-white">Sade Oyuncular:</span> En fazla 2 adet ev noktası kaydedebilir. Maceranız için en stratejik noktaları seçmeyi unutmayın!</li>
+                                    <li><span class="font-semibold text-white">VIP Oyuncular:</span> VIP statünüze göre daha fazla ev kaydetme hakkına sahip olabilir ve haritanın dört bir yanına kendi ağınızı kurabilirsiniz.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- RTP -->
+                        <div>
+                            <h4 class="text-base font-bold text-white mb-3 mt-2 tracking-wide" style="font-size:1rem;border-left:3px solid rgba(116,33,27,0.7);padding-left:10px;">Rastgele Işınlanma</h4>
+                            <p>OldFineCraft'ın devasa dünyasında keşfedilecek çok yer, toplanacak çok kaynak var! Eğer başlangıç bölgesinden uzaklaşmak, kimsenin ayak basmadığı topraklar bulmak veya kendi gizli üssünüz için mükemmel bir yer arıyorsanız, RTP sistemimiz tam size göre.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Anında Keşif:</span> <code class="bg-white/10 px-1 rounded">/rtp</code> komutunu kullandığınızda, sistem sizi haritanın güvenli ve rastgele bir noktasına anında ışınlar.</li>
+                                <li><span class="font-semibold text-white">Vakit Kaybetmeyin:</span> Yürüyerek saatler sürecek mesafeleri tek bir komutla aşın ve maceraya el değmemiş bir bölgede devam edin.</li>
+                                <li><span class="font-semibold text-white">Güvenli İniş:</span> Sistem sizi okyanusun ortasına veya lavın içine değil, ayak basabileceğiniz güvenli bir kara parçasına bırakacak şekilde tasarlanmıştır.</li>
+                                <li><span class="font-semibold text-white">Dünyalara Işınlanma:</span> Rastgele ışınlanma sadece mevcut olduğunuz dünyada çalışır; normal dünyadaysanız Nether veya End'e ışınlanamazsınız. Geri dönmek için <code class="bg-white/10 px-1 rounded">/home</code> yapabilir veya Nether'daysanız obsidiyen portalıyla geri dönebilirsiniz.</li>
+                                <li><em class="text-white/50">Küçük Bir İpucu: RTP ile harika bir yer bulduğunuzda, orayı kaybetmemek için hemen /home menünüzü açıp ev noktanızı belirlemeyi unutmayın!</em></li>
+                            </ul>
+                        </div>
+
+                        <!-- Claim -->
+                        <div>
+                            <h4 class="text-base font-bold text-white mb-3 mt-2 tracking-wide" style="font-size:1rem;border-left:3px solid rgba(116,33,27,0.7);padding-left:10px;">Emeğini Güvenceye Al</h4>
+                            <p>OldFineCraft'ın uçsuz buçksuz dünyasında kendinize bir yer buldunuz, evinizi inşa ettiniz... Peki, burayı nasıl koruyacaksınız? İşte burada Claim (Arazi Koruma) sistemimiz devreye giriyor. Birkaç basit adımda evinizi hırsızlara ve kırıcılara karşı tamamen korunaklı hale getirebilirsiniz.</p>
+                            <ul class="mt-3 space-y-1.5">
+                                <li><span class="font-semibold text-white">Altın Kürek Gücü:</span> Elinize bir altın kürek alarak korumak istediğiniz alanın iki çapraz köşesine sağ tıklamanız yeterlidir. Belirlediğiniz bu alan artık tamamen size aittir!</li>
+                                <li><span class="font-semibold text-white">Blok Biriktirme:</span> Sunucuda aktif olduğunuz her an "Claim Bloğu" kazanırsınız. Ne kadar çok vakit geçirirseniz, o kadar büyük arazileri koruma altına alabilirsiniz.</li>
+                                <li><span class="font-semibold text-white">Arkadaşlarını Ekle:</span> <code class="bg-white/10 px-1 rounded">/trust [isim]</code> komutunu kullanarak güvendiğin kişilere bölgende inşaat yapma izni verebilirsin.</li>
+                                <li><span class="font-semibold text-white">Tam Koruma:</span> Claim attığın bölgede sandıkların açılması, blokların kırılması ve diğer oyuncuların sana zarar vermesi (PvP) tamamen engellenir.</li>
+                            </ul>
+                        </div>
+
+                        <!-- VIP -->
+                        <p>Sunucumuza herkes gibi masrafları karşılamak maksadıyla VIP seviyeleri getirdik: <strong style="color:#6a3ac2;">VIP</strong>, <strong style="color:#ffe14d;">MVP</strong>, <strong style="color:#74211b;">LEGEND</strong>. Mevcut VIP seçenekleri bunlardır ve yenisini eklemeyi düşünmüyoruz. Sadece VIP değil, bir birinden farklı ve avantajlı hoş ürünlerin fiyatına mağaza üzerinden bakabilir ve Azerbaycan/Türkiye banka kartınız varsa hemen ödeme gerçekleştirebilirsiniz!<br>(Aynı zamanda kurucunun <a href="https://linktr.ee/SyosaS" target="_blank" rel="noopener" class="text-blue-400 underline hover:text-blue-300 transition-colors">Sosyal Medya</a> sayfalarını takip ederek indirim kodlarını anında kapabilirsiniz!)</p>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bakiye Yükle View -->
+        <section id="view-bakiye" class="view-section max-w-lg mx-auto px-6 pt-10 pb-16">
+            <div class="auth-card p-8 rounded-2xl shadow-2xl text-center">
+                <i data-lucide="wallet" class="w-12 h-12 feature-icon mx-auto mb-4"></i>
+                <h2 class="text-2xl font-bold mb-2">Bakiye Yükle</h2>
+                <p class="text-white/50 text-sm mb-8">Hesabına kredi yükleyerek mağazadan alışveriş yapabilirsin.</p>
+                <p class="text-white/30 text-xs">Bu özellik yakında aktif olacak.</p>
+            </div>
+        </section>
+
+        <!-- Kurallar View -->
+        <section id="view-kurallar" class="view-section max-w-4xl mx-auto px-6 pt-8 pb-16">
+            <div id="section-kurallar" class="info-card p-8 rounded-xl">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <i data-lucide="scroll-text" class="w-5 h-5 feature-icon"></i>
+                    Sunucu Kuralları:
+                </h3>
+                <div class="space-y-4 text-white/70">
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">1. Küfür ve Argo</h4><p class="text-sm">Oyuncular arası huzuru bozacak ağır küfür ve hakaretler kesinlikle yasaktır.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">2. Siyaset ve Din</h4><p class="text-sm">Sunucu içerisinde tartışma yaratacak hassas konuların konuşulması yasaktır.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">3. Hile Kullanımı</h4><p class="text-sm">Her türlü hile, makro ve avantaj sağlayan üçüncü parti yazılımlar kalıcı ban sebebidir.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">4. Bug Suistimali</h4><p class="text-sm">Oyun içi açıkların bildirilmesi zorunludur; bu açıkları kendi lehine kullanmak yasaktır.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">5. Küçük Düşürücü Davranışlar</h4><p class="text-sm">Savaş sonrası rakip ekibi aşağılayıcı hareketlerde bulunmak hoş görülmeyecek hareketlerden biridir.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">6. Kişisel Veri ve Gizlilik İhlali (Doxing)</h4><p class="text-sm">Oyuncuların gerçek hayattaki isimlerini, fotoğraflarını, sosyal medya hesaplarını veya telefon numaralarını onlardan izinsiz paylaşmak kesinlikle yasaktır. Sanal ortamdaki tartışmaların gerçek hayata taşınması kalıcı ban sebebidir.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">7. Gerçek Para ile Ticaret</h4><p class="text-sm">Oyun içi eşyaların gerçek para karşılığında oyuncular arasında satılması yasaktır (Sadece resmi mağaza üzerinden işlem yapılabilir). Eğer genede ben yapacağım, daha ucuza alabilirim diyorsanız olacak sorumlulukları biz üstlenmiyoruz.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">8. Görüntü Kirliliği ve Claim</h4><p class="text-sm">Sunucu haritasında anlamsız, havada asılı duran blok yığınları veya çirkin yapılar oluşturmak, gereksiz yere claimler almak yasaktır.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">9. Reklam</h4><p class="text-sm">Başka Minecraft sunucularının veya alakasız platformların reklamını yapmak kesinlikle yasaktır.</p></div>
+                    <div><h4 class="text-sm font-bold text-white mb-0.5">10. Karar Saygısı</h4><p class="text-sm">Yetkililerin verdiği kararlara saygı duyulmalı; bir itiraz varsa bu destek sistemi (Discord) üzerinden medeni bir şekilde yapılmalıdır.</p></div>
+                    <p class="text-xs text-white/30 pt-3 border-t border-white/10 leading-relaxed">
+                        Hepimiz adil bir ortam isteriz, kurallar adil ortamı oluşturmak için vardır ve kurallara uymayan kim olursa olsun adil ortamı bozmamak gerekçesiyle cezalanır. Eğer kurallar hakkında bir itirazınız veya rahatsız olduğunuz bir konu varsa lütfen yukarıda ki Destek bölümünden veya Discord sunucumuz üzerinden destek bileti açarak bize bildirin. Sunucumuzu seçtiğiniz için size teşekkür ediyoruz!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Auth View -->
+        <section id="view-auth" class="view-section items-center justify-center px-6 py-16" style="background: radial-gradient(ellipse at 50% 0%, rgba(116,33,27,0.13) 0%, transparent 60%);">
+            <div class="w-full max-w-lg mx-auto">
+
+                <div class="auth-card-new rounded-2xl p-10" id="auth-card-inner">
+                    <div class="flex justify-center mb-6">
+                        <div class="auth-avatar">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="8" r="4" fill="rgba(255,255,255,0.5)"/>
+                                <path d="M4 20c0-3.866 3.582-7 8-7s8 3.134 8 7" stroke="rgba(255,255,255,0.5)" stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="auth-title-block" class="text-center mb-7">
+                        <h2 class="auth-title-text">Tekrar hoş geldin</h2>
+                        <p class="auth-subtitle-text">Hesabına giriş yap ve macerana devam et</p>
+                    </div>
+                    <form id="auth-form" class="space-y-4">
+                        <div id="register-fields" class="hidden space-y-4">
+                            <div class="auth-field-wrap">
+                                <label class="auth-label">E-Posta</label>
+                                <input type="email" class="auth-input-new" placeholder="örnek@gmail.com">
+                            </div>
+                        </div>
+                        <div class="auth-field-wrap">
+                            <label class="auth-label">Kullanıcı Adı</label>
+                            <input type="text" class="auth-input-new" placeholder="Steve">
+                        </div>
+                        <div class="auth-field-wrap">
+                            <label class="auth-label">Şifre</label>
+                            <input type="password" class="auth-input-new" placeholder="••••••••">
+                        </div>
+                        <div id="remember-row" class="flex items-center gap-2 cursor-pointer" onclick="toggleRemember()">
+                            <div id="remember-box" class="remember-checkbox">
+                                <i id="remember-check" data-lucide="check" class="hidden" style="width:10px;height:10px;color:white;"></i>
+                            </div>
+                            <span class="text-xs text-white/40">Beni hatırla</span>
+                        </div>
+                        <button type="button" class="submit-btn-new w-full py-3 rounded-lg text-white text-sm font-semibold mt-2">Devam Et</button>
+                    </form>
+
+                    <p id="auth-switch-text" class="text-center text-xs text-white/40 mt-5">
+                        Hesabınız yok mu? <button class="auth-switch-link" onclick="switchAuthTabFromLink('register')">Hemen bir tane oluştur</button>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-white/10 py-8">
+        <div class="max-w-6xl mx-auto px-6 text-center flex flex-col items-center">
+            <div class="flex items-center gap-2 mb-4">
+                <img src="images/logo.png" alt="Logo" class="w-7 h-7 object-contain">
+                <span class="font-bold text-white/80" style="font-family:'Cinzel',serif; font-weight:900; letter-spacing:0.05em;">OldFineCraft</span>
+            </div>
+            <p class="text-sm text-white/40">© 2026 OldFineCraft. Tüm hakları saklıdır. Minecraft veya Mojang ile resmi bir bağı yoktur.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
